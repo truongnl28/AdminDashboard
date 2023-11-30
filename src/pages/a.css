@@ -1,0 +1,100 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background: white;
+    border-radius: 5px;
+    padding: 20px;
+    width: 450px;
+    box-sizing: border-box;
+}
+
+.modal h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.modal label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.modal label.error-label {
+    color: red;
+}
+
+.modal input,
+.modal select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.modal input.error-input {
+    border: 1px solid red;
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.submit-btn,
+.cancel-btn {
+    padding: 10px;
+    width: 48%;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    border: 1px solid #4caf50;
+    background-color: #4caf50;
+}
+
+.submit-btn:hover {
+    color: #4caf50;
+    border: 1px solid #4caf50;
+    background-color: #F0F2F5;
+}
+
+.cancel-btn {
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    border: 1px solid #f44336;
+    background-color: #f44336;
+}
+
+.cancel-btn:hover {
+    color: #f44336;
+    border: 1px solid #f44336;
+    background-color: #F0F2F5;
+}

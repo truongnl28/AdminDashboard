@@ -1,0 +1,98 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+    text-align: center;
+}
+
+.modal h2 {
+    justify-content: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    /* Thêm khoảng trống giữa các trường */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.error-message {
+    color: red;
+    margin: 5px 0;
+    text-align: end;
+    font-size: 12px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.submit-btn,
+.cancel-btn {
+    padding: 10px;
+    width: 30%;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    border: 1px solid #4caf50;
+    background-color: #4caf50;
+}
+
+.submit-btn:hover {
+    color: #4caf50;
+    border: 1px solid #4caf50;
+    background-color: #F0F2F5;
+}
+
+.cancel-btn {
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    border: 1px solid #f44336;
+    background-color: #f44336;
+}
+
+.cancel-btn:hover {
+    color: #f44336;
+    border: 1px solid #f44336;
+    background-color: #F0F2F5;
+}
