@@ -6,10 +6,9 @@ import PencilIcon from "../../assets/icons/pencil.svg";
 
 function UserList() {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 6;
-  const users = [
+
+  // State for user data
+  const [data, setData] = useState([
     {
       id: 1,
       avatar: "https://reqres.in/img/faces/1-image.jpg",
@@ -67,10 +66,19 @@ function UserList() {
       status: "Offline",
     },
     // Add more user objects as needed
-  ];
+  ]);
+
+  // State for search query
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // State for the current page in pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Number of rows to display per page
+  const rowsPerPage = 6;
 
   // Filtered users based on the search query
-  const filteredUsers = users.filter((user) =>
+  const filteredUsers = data.filter((user) =>
     user.username.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -80,17 +88,18 @@ function UserList() {
   // Range of page numbers
   const pageRange = calculateRange(filteredUsers, rowsPerPage);
 
-  // Search
+  // Function to handle search input change
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1); // Reset to the first page when searching
   };
 
-  // Change Page
+  // Function to change the current page in pagination
   const handleChangePage = (page) => {
     setCurrentPage(page);
   };
 
+  // Function to handle navigation to details page
   const handleChange = (user) => {
     // Navigate to details route and pass user information
     navigate("/detailsInfoUser", { state: { user } });
@@ -103,6 +112,7 @@ function UserList() {
           <h2>Danh sách người dùng</h2>
 
           <div className="content-search">
+            {/* Search input for filtering users */}
             <input
               type="text"
               placeholder="Tìm kiếm người dùng"
@@ -115,6 +125,7 @@ function UserList() {
 
         {filteredUsers.length > 0 ? (
           <table>
+            {/* Table header */}
             <thead>
               <tr>
                 <th>Ảnh đại diện</th>
@@ -125,9 +136,11 @@ function UserList() {
                 <th>Chi tiết</th>
               </tr>
             </thead>
+            {/* Table body with user data */}
             <tbody>
               {paginatedData.map((user) => (
                 <tr key={user.id}>
+                  {/* Cell for user avatar */}
                   <td>
                     <span>
                       <img
@@ -137,18 +150,23 @@ function UserList() {
                       />
                     </span>
                   </td>
+                  {/* Cell for username */}
                   <td>
                     <span>{user.username}</span>
                   </td>
+                  {/* Cell for user email */}
                   <td>
                     <span>{user.email}</span>
                   </td>
+                  {/* Cell for user phone number */}
                   <td>
                     <span>{user.phone}</span>
                   </td>
+                  {/* Cell for user status */}
                   <td>
                     <span>{user.status}</span>
                   </td>
+                  {/* Cell for details icon (pencil) to navigate to details page */}
                   <td>
                     <span>
                       <img
@@ -163,25 +181,25 @@ function UserList() {
             </tbody>
           </table>
         ) : (
-          <div className="empty-table">Không có người dùng này</div>
+          // Display a message if there is no data
+          <div className="empty-table">Không có dữ liệu</div>
         )}
 
         <div className="content-footer">
-          {
-            filteredUsers.length > 0
-              ? pageRange.map((page) => (
-                  <span
-                    key={page}
-                    className={
-                      page === currentPage ? "active-pagination" : "pagination"
-                    }
-                    onClick={() => handleChangePage(page)}
-                  >
-                    {page}
-                  </span>
-                ))
-              : null /* If no users, don't render pagination */
-          }
+          {/* Pagination: Display page numbers */}
+          {filteredUsers.length > 0
+            ? pageRange.map((page) => (
+                <span
+                  key={page}
+                  className={
+                    page === currentPage ? "active-pagination" : "pagination"
+                  }
+                  onClick={() => handleChangePage(page)}
+                >
+                  {page}
+                </span>
+              ))
+            : null}
         </div>
       </div>
     </div>

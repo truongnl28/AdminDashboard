@@ -11,7 +11,6 @@ import PointsConfigs from './pages/PointsConfigs';
 import ManageProductCategories from './pages/ManageProductCategories';
 import UserManagement from './pages/UserManagement';
 import DetailsInformationUser from './pages/DetailsInformation';
-import api from './api/posts';
 
 function App() {
   // Assume isLoggedIn is a state variable that determines if the user is logged in
@@ -21,17 +20,6 @@ function App() {
     // Perform any additional logout logic (e.g., clearing user data, redirecting, etc.)
     setIsLoggedIn(false);
   };
-
-  // useEffect (() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const response = await api.get('/post');
-
-  //     } catch (error) {
-        
-  //     }
-  //   }
-  // }, [])
 
   return (
     <Router>

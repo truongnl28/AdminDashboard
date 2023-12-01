@@ -233,4 +233,5 @@ select {
     color: gray;
     font-weight: 800;
     border-color: #FFFFFF;
+    text-transform: uppercase;
 }

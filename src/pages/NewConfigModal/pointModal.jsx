@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./configModal.css";
 
+// PointModal component for creating a new point configuration
 function PointModal({ onClose, onSave }) {
+  // State variables to manage form inputs and error handling
   const [config, setConfig] = useState("");
   const [isDefault, setIsDefault] = useState(true);
   const [configError, setConfigError] = useState("");
 
+  // Handle save button click
   const handleSave = () => {
     // Check if the configuration input is not empty
     if (config.trim() === "") {
@@ -25,10 +28,13 @@ function PointModal({ onClose, onSave }) {
     onClose();
   };
 
+  // JSX structure for the PointModal component
   return (
     <div className="modal-overlay">
       <div className="modal">
         <h2>TẠO MỚI</h2>
+
+        {/* Input for configuring the default point */}
         <label htmlFor="config">Cấu hình điểm mặc định:</label>
         <input
           type="text"
@@ -40,10 +46,13 @@ function PointModal({ onClose, onSave }) {
           }}
         />
         {configError && (
+          // Display error message if configuration is empty or not a positive integer
           <p className="error-message" style={{ color: "red" }}>
             {configError}
           </p>
         )}
+
+        {/* Dropdown for setting as default or not */}
         <label htmlFor="isDefault">Mặc định:</label>
         <select
           id="isDefault"
@@ -54,11 +63,12 @@ function PointModal({ onClose, onSave }) {
           <option value="false">Không</option>
         </select>
 
+        {/* Buttons for canceling and submitting the form */}
         <div className="buttons-container">
-          <button className="cancel-btn" type="cancel" onClick={onClose}>
+          <button className="cancel-btn" type="button" onClick={onClose}>
             Đóng
           </button>
-          <button className="submit-btn" type="submit" onClick={handleSave}>
+          <button className="submit-btn" type="button" onClick={handleSave}>
             Xác nhận
           </button>
         </div>
