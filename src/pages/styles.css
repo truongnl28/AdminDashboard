@@ -106,54 +106,35 @@ body {
 }
 
 table {
-    border-collapse: collapse;
     width: 100%;
     margin: 0;
     align-self: flex-start;
 }
 
-th,
-td {
-    text-align: left;
-    padding: 12px 24px;
-    height: 40px;
-    width: 18%;
-    background: transparent;
-    box-shadow: none;
-    border-bottom: 0.05rem solid rgb(240, 242, 245);
+thead,
+tbody {
+    display: table-row-group;
 }
 
 th {
+    text-align: left;
+    padding: 12px 24px;
+    background: transparent;
+    box-shadow: none;
     color: #2D83B5;
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: 0.035em;
+    border-bottom: 0.05rem solid rgb(240, 242, 245);
 }
 
 td {
-    color: gray;
-    font-size: 0.75rem;
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: 0.035em;
-}
-
-tbody {
-    display: table-row-group;
-}
-
-tr {
-    color: inherit;
-    display: table-row;
-    vertical-align: middle;
-    outline: 0px;
-}
-
-td div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    text-align: left;
+    padding: 12px 24px;
+    background: transparent;
+    box-shadow: none;
+    border-bottom: 0.05rem solid rgb(240, 242, 245);
 }
 
 td span {
@@ -165,31 +146,37 @@ td span {
     text-transform: none;
     vertical-align: unset;
     text-decoration: none;
+    color: gray;
     font-weight: 700;
 }
 
-td span img {
+td input[type="text"],
+td .filter-dropdown select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    line-height: 1.25;
+    letter-spacing: 0.035em;
+    opacity: 1;
+    text-transform: none;
+    vertical-align: unset;
+    text-decoration: none;
+}
+
+span img {
     width: 1.2rem;
     height: 1.2rem;
     margin: 0;
-}
-
-td img {
     cursor: pointer;
 }
 
-input,
-select {
-    width: 100%;
-    padding: 0.7em;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
 .content-avatar {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     overflow: hidden;
 }
