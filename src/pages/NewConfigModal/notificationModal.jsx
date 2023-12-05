@@ -1,33 +1,35 @@
 import React, { useState } from "react";
 import "./configModal.css";
 
-// NotificationModal component for creating a new notification configuration
 function NotificationModal({ onClose, onSave }) {
-  // State variables to manage form inputs and error handling
+  // State variables for modal fields and errors
   const [config, setConfig] = useState("");
   const [isDefault, setIsDefault] = useState(true);
   const [configError, setConfigError] = useState("");
 
-  // Handle save button click
+  // Function to handle saving the notification and closing the modal
   const handleSave = () => {
-    // Check if the configuration input is not empty
+    // Validate input field for configuration
     if (config.trim() === "") {
       setConfigError("Không được để trống!");
       return;
     }
 
-    setConfigError(""); // Clear error message if valid
+    // Clear validation error
+    setConfigError("");
+    
+    // Call onSave with notification details and close the modal
     onSave({ config, isDefault });
     onClose();
   };
 
-  // JSX structure for the NotificationModal component
+  // Render the modal UI
   return (
     <div className="modal-overlay">
       <div className="modal">
         <h2>TẠO MỚI</h2>
-        
-        {/* Input for configuring the notification frequency */}
+
+        {/* Input field for notification configuration */}
         <label htmlFor="config">Cấu hình tần suất thông báo:</label>
         <input
           type="text"
@@ -35,28 +37,27 @@ function NotificationModal({ onClose, onSave }) {
           value={config}
           onChange={(e) => {
             setConfig(e.target.value);
-            setConfigError(""); // Clear error when typing
+            setConfigError("");
           }}
         />
         {configError && (
-          // Display error message if configuration is empty
           <p className="error-message" style={{ color: "red" }}>
             {configError}
           </p>
         )}
 
-        {/* Dropdown for setting as default or not */}
+        {/* Dropdown for selecting default status */}
         <label htmlFor="isDefault">Mặc định:</label>
         <select
           id="isDefault"
-          value={isDefault.toString()} // Convert boolean to string
+          value={isDefault.toString()}
           onChange={(e) => setIsDefault(e.target.value === "true")}
         >
           <option value="true">Có</option>
           <option value="false">Không</option>
         </select>
 
-        {/* Buttons for canceling and submitting the form */}
+        {/* Buttons for closing or saving the modal */}
         <div className="buttons-container">
           <button className="cancel-btn" type="button" onClick={onClose}>
             Đóng

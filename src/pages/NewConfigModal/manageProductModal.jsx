@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import "./configModal.css";
 
-// ManageProductModal component for creating a new product category
 function ManageProductModal({ onClose, onSave }) {
-  // State variables to manage form inputs, errors, and default setting
+  // State variables for modal fields and errors
   const [categoryName, setCategoryName] = useState("");
   const [xPoints, setXPoints] = useState("");
   const [yPoints, setYPoints] = useState("");
   const [isDefault, setIsDefault] = useState(true);
 
-  // State variable to track validation errors for each field
+  // State for validation errors
   const [errors, setErrors] = useState({
     categoryName: "",
     xPoints: "",
     yPoints: "",
   });
 
-  // Handle save button click
+  // Function to handle saving the product and closing the modal
   const handleSave = () => {
-    // Check for empty fields and invalid inputs
+    // Validate input fields
     const newErrors = {
       categoryName: !categoryName.trim()
         ? "Tên danh mục sản phẩm không được để trống!"
@@ -39,37 +38,35 @@ function ManageProductModal({ onClose, onSave }) {
           : "",
     };
 
-    // Check if there are any errors
+    // If there are validation errors, set them and prevent saving
     if (Object.values(newErrors).some((error) => error !== "")) {
       setErrors(newErrors);
       return;
     }
 
-    // Reset errors if no errors
+    // Clear validation errors
     setErrors({
       categoryName: "",
       xPoints: "",
       yPoints: "",
     });
 
-    // Call the onSave callback with the form data
+    // Call onSave with product details and close the modal
     onSave({ categoryName, xPoints, yPoints, isDefault });
-
-    // Close the modal
     onClose();
   };
 
-  // Handle input changes for each field
+  // Function to handle input changes and clear validation errors
   const handleInputChange = (e, field) => {
     const value = e.target.value;
 
-    // Clear error when user starts typing
+    // Clear validation error for the current field
     setErrors((prevErrors) => ({
       ...prevErrors,
       [field]: "",
     }));
 
-    // Update state based on input field
+    // Update state based on the field
     switch (field) {
       case "categoryName":
         setCategoryName(value);
@@ -85,13 +82,13 @@ function ManageProductModal({ onClose, onSave }) {
     }
   };
 
-  // JSX structure for the ManageProductModal component
+  // Render the modal UI
   return (
     <div className="modal-overlay">
       <div className="modal">
         <h2>TẠO MỚI</h2>
 
-        {/* Input for product category name */}
+        {/* Input fields for product details */}
         <label htmlFor="productName">Tên danh mục sản phẩm:</label>
         <input
           type="text"
@@ -100,13 +97,11 @@ function ManageProductModal({ onClose, onSave }) {
           onChange={(e) => handleInputChange(e, "categoryName")}
         />
         {errors.categoryName && (
-          // Display error message if product category name is empty
           <p className="error-message" style={{ color: "red" }}>
             {errors.categoryName}
           </p>
         )}
 
-        {/* Input for X points */}
         <label htmlFor="xPoints">Điểm X:</label>
         <input
           type="text"
@@ -115,13 +110,11 @@ function ManageProductModal({ onClose, onSave }) {
           onChange={(e) => handleInputChange(e, "xPoints")}
         />
         {errors.xPoints && (
-          // Display error message if X points are invalid
           <p className="error-message" style={{ color: "red" }}>
             {errors.xPoints}
           </p>
         )}
 
-        {/* Input for Y points */}
         <label htmlFor="yPoints">Điểm Y:</label>
         <input
           type="text"
@@ -130,13 +123,12 @@ function ManageProductModal({ onClose, onSave }) {
           onChange={(e) => handleInputChange(e, "yPoints")}
         />
         {errors.yPoints && (
-          // Display error message if Y points are invalid
           <p className="error-message" style={{ color: "red" }}>
             {errors.yPoints}
           </p>
         )}
 
-        {/* Dropdown for setting as default or not */}
+        {/* Dropdown for selecting default status */}
         <label htmlFor="isDefault">Mặc định:</label>
         <select
           id="isDefault"
@@ -147,7 +139,7 @@ function ManageProductModal({ onClose, onSave }) {
           <option value="false">Không</option>
         </select>
 
-        {/* Buttons for canceling and submitting the form */}
+        {/* Buttons for closing or saving the modal */}
         <div className="buttons-container">
           <button className="cancel-btn" type="button" onClick={onClose}>
             Đóng

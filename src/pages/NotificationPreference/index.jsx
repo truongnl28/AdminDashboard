@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import NotificationModal from "../NewConfigModal/notificationModal";
 import PencilIcon from "../../assets/icons/pencil.svg";
@@ -6,7 +7,7 @@ import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
 
 function NotificationList() {
-  // State to manage the data for notification configurations
+  // State for managing notification configuration data
   const [data, setData] = useState([
     {
       id: 1,
@@ -23,32 +24,40 @@ function NotificationList() {
     // Add more rows as needed
   ]);
 
-  // State to manage the visibility of the modal
+  // State for managing modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Function to handle editing a notification configuration
+  // State for managing current page in pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Number of rows to display per page
+  const rowsPerPage = 6;
+
+  // Handle edit mode for a notification configuration
   const handleEdit = (id) => {
     setData((prevData) =>
       prevData.map((row) => (row.id === id ? { ...row, isEditing: true } : row))
     );
   };
 
-  // Function to save the edited notification configuration
+  // Handle saving changes for a notification configuration
   const handleSave = (id) => {
+    // Get the edited notification configuration
     const editedConfig = data.find((row) => row.id === id);
 
-    // Validation: Check if the edited configuration is not empty
+    // Check if the notification configuration is empty
     if (editedConfig.config.trim() === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
     }
 
-    // Validation: Check for duplicate configurations
+    // Check for duplicate notification configuration
     if (isDuplicateConfig(editedConfig.config, id)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     }
 
+    // Update data to exit editing mode
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, isEditing: false } : row
@@ -56,7 +65,7 @@ function NotificationList() {
     );
   };
 
-  // Function to handle input change for notification configuration
+  // Handle input change for a notification configuration
   const handleInputChange = (id, e) => {
     setData((prevData) =>
       prevData.map((row) =>
@@ -65,7 +74,7 @@ function NotificationList() {
     );
   };
 
-  // Function to handle filter change for default notification configuration
+  // Handle change in the default filter for a notification configuration
   const handleFilterChange = (id, filter) => {
     setData((prevData) =>
       prevData.map((row) =>
@@ -74,43 +83,44 @@ function NotificationList() {
     );
   };
 
-  // Function to handle notification configuration deletion
+  // Handle deletion of a notification configuration
   const handleDelete = (id) => {
-    // Display a confirmation or use a modal library
+    // Confirm deletion with the user
     const isConfirmed = window.confirm("Bạn có chắc muốn xóa không?");
 
     if (isConfirmed) {
+      // Remove the notification configuration from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
     }
   };
 
-  // Function to open the modal for creating a new notification configuration
+  // Handle creating a new notification configuration
   const handleCreate = () => {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
+  // Handle closing the modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  // Function to save a new notification configuration from the modal
+  // Handle saving changes for a new notification configuration from the modal
   const handleSaveModal = (newConfig) => {
     const { config } = newConfig;
 
-    // Validation: Check if the new configuration is not empty
+    // Check if the new notification configuration is empty
     if (config.trim() === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
     }
 
-    // Validation: Check for duplicate configurations
+    // Check for duplicate notification configuration in the new notification
     if (isDuplicateConfig(config, 0)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     }
 
-    // Handle logic to save new data to the state
+    // Add the new notification configuration to the data
     setData((prevData) => [
       ...prevData,
       {
@@ -121,12 +131,17 @@ function NotificationList() {
     ]);
   };
 
-  // Function to check if a notification configuration is a duplicate
+  // Check if a notification configuration is a duplicate
   const isDuplicateConfig = (config, id) => {
     return data.some(
       (row) =>
         row.config.toLowerCase() === config.toLowerCase() && row.id !== id
     );
+  };
+
+  // Handle change in the current page for pagination
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   // Render the component
@@ -135,13 +150,14 @@ function NotificationList() {
       <div className="content-container">
         <div className="content-header">
           <h2>Danh sách cấu hình tần suất thông báo</h2>
+
+          {/* Button for creating a new notification configuration */}
           <div className="content-create-btn">
-            {/* Button to create a new notification configuration */}
             <button onClick={handleCreate}>Tạo mới</button>
           </div>
         </div>
 
-        {/* Render the modal if isModalOpen is true */}
+        {/* Render the modal for creating a new notification configuration */}
         {isModalOpen && (
           <NotificationModal
             onClose={handleCloseModal}
@@ -149,7 +165,7 @@ function NotificationList() {
           />
         )}
 
-        {/* Render the table if there is data, otherwise show a message */}
+        {/* Render the notification configuration data table if there are notifications */}
         {data.length > 0 ? (
           <table>
             <thead>
@@ -161,11 +177,11 @@ function NotificationList() {
               </tr>
             </thead>
             <tbody>
-              {/* Map through the data to render rows in the table */}
-              {data.map((row) => (
+              {/* Map and render each notification configuration row */}
+              {sliceData(data, currentPage, rowsPerPage).map((row) => (
                 <tr key={row.id}>
+                  {/* Render input field for editing or display the notification configuration */}
                   <td>
-                    {/* Render an input for editing or display the notification configuration */}
                     <span>
                       {row.isEditing ? (
                         <input
@@ -178,8 +194,8 @@ function NotificationList() {
                       )}
                     </span>
                   </td>
+                  {/* Render dropdown for default filter or display default value */}
                   <td>
-                    {/* Render a dropdown for editing or display the default value */}
                     <span>
                       {row.isEditing ? (
                         <div className="filter-dropdown">
@@ -200,8 +216,8 @@ function NotificationList() {
                       )}
                     </span>
                   </td>
+                  {/* Render save or edit icon based on edit mode */}
                   <td>
-                    {/* Render a save icon if editing, otherwise render an edit icon */}
                     <span>
                       {row.isEditing ? (
                         <img
@@ -218,8 +234,8 @@ function NotificationList() {
                       )}
                     </span>
                   </td>
+                  {/* Render delete icon for deleting a notification configuration */}
                   <td>
-                    {/* Render a trash icon for deleting a notification configuration */}
                     <span>
                       <img
                         src={TrashIcon}
@@ -233,9 +249,29 @@ function NotificationList() {
             </tbody>
           </table>
         ) : (
-          // Display a message if there is no data
+          // Display a message when there is no notification configuration data
           <div className="empty-table">Không có dữ liệu!</div>
         )}
+
+        {/* Render pagination buttons if there are notifications */}
+        <div className="content-footer">
+          {data.length > 0 ? (
+            <div className="paginationTable">
+              {/* Display pagination buttons */}
+              {calculateRange(data, rowsPerPage).map((page) => (
+                <span
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={
+                    currentPage === page ? "active-pagination" : "pagination"
+                  }
+                >
+                  {page}
+                </span>
+              ))}
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

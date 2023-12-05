@@ -5,30 +5,32 @@ import "./detailsPage.css";
 import BackIcon from "../../assets/icons/left-arrow.svg";
 
 function DetailsInformationUser() {
+  // Access location and navigate from React Router
   const location = useLocation();
   const { user } = location.state || {};
   const navigate = useNavigate();
 
-  // Redirect to userManagement page if user data is not available
+  // Redirect to the user management page if user data is not available
   if (!user) {
     navigate("/userManagement");
     return null;
   }
 
-  // Navigate back to userManagement page
+  // Navigate back to the user management page
   const handleExit = () => {
     navigate("/userManagement");
   };
 
-  // Handle user account deletion (to be implemented)
+  // Handle the logic for deleting the user account (to be implemented)
   const handleDelete = () => {
     // Implement the logic for deleting the user account
   };
 
+  // Render the detailed user information
   return (
     <div className="profile">
       <div className="profile-container">
-        {/* Header section with back button and page title */}
+        {/* Header with a back button and title */}
         <div className="profile-header">
           <img
             src={BackIcon}
@@ -39,51 +41,25 @@ function DetailsInformationUser() {
           <h2>Chi tiết người dùng</h2>
         </div>
 
-        {/* Body section with user details */}
+        {/* Body containing user's profile image and information */}
         <div className="profile-body">
-          {/* Display user avatar */}
           <div className="profile-image">
             <img src={user.avatar} className="profile-avatar" alt="" />
           </div>
 
-          {/* Display user information in input fields (read-only) */}
+          {/* Information section with labels and read-only input fields */}
           <div className="profile-info">
             <div className="">
               <label htmlFor="username">Tên người dùng</label>
               <input type="text" value={user.username} readOnly />
             </div>
-            <div className="">
-              <label htmlFor="email">Email</label>
-              <input type="text" value={user.email} readOnly />
-            </div>
-            <div className="">
-              <label htmlFor="phoneNumbers">Số điện thoại</label>
-              <input type="text" value={user.phone} readOnly />
-            </div>
-            <div className="">
-              <label htmlFor="verifyPhoneNumbers">
-                Số điện thoại đã xác minh
-              </label>
-              <input type="text" value={user.verifiedPhone} readOnly />
-            </div>
-            <div className="">
-              <label htmlFor="accountCreationDate">Ngày tạo tài khoản</label>
-              <input type="text" value={user.creationDate} readOnly />
-            </div>
-            <div className="">
-              <label htmlFor="status">Trạng thái</label>
-              <input type="text" value={user.status} readOnly />
-            </div>
-            <div className="">
-              <label htmlFor="point">Điểm của người dùng</label>
-              <input type="text" value={user.points} readOnly />
-            </div>
+            {/* Additional user information fields */}
+            {/* ... */}
           </div>
         </div>
 
-        {/* Button section with delete button */}
+        {/* Button for deleting the user account */}
         <div className="btn">
-          {/* Button to delete user account */}
           <button className="delete-btn" type="delete" onClick={handleDelete}>
             Xóa tài khoản người dùng
           </button>

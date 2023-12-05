@@ -135,6 +135,8 @@ td {
     background: transparent;
     box-shadow: none;
     border-bottom: 0.05rem solid rgb(240, 242, 245);
+    width: 100vw;
+    height: 4.5vh;
 }
 
 td span {
@@ -175,8 +177,8 @@ span img {
 }
 
 .content-avatar {
-    width: 45px;
-    height: 45px;
+    width: 4em;
+    height: 4em;
     border-radius: 50%;
     overflow: hidden;
 }

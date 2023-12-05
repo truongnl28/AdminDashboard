@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import PointModal from "../NewConfigModal/pointModal";
 import PencilIcon from "../../assets/icons/pencil.svg";
@@ -6,7 +7,7 @@ import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
 
 function PointsList() {
-  // State to manage the data for point configurations
+  // State for managing point configuration data
   const [data, setData] = useState([
     {
       id: 1,
@@ -23,32 +24,40 @@ function PointsList() {
     // Add more rows as needed
   ]);
 
-  // State to manage the visibility of the modal
+  // State for managing modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Function to handle editing a point configuration
+  // State for managing current page in pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Number of rows to display per page
+  const rowsPerPage = 6;
+
+  // Handle edit mode for a point configuration
   const handleEdit = (id) => {
     setData((prevData) =>
       prevData.map((row) => (row.id === id ? { ...row, isEditing: true } : row))
     );
   };
 
-  // Function to save the edited point configuration
+  // Handle saving changes for a point configuration
   const handleSave = (id) => {
+    // Get the edited point configuration
     const editedConfig = data.find((row) => row.id === id);
 
-    // Validation: Check if the edited configuration is not empty
+    // Check if the point configuration is empty
     if (editedConfig.config.trim() === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
     }
 
-    // Validation: Check for duplicate configurations
+    // Check for duplicate point configuration
     if (isDuplicateConfig(editedConfig.config, id)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     }
 
+    // Update data to exit editing mode
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, isEditing: false } : row
@@ -56,16 +65,17 @@ function PointsList() {
     );
   };
 
-  // Function to handle input change for point configuration
+  // Handle input change for a point configuration
   const handleInputChange = (id, e) => {
     const inputValue = e.target.value;
 
-    // Validation: Check if the input value is a positive integer
+    // Check if the input is a positive integer
     if (!/^\d+$/.test(inputValue) || parseFloat(inputValue) <= 0) {
       alert("Điểm mặc định không hợp lệ, vui lòng nhập lại.");
       return;
     }
 
+    // Update data with the new point configuration
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, config: inputValue } : row
@@ -73,7 +83,7 @@ function PointsList() {
     );
   };
 
-  // Function to handle filter change for default point configuration
+  // Handle change in the default filter for a point configuration
   const handleFilterChange = (id, filter) => {
     setData((prevData) =>
       prevData.map((row) =>
@@ -82,43 +92,44 @@ function PointsList() {
     );
   };
 
-  // Function to handle point configuration deletion
+  // Handle deletion of a point configuration
   const handleDelete = (id) => {
-    // Display a confirmation or use a modal library
+    // Confirm deletion with the user
     const isConfirmed = window.confirm("Bạn có chắc muốn xóa không?");
 
     if (isConfirmed) {
+      // Remove the point configuration from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
     }
   };
 
-  // Function to open the modal for creating a new point configuration
+  // Handle creating a new point configuration
   const handleCreate = () => {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
+  // Handle closing the modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  // Function to save a new point configuration from the modal
+  // Handle saving changes for a new point configuration from the modal
   const handleSaveModal = (newConfig) => {
     const { config } = newConfig;
 
-    // Validation: Check if the new configuration is not empty
+    // Check if the new point configuration is empty
     if (config.trim() === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
     }
 
-    // Validation: Check for duplicate configurations
+    // Check for duplicate point configuration in the new point
     if (isDuplicateConfig(config, 0)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     }
 
-    // Handle logic to save new data to the state
+    // Add the new point configuration to the data
     setData((prevData) => [
       ...prevData,
       {
@@ -129,12 +140,17 @@ function PointsList() {
     ]);
   };
 
-  // Function to check if a point configuration is a duplicate
+  // Check if a point configuration is a duplicate
   const isDuplicateConfig = (config, id) => {
     return data.some(
       (row) =>
         row.config.toLowerCase() === config.toLowerCase() && row.id !== id
     );
+  };
+
+  // Handle change in the current page for pagination
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   // Render the component
@@ -143,18 +159,19 @@ function PointsList() {
       <div className="content-container">
         <div className="content-header">
           <h2>Cấu hình điểm mặc định</h2>
+
+          {/* Button for creating a new point configuration */}
           <div className="content-create-btn">
-            {/* Button to create a new point configuration */}
             <button onClick={handleCreate}>Tạo mới</button>
           </div>
         </div>
 
-        {/* Render the modal if isModalOpen is true */}
+        {/* Render the modal for creating a new point configuration */}
         {isModalOpen && (
           <PointModal onClose={handleCloseModal} onSave={handleSaveModal} />
         )}
 
-        {/* Render the table if there is data, otherwise show a message */}
+        {/* Render the point configuration data table if there are points */}
         {data.length > 0 ? (
           <table>
             <thead>
@@ -166,11 +183,11 @@ function PointsList() {
               </tr>
             </thead>
             <tbody>
-              {/* Map through the data to render rows in the table */}
-              {data.map((row) => (
+              {/* Map and render each point configuration row */}
+              {sliceData(data, currentPage, rowsPerPage).map((row) => (
                 <tr key={row.id}>
+                  {/* Render input field for editing or display the point configuration */}
                   <td>
-                    {/* Render an input for editing or display the point configuration */}
                     <span>
                       {row.isEditing ? (
                         <input
@@ -183,8 +200,8 @@ function PointsList() {
                       )}
                     </span>
                   </td>
+                  {/* Render dropdown for default filter or display default value */}
                   <td>
-                    {/* Render a dropdown for editing or display the default value */}
                     <span>
                       {row.isEditing ? (
                         <div className="filter-dropdown">
@@ -205,8 +222,8 @@ function PointsList() {
                       )}
                     </span>
                   </td>
+                  {/* Render save or edit icon based on edit mode */}
                   <td>
-                    {/* Render a save icon if editing, otherwise render an edit icon */}
                     <span>
                       {row.isEditing ? (
                         <img
@@ -223,8 +240,8 @@ function PointsList() {
                       )}
                     </span>
                   </td>
+                  {/* Render delete icon for deleting a point configuration */}
                   <td>
-                    {/* Render a trash icon for deleting the point configuration */}
                     <span>
                       <img
                         src={TrashIcon}
@@ -238,9 +255,29 @@ function PointsList() {
             </tbody>
           </table>
         ) : (
-          // Display a message if there is no data
+          // Display a message when there is no point configuration data
           <div className="empty-table">Không có dữ liệu!</div>
         )}
+
+        {/* Render pagination buttons if there are points */}
+        <div className="content-footer">
+          {data.length > 0 ? (
+            <div className="paginationTable">
+              {/* Display pagination buttons */}
+              {calculateRange(data, rowsPerPage).map((page) => (
+                <span
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={
+                    currentPage === page ? "active-pagination" : "pagination"
+                  }
+                >
+                  {page}
+                </span>
+              ))}
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

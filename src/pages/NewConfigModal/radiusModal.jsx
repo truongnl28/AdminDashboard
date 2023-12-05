@@ -1,33 +1,35 @@
 import React, { useState } from "react";
 import "./configModal.css";
 
-// RadiusModal component for creating a new configuration
 function RadiusModal({ onClose, onSave }) {
-  // State variables to manage form inputs and error handling
+  // State variables for managing form inputs and error handling
   const [config, setConfig] = useState("");
   const [isDefault, setIsDefault] = useState(true);
   const [configError, setConfigError] = useState("");
 
-  // Handle save button click
+  // Function to handle saving the radius configuration and closing the modal
   const handleSave = () => {
-    // Check if the configuration input is not empty
+    // Validate input field for radius configuration
     if (config.trim() === "") {
       setConfigError("Không được để trống!");
       return;
     }
 
-    setConfigError(""); // Clear error message if valid
+    // Clear validation error
+    setConfigError("");
+
+    // Call onSave with radius details and close the modal
     onSave({ config, isDefault });
     onClose();
   };
 
-  // JSX structure for the RadiusModal component
+  // Render the modal UI
   return (
     <div className="modal-overlay">
       <div className="modal">
         <h2>TẠO MỚI</h2>
 
-        {/* Input for configuring the radius */}
+        {/* Input field for radius configuration */}
         <label htmlFor="config">Cấu hình khoảng cách:</label>
         <input
           type="text"
@@ -35,33 +37,32 @@ function RadiusModal({ onClose, onSave }) {
           value={config}
           onChange={(e) => {
             setConfig(e.target.value);
-            setConfigError(""); // Clear error when typing
+            setConfigError("");
           }}
         />
         {configError && (
-          // Display error message if configuration is empty
           <p className="error-message" style={{ color: "red" }}>
             {configError}
           </p>
         )}
 
-        {/* Dropdown for setting as default or not */}
+        {/* Dropdown for selecting default status */}
         <label htmlFor="isDefault">Mặc định:</label>
         <select
           id="isDefault"
-          value={isDefault}
+          value={isDefault.toString()}
           onChange={(e) => setIsDefault(e.target.value === "true")}
         >
           <option value="true">Có</option>
           <option value="false">Không</option>
         </select>
 
-        {/* Buttons for canceling and submitting the form */}
+        {/* Buttons for closing or saving the modal */}
         <div className="buttons-container">
-          <button className="cancel-btn" type="cancel" onClick={onClose}>
+          <button className="cancel-btn" type="button" onClick={onClose}>
             Đóng
           </button>
-          <button className="submit-btn" type="submit" onClick={handleSave}>
+          <button className="submit-btn" type="button" onClick={handleSave}>
             Xác nhận
           </button>
         </div>

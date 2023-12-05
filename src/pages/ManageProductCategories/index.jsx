@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import ManageProductModal from "../NewConfigModal/manageProductModal";
 import PencilIcon from "../../assets/icons/pencil.svg";
@@ -6,7 +7,7 @@ import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
 
 function ManageProductList() {
-  // State to manage the data for product categories
+  // State for managing product data
   const [data, setData] = useState([
     {
       id: 1,
@@ -35,34 +36,42 @@ function ManageProductList() {
     // Add more rows as needed
   ]);
 
-  // State to manage the search query for filtering categories
+  // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
 
-  // State to manage the visibility of the modal
+  // State for managing modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Function to handle the search input change
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
+  // State for managing current page in pagination
+  const [currentPage, setCurrentPage] = useState(1);
 
-    // Filter data based on the category name
-    const filteredData = data.filter((row) =>
-      row.categoryName.toLowerCase().includes(query)
-    );
-    setData(filteredData);
+  // Number of rows to display per page
+  const rowsPerPage = 6;
+
+  // Filter products based on the search query
+  const filteredData = data.filter((row) =>
+    row.categoryName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Get paginated data and page range based on search results
+  const paginatedData = sliceData(filteredData, currentPage, rowsPerPage);
+  const pageRange = calculateRange(filteredData, rowsPerPage);
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
   };
 
-  // Function to handle editing a product category
+  // Handle edit mode for a product
   const handleEdit = (id) => {
     setData((prevData) =>
       prevData.map((row) => (row.id === id ? { ...row, isEditing: true } : row))
     );
   };
 
-  // Function to save the edited product category
+  // Handle saving changes for a product
   const handleSave = (id) => {
-    // Check if any required data is missing
+    // Check if data is invalid (missing values)
     const isDataInvalid = data.some(
       (row) =>
         row.id === id &&
@@ -76,12 +85,13 @@ function ManageProductList() {
       return;
     }
 
-    // Check for duplicate category names
+    // Check for duplicate category name
     if (isDuplicateName(data.find((row) => row.id === id).categoryName, id)) {
       alert("Tên danh mục sản phẩm đã tồn tại. Vui lòng chọn tên khác.");
       return;
     }
 
+    // Update data to exit editing mode
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, isEditing: false } : row
@@ -89,22 +99,23 @@ function ManageProductList() {
     );
   };
 
-  // Function to handle input change for product category
+  // Handle input change for a product field
   const handleInputChange = (id, field, value) => {
+    // Validate numeric fields (xPoints, yPoints)
     if (field === "xPoints" || field === "yPoints") {
-      // Validation: Check if the value is a positive integer
       if (isNaN(value) || value.includes(".") || parseFloat(value) <= 0) {
         alert("Giá trị không hợp lệ. Vui lòng nhập lại");
         return;
       }
     }
 
+    // Update data with the new value
     setData((prevData) =>
       prevData.map((row) => (row.id === id ? { ...row, [field]: value } : row))
     );
   };
 
-  // Function to handle filter change for default product category
+  // Handle change in the default filter for a product
   const handleFilterChange = (id, filter) => {
     setData((prevData) =>
       prevData.map((row) =>
@@ -113,34 +124,34 @@ function ManageProductList() {
     );
   };
 
-  // Function to handle product category deletion
+  // Handle deletion of a product
   const handleDelete = (id) => {
+    // Confirm deletion with the user
     const isConfirmed = window.confirm("Bạn có chắc muốn xóa không?");
     if (isConfirmed) {
+      // Remove the product from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
     }
   };
 
-  // Function to open the modal for creating a new product category
+  // Handle opening the modal for creating a new product
   const handleCreate = () => {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
+  // Handle closing the modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  // Function to validate data for a new product category
+  // Validate data for a new product
   const validateData = (newConfig) => {
     const { xPoints, yPoints } = newConfig;
 
-    // Validation: Check if X points are a positive integer without decimal
     if (isNaN(xPoints) || xPoints.includes(".") || parseFloat(xPoints) <= 0) {
       return "Điểm X không hợp lệ. Vui lòng nhập số dương và không có dấu thập phân.";
     }
 
-    // Validation: Check if Y points are a positive integer without decimal
     if (isNaN(yPoints) || yPoints.includes(".") || parseFloat(yPoints) <= 0) {
       return "Điểm Y không hợp lệ. Vui lòng nhập số dương và không có dấu thập phân.";
     }
@@ -148,11 +159,11 @@ function ManageProductList() {
     return null;
   };
 
-  // Function to save a new product category from the modal
+  // Handle saving changes for a new product from the modal
   const handleSaveModal = (newConfig) => {
     const { categoryName, xPoints, yPoints } = newConfig;
 
-    // Validation: Check if any required data is missing
+    // Check for missing values in the new product
     if (
       categoryName.trim() === "" ||
       xPoints.trim() === "" ||
@@ -162,7 +173,7 @@ function ManageProductList() {
       return;
     }
 
-    // Validation: Check for additional data validation
+    // Validate numeric fields (xPoints, yPoints)
     const validationError = validateData(newConfig);
 
     if (validationError) {
@@ -170,13 +181,13 @@ function ManageProductList() {
       return;
     }
 
-    // Check for duplicate category names
+    // Check for duplicate category name in the new product
     if (isDuplicateName(categoryName, 0)) {
       alert("Tên danh mục sản phẩm đã tồn tại. Vui lòng chọn tên khác.");
       return;
     }
 
-    // Handle logic to save new data to the state
+    // Add the new product to the data
     setData((prevData) => [
       ...prevData,
       {
@@ -187,12 +198,17 @@ function ManageProductList() {
     ]);
   };
 
-  // Function to check if a category name is a duplicate
+  // Check if a category name is a duplicate
   const isDuplicateName = (name, id) => {
     return data.some(
       (row) =>
         row.categoryName.toLowerCase() === name.toLowerCase() && row.id !== id
     );
+  };
+
+  // Handle change in the current page for pagination
+  const handleChangePage = (page) => {
+    setCurrentPage(page);
   };
 
   // Render the component
@@ -201,12 +217,14 @@ function ManageProductList() {
       <div className="content-container">
         <div className="content-header">
           <h2>Danh sách danh mục sản phẩm</h2>
+
+          {/* Button for creating a new product */}
           <div className="content-create-btn">
-            {/* Button to create a new product category */}
             <button onClick={handleCreate}>Tạo mới</button>
           </div>
+
+          {/* Search input for filtering products */}
           <div className="content-search">
-            {/* Search input to filter product categories */}
             <input
               type="text"
               placeholder="Tìm kiếm sản phẩm"
@@ -217,7 +235,7 @@ function ManageProductList() {
           </div>
         </div>
 
-        {/* Modal for creating/editing product categories */}
+        {/* Render the modal for creating a new product */}
         {isModalOpen && (
           <ManageProductModal
             onClose={handleCloseModal}
@@ -225,10 +243,10 @@ function ManageProductList() {
           />
         )}
 
-        {data.length > 0 ? (
+        {/* Render the product data table if there are products */}
+        {filteredData.length > 0 ? (
           <table>
             <thead>
-              {/* Table header */}
               <tr>
                 <th>Tên danh mục sản phẩm</th>
                 <th>Điểm X</th>
@@ -239,14 +257,13 @@ function ManageProductList() {
               </tr>
             </thead>
             <tbody>
-              {/* Table body with product category data */}
-              {data.map((row) => (
+              {/* Map through paginated data to display product rows */}
+              {paginatedData.map((row) => (
                 <tr key={row.id}>
-                  {/* Cell for category name */}
+                  {/* Render category name field */}
                   <td>
                     <span>
                       {row.isEditing ? (
-                        // Input for editing category name
                         <input
                           type="text"
                           value={row.categoryName}
@@ -259,16 +276,15 @@ function ManageProductList() {
                           }
                         />
                       ) : (
-                        // Display category name
                         row.categoryName
                       )}
                     </span>
                   </td>
-                  {/* Cell for X points */}
+
+                  {/* Render xPoints field */}
                   <td>
                     <span>
                       {row.isEditing ? (
-                        // Input for editing X points
                         <input
                           type="text"
                           value={row.xPoints}
@@ -277,16 +293,15 @@ function ManageProductList() {
                           }
                         />
                       ) : (
-                        // Display X points
                         row.xPoints
                       )}
                     </span>
                   </td>
-                  {/* Cell for Y points */}
+
+                  {/* Render yPoints field */}
                   <td>
                     <span>
                       {row.isEditing ? (
-                        // Input for editing Y points
                         <input
                           type="text"
                           value={row.yPoints}
@@ -295,16 +310,15 @@ function ManageProductList() {
                           }
                         />
                       ) : (
-                        // Display Y points
                         row.yPoints
                       )}
                     </span>
                   </td>
-                  {/* Cell for default category filter */}
+
+                  {/* Render isDefault field */}
                   <td>
                     <span>
                       {row.isEditing ? (
-                        // Dropdown for editing default category
                         <div className="filter-dropdown">
                           <select
                             value={row.isDefault.toString()}
@@ -317,26 +331,23 @@ function ManageProductList() {
                           </select>
                         </div>
                       ) : row.isDefault ? (
-                        // Display "Có" for default category
                         "Có"
                       ) : (
-                        // Display "Không" for non-default category
                         "Không"
                       )}
                     </span>
                   </td>
-                  {/* Cell for save/edit button */}
+
+                  {/* Render edit or save icon based on edit mode */}
                   <td>
                     <span>
                       {row.isEditing ? (
-                        // Save icon for saving changes
                         <img
                           src={SaveIcon}
                           alt=""
                           onClick={() => handleSave(row.id)}
                         />
                       ) : (
-                        // Pencil icon for editing
                         <img
                           src={PencilIcon}
                           alt=""
@@ -345,10 +356,10 @@ function ManageProductList() {
                       )}
                     </span>
                   </td>
-                  {/* Cell for delete button */}
+
+                  {/* Render delete icon */}
                   <td>
                     <span>
-                      {/* Trash icon for deleting the product category */}
                       <img
                         src={TrashIcon}
                         alt=""
@@ -361,9 +372,26 @@ function ManageProductList() {
             </tbody>
           </table>
         ) : (
-          // Display a message if there is no data
+          // Display a message when there is no product data
           <div className="empty-table">Không có dữ liệu!</div>
         )}
+
+        {/* Render pagination buttons if there are products */}
+        <div className="content-footer">
+          {filteredData.length > 0
+            ? pageRange.map((page) => (
+                <span
+                  key={page}
+                  className={
+                    page === currentPage ? "active-pagination" : "pagination"
+                  }
+                  onClick={() => handleChangePage(page)}
+                >
+                  {page}
+                </span>
+              ))
+            : null}
+        </div>
       </div>
     </div>
   );

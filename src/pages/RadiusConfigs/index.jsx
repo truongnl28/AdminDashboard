@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import RadiusModal from "../NewConfigModal/radiusModal";
 import PencilIcon from "../../assets/icons/pencil.svg";
@@ -6,7 +7,7 @@ import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
 
 function RadiusList() {
-  // State to manage the data for the radius configurations
+  // State for managing radius data
   const [data, setData] = useState([
     {
       id: 1,
@@ -23,32 +24,40 @@ function RadiusList() {
     // Add more rows as needed
   ]);
 
-  // State to manage the visibility of the modal
+  // State for managing modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Function to handle editing a configuration
+  // State for managing current page in pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Number of rows to display per page
+  const rowsPerPage = 6;
+
+  // Handle edit mode for a radius
   const handleEdit = (id) => {
     setData((prevData) =>
       prevData.map((row) => (row.id === id ? { ...row, isEditing: true } : row))
     );
   };
 
-  // Function to save the edited configuration
+  // Handle saving changes for a radius
   const handleSave = (id) => {
+    // Get the edited radius configuration
     const editedConfig = data.find((row) => row.id === id);
 
-    // Validation: Check if the edited configuration is not empty
+    // Check if the radius configuration is empty
     if (editedConfig.config.trim() === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
     }
 
-    // Validation: Check for duplicate configurations
+    // Check for duplicate radius configuration
     if (isDuplicateConfig(editedConfig.config, id)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     }
 
+    // Update data to exit editing mode
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, isEditing: false } : row
@@ -56,7 +65,7 @@ function RadiusList() {
     );
   };
 
-  // Function to handle input change for configuration
+  // Handle input change for a radius configuration
   const handleInputChange = (id, e) => {
     setData((prevData) =>
       prevData.map((row) =>
@@ -65,7 +74,7 @@ function RadiusList() {
     );
   };
 
-  // Function to handle filter change for default configuration
+  // Handle change in the default filter for a radius
   const handleFilterChange = (id, filter) => {
     setData((prevData) =>
       prevData.map((row) =>
@@ -74,42 +83,44 @@ function RadiusList() {
     );
   };
 
-  // Function to handle configuration deletion
+  // Handle deletion of a radius
   const handleDelete = (id) => {
+    // Confirm deletion with the user
     const isConfirmed = window.confirm("Bạn có chắc muốn xóa không?");
 
     if (isConfirmed) {
+      // Remove the radius from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
     }
   };
 
-  // Function to open the modal for creating a new configuration
+  // Handle opening the modal for creating a new radius
   const handleCreate = () => {
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
+  // Handle closing the modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  // Function to save a new configuration from the modal
+  // Handle saving changes for a new radius from the modal
   const handleSaveModal = (newConfig) => {
     const { config } = newConfig;
 
-    // Validation: Check if the new configuration is not empty
+    // Check if the new radius configuration is empty
     if (config.trim() === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
     }
 
-    // Validation: Check for duplicate configurations
+    // Check for duplicate radius configuration in the new radius
     if (isDuplicateConfig(config, 0)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     }
 
-    // Add the new configuration to the data
+    // Add the new radius to the data
     setData((prevData) => [
       ...prevData,
       {
@@ -120,12 +131,17 @@ function RadiusList() {
     ]);
   };
 
-  // Function to check if a configuration is a duplicate
+  // Check if a radius configuration is a duplicate
   const isDuplicateConfig = (config, id) => {
     return data.some(
       (row) =>
         row.config.toLowerCase() === config.toLowerCase() && row.id !== id
     );
+  };
+
+  // Handle change in the current page for pagination
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   // Render the component
@@ -134,18 +150,19 @@ function RadiusList() {
       <div className="content-container">
         <div className="content-header">
           <h2>Danh sách cấu hình khoảng cách</h2>
+
+          {/* Button for creating a new radius */}
           <div className="content-create-btn">
-            {/* Button to create a new configuration */}
             <button onClick={handleCreate}>Tạo mới</button>
           </div>
         </div>
 
-        {/* Render the modal if isModalOpen is true */}
+        {/* Render the modal for creating a new radius */}
         {isModalOpen && (
           <RadiusModal onClose={handleCloseModal} onSave={handleSaveModal} />
         )}
 
-        {/* Render the table if there is data, otherwise show a message */}
+        {/* Render the radius data table if there are radii */}
         {data.length > 0 ? (
           <table>
             <thead>
@@ -157,11 +174,11 @@ function RadiusList() {
               </tr>
             </thead>
             <tbody>
-              {/* Map through the data to render rows in the table */}
-              {data.map((row) => (
+              {/* Map through paginated data to display radius rows */}
+              {sliceData(data, currentPage, rowsPerPage).map((row) => (
                 <tr key={row.id}>
+                  {/* Render radius configuration field */}
                   <td>
-                    {/* Render an input for editing or display the configuration */}
                     <span>
                       {row.isEditing ? (
                         <input
@@ -174,8 +191,9 @@ function RadiusList() {
                       )}
                     </span>
                   </td>
+
+                  {/* Render isDefault field */}
                   <td>
-                    {/* Render a dropdown for editing or display the default value */}
                     <span>
                       {row.isEditing ? (
                         <div className="filter-dropdown">
@@ -196,8 +214,9 @@ function RadiusList() {
                       )}
                     </span>
                   </td>
+
+                  {/* Render edit or save icon based on edit mode */}
                   <td>
-                    {/* Render a save icon if editing, otherwise render an edit icon */}
                     <span>
                       {row.isEditing ? (
                         <img
@@ -214,8 +233,9 @@ function RadiusList() {
                       )}
                     </span>
                   </td>
+
+                  {/* Render delete icon */}
                   <td>
-                    {/* Render a trash icon for deleting a configuration */}
                     <span>
                       <img
                         src={TrashIcon}
@@ -229,9 +249,28 @@ function RadiusList() {
             </tbody>
           </table>
         ) : (
-          // Display a message if there is no data
+          // Display a message when there is no radius data
           <div className="empty-table">Không có dữ liệu!</div>
         )}
+
+        {/* Render pagination buttons if there are radii */}
+        <div className="content-footer">
+          {data.length > 0 ? (
+            <div className="paginationTable">
+              {calculateRange(data, rowsPerPage).map((page) => (
+                <span
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={
+                    currentPage === page ? "active-pagination" : "pagination"
+                  }
+                >
+                  {page}
+                </span>
+              ))}
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

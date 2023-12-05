@@ -1,40 +1,42 @@
 import React, { useState } from "react";
 import "./configModal.css";
 
-// PointModal component for creating a new point configuration
 function PointModal({ onClose, onSave }) {
-  // State variables to manage form inputs and error handling
+  // State variables for managing form inputs and error handling
   const [config, setConfig] = useState("");
   const [isDefault, setIsDefault] = useState(true);
   const [configError, setConfigError] = useState("");
 
-  // Handle save button click
+  // Function to handle saving the point configuration and closing the modal
   const handleSave = () => {
-    // Check if the configuration input is not empty
+    // Validate input field for point configuration
     if (config.trim() === "") {
       setConfigError("Không được để trống!");
       return;
     }
 
-    // Check if config is a positive integer
+    // Validate if the point configuration is a positive integer
     const isPositiveInteger = /^\d+$/.test(config);
     if (!isPositiveInteger) {
       setConfigError("Cấu hình điểm mặc định phải là số!");
       return;
     }
 
-    setConfigError(""); // Clear error message if valid
+    // Clear validation error
+    setConfigError("");
+
+    // Call onSave with point details and close the modal
     onSave({ config, isDefault });
     onClose();
   };
 
-  // JSX structure for the PointModal component
+  // Render the modal UI
   return (
     <div className="modal-overlay">
       <div className="modal">
         <h2>TẠO MỚI</h2>
 
-        {/* Input for configuring the default point */}
+        {/* Input field for point configuration */}
         <label htmlFor="config">Cấu hình điểm mặc định:</label>
         <input
           type="text"
@@ -42,17 +44,16 @@ function PointModal({ onClose, onSave }) {
           value={config}
           onChange={(e) => {
             setConfig(e.target.value);
-            setConfigError(""); // Clear error when typing
+            setConfigError("");
           }}
         />
         {configError && (
-          // Display error message if configuration is empty or not a positive integer
           <p className="error-message" style={{ color: "red" }}>
             {configError}
           </p>
         )}
 
-        {/* Dropdown for setting as default or not */}
+        {/* Dropdown for selecting default status */}
         <label htmlFor="isDefault">Mặc định:</label>
         <select
           id="isDefault"
@@ -63,7 +64,7 @@ function PointModal({ onClose, onSave }) {
           <option value="false">Không</option>
         </select>
 
-        {/* Buttons for canceling and submitting the form */}
+        {/* Buttons for closing or saving the modal */}
         <div className="buttons-container">
           <button className="cancel-btn" type="button" onClick={onClose}>
             Đóng

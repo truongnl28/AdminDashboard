@@ -5,9 +5,10 @@ import "../styles.css";
 import PencilIcon from "../../assets/icons/pencil.svg";
 
 function UserList() {
+  // Use the navigate function from react-router-dom for navigation
   const navigate = useNavigate();
 
-  // State for user data
+  // State for managing user data
   const [data, setData] = useState([
     {
       id: 1,
@@ -68,51 +69,51 @@ function UserList() {
     // Add more user objects as needed
   ]);
 
-  // State for search query
+  // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
 
-  // State for the current page in pagination
+  // State for managing current page in pagination
   const [currentPage, setCurrentPage] = useState(1);
 
   // Number of rows to display per page
   const rowsPerPage = 6;
 
-  // Filtered users based on the search query
+  // Filter users based on the search query
   const filteredUsers = data.filter((user) =>
     user.username.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Paginate the filtered data
+  // Get the paginated data for the current page
   const paginatedData = sliceData(filteredUsers, currentPage, rowsPerPage);
 
-  // Range of page numbers
+  // Get the page range for pagination
   const pageRange = calculateRange(filteredUsers, rowsPerPage);
 
-  // Function to handle search input change
+  // Handle search input change
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1); // Reset to the first page when searching
   };
 
-  // Function to change the current page in pagination
+  // Handle page change in pagination
   const handleChangePage = (page) => {
     setCurrentPage(page);
   };
 
-  // Function to handle navigation to details page
+  // Handle user details navigation
   const handleChange = (user) => {
-    // Navigate to details route and pass user information
     navigate("/detailsInfoUser", { state: { user } });
   };
 
+  // Render the component
   return (
     <div className="content">
       <div className="content-container">
         <div className="content-header">
           <h2>Danh sách người dùng</h2>
 
+          {/* Search input for filtering users */}
           <div className="content-search">
-            {/* Search input for filtering users */}
             <input
               type="text"
               placeholder="Tìm kiếm người dùng"
@@ -123,9 +124,9 @@ function UserList() {
           </div>
         </div>
 
+        {/* Render user data table if there are users */}
         {filteredUsers.length > 0 ? (
           <table>
-            {/* Table header */}
             <thead>
               <tr>
                 <th>Ảnh đại diện</th>
@@ -136,13 +137,13 @@ function UserList() {
                 <th>Chi tiết</th>
               </tr>
             </thead>
-            {/* Table body with user data */}
             <tbody>
+              {/* Map through paginated data to display user rows */}
               {paginatedData.map((user) => (
                 <tr key={user.id}>
-                  {/* Cell for user avatar */}
                   <td>
                     <span>
+                      {/* Display user avatar */}
                       <img
                         src={user.avatar}
                         className="content-avatar"
@@ -150,23 +151,20 @@ function UserList() {
                       />
                     </span>
                   </td>
-                  {/* Cell for username */}
+                  {/* Display user information */}
                   <td>
                     <span>{user.username}</span>
                   </td>
-                  {/* Cell for user email */}
                   <td>
                     <span>{user.email}</span>
                   </td>
-                  {/* Cell for user phone number */}
                   <td>
                     <span>{user.phone}</span>
                   </td>
-                  {/* Cell for user status */}
                   <td>
                     <span>{user.status}</span>
                   </td>
-                  {/* Cell for details icon (pencil) to navigate to details page */}
+                  {/* Display the edit icon for navigating to user details */}
                   <td>
                     <span>
                       <img
@@ -181,12 +179,12 @@ function UserList() {
             </tbody>
           </table>
         ) : (
-          // Display a message if there is no data
+          // Display a message when there is no user data
           <div className="empty-table">Không có dữ liệu</div>
         )}
 
+        {/* Render pagination buttons if there are users */}
         <div className="content-footer">
-          {/* Pagination: Display page numbers */}
           {filteredUsers.length > 0
             ? pageRange.map((page) => (
                 <span
