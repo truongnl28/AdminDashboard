@@ -53,8 +53,30 @@ function DetailsInformationUser() {
               <label htmlFor="username">Tên người dùng</label>
               <input type="text" value={user.username} readOnly />
             </div>
-            {/* Additional user information fields */}
-            {/* ... */}
+            <div className="">
+              <label htmlFor="email">Email</label>
+              <input type="text" value={user.email} readOnly />
+            </div>
+            <div className="">
+              <label htmlFor="phone">Số điện thoại</label>
+              <input type="text" value={user.phone} readOnly />
+            </div>
+            <div className="">
+              <label htmlFor="phoneVerify">Số điện thoại đã xác nhận</label>
+              <input type="text" value={user.phone} readOnly />
+            </div>
+            <div className="">
+              <label htmlFor="dateCreateAccount">Ngày tạo tài khoản</label>
+              <input type="text" value={user.dateCreateAccount} readOnly />
+            </div>
+            <div className="">
+              <label htmlFor="status">Trạng thái</label>
+              <input type="text" value={user.status} readOnly />
+            </div>
+            <div className="">
+              <label htmlFor="points">Điểm của người dùng</label>
+              <input type="text" value={user.points} readOnly />
+            </div>
           </div>
         </div>
 
