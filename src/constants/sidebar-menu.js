@@ -3,6 +3,8 @@ import UserIcon from '../assets/icons/user.svg';
 import LocationIcon from '../assets/icons/location.svg';
 import PointsIcon from '../assets/icons/points.svg';
 import NotificationIcon from '../assets/icons/notification.svg';
+import BadgeIcon from '../assets/icons/badge.svg';
+
 
 const sidebar_menu = [
     {
@@ -34,6 +36,12 @@ const sidebar_menu = [
         icon: UserIcon,
         path: '/userManagement',
         title: 'Quản lý người dùng',
+    },
+    {
+        id: 6,
+        icon: BadgeIcon,
+        path: '/rank',
+        title: 'Cấp bậc',
     },
 ]
 

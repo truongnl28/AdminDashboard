@@ -11,6 +11,7 @@ import PointsConfigs from './pages/PointsConfigs';
 import ManageProductCategories from './pages/ManageProductCategories';
 import UserManagement from './pages/UserManagement';
 import DetailsInformationUser from './pages/DetailsInformation';
+import RankList from './pages/Rank';
 
 function App() {
   // Assume isLoggedIn is a state variable that determines if the user is logged in
@@ -36,6 +37,7 @@ function App() {
               <Route exact path="/manageProductCategories" element={<ManageProductCategories />} />
               <Route exact path="/userManagement" element={<UserManagement />} />
               <Route exact path="/detailsInfoUser" element={<DetailsInformationUser />} />
+              <Route exact path="/rank" element={<RankList />} />
             </Routes>
           </div>
         </div>
