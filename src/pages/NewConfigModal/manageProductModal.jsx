@@ -4,9 +4,8 @@ import "./configModal.css";
 function ManageProductModal({ onClose, onSave }) {
   // State variables for modal fields and errors
   const [categoryName, setCategoryName] = useState("");
-  const [xPoints, setXPoints] = useState("");
   const [yPoints, setYPoints] = useState("");
-  const [isDefault, setIsDefault] = useState(true);
+  // const [isDefault, setIsDefault] = useState(true);
 
   // State for validation errors
   const [errors, setErrors] = useState({
@@ -22,13 +21,6 @@ function ManageProductModal({ onClose, onSave }) {
       categoryName: !categoryName.trim()
         ? "Tên danh mục sản phẩm không được để trống!"
         : "",
-      xPoints:
-        !xPoints.trim() ||
-        isNaN(xPoints) ||
-        xPoints <= 0 ||
-        xPoints.includes(".")
-          ? "Điểm X không hợp lệ!"
-          : "",
       yPoints:
         !yPoints.trim() ||
         isNaN(yPoints) ||
@@ -47,12 +39,11 @@ function ManageProductModal({ onClose, onSave }) {
     // Clear validation errors
     setErrors({
       categoryName: "",
-      xPoints: "",
       yPoints: "",
     });
 
     // Call onSave with product details and close the modal
-    onSave({ categoryName, xPoints, yPoints, isDefault });
+    onSave({name:categoryName,y_Point: yPoints });
     onClose();
   };
 
@@ -70,9 +61,6 @@ function ManageProductModal({ onClose, onSave }) {
     switch (field) {
       case "categoryName":
         setCategoryName(value);
-        break;
-      case "xPoints":
-        setXPoints(value);
         break;
       case "yPoints":
         setYPoints(value);
@@ -102,19 +90,6 @@ function ManageProductModal({ onClose, onSave }) {
           </p>
         )}
 
-        <label htmlFor="xPoints">Điểm X:</label>
-        <input
-          type="text"
-          id="xPoints"
-          value={xPoints}
-          onChange={(e) => handleInputChange(e, "xPoints")}
-        />
-        {errors.xPoints && (
-          <p className="error-message" style={{ color: "red" }}>
-            {errors.xPoints}
-          </p>
-        )}
-
         <label htmlFor="yPoints">Điểm Y:</label>
         <input
           type="text"
@@ -129,7 +104,7 @@ function ManageProductModal({ onClose, onSave }) {
         )}
 
         {/* Dropdown for selecting default status */}
-        <label htmlFor="isDefault">Mặc định:</label>
+        {/* <label htmlFor="isDefault">Mặc định:</label>
         <select
           id="isDefault"
           value={isDefault}
@@ -137,7 +112,7 @@ function ManageProductModal({ onClose, onSave }) {
         >
           <option value="true">Có</option>
           <option value="false">Không</option>
-        </select>
+        </select> */}
 
         {/* Buttons for closing or saving the modal */}
         <div className="buttons-container">

@@ -3,10 +3,10 @@ import "./configModal.css";
 
 function RankModal({ onClose, onSave }) {
   // State variables for managing form inputs and error handling
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
-  const [score, setScore] = useState("");
-  const [isDefault, setIsDefault] = useState(true);
+  const [rankName, setName] = useState("");
+  const [imageUrl, setImageURL] = useState("");
+  const [image, setImage] = useState(null);
+  const [point, setScore] = useState("");
   const [nameError, setNameError] = useState("");
   const [scoreError, setScoreError] = useState("");
   const [imageError, setImageError] = useState("");
@@ -14,17 +14,17 @@ function RankModal({ onClose, onSave }) {
   // Function to handle saving the rank configuration and closing the modal
   const handleSave = () => {
     // Validate input fields for name, image, and score
-    if (name.trim() === "") {
+    if (rankName.trim() === "") {
       setNameError("Không được để trống!");
       return;
     }
 
-    if (score.trim() === "") {
+    if (point.trim() === "") {
       setScoreError("Không được để trống!");
       return;
     }
 
-    if (image.trim() === "") {
+    if (image === null) {
       setImageError("Không được để trống!");
       return;
     }
@@ -35,7 +35,7 @@ function RankModal({ onClose, onSave }) {
     setImageError("");
 
     // Call onSave with rank details and close the modal
-    onSave({ name, image, score, isDefault });
+    onSave({ rankName, imageUrl,image, point});
     onClose();
   };
 
@@ -46,7 +46,8 @@ function RankModal({ onClose, onSave }) {
       // You may want to perform additional validation for the file type, size, etc.
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        setImageURL(reader.result);
+        setImage(file)
       };
       reader.readAsDataURL(file);
     }
@@ -72,7 +73,7 @@ function RankModal({ onClose, onSave }) {
         <input
           type="text"
           id="name"
-          value={name}
+          value={rankName}
           onChange={(e) => {
             setName(e.target.value);
             setNameError("");
@@ -89,10 +90,14 @@ function RankModal({ onClose, onSave }) {
         <input
           type="text"
           id="score"
-          value={score}
+          value={point}
           onChange={(e) => {
-            setScore(e.target.value);
-            setScoreError("");
+            if (isNaN(e.target.value) || e.target.value.includes(".") || parseFloat(e.target.value) <= 0) {
+              return setScoreError("Vui lòng nhập số dương và không có dấu thập phân.");
+            }else{
+              setScore(e.target.value);
+              setScoreError("");
+            }
           }}
         />
         {scoreError && (

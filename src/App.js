@@ -1,51 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import SideBar from './components/Sidebar';
-import sidebar_menu from './constants/sidebar-menu';
-import './App.css';
-import LoginPage from './pages/LoginPage';
-import RadiusConfigs from './pages/RadiusConfigs';
-import NotificationPreference from './pages/NotificationPreference';
-import PointsConfigs from './pages/PointsConfigs';
-import ManageProductCategories from './pages/ManageProductCategories';
-import UserManagement from './pages/UserManagement';
-import DetailsInformationUser from './pages/DetailsInformation';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./pages/Layout";
+import LoginPage from "./pages/LoginPage";
+import RadiusConfigs from "./pages/RadiusConfigs";
+import NotificationPreference from "./pages/NotificationPreference";
+import PointsConfigs from "./pages/PointsConfigs";
+import ManageProductCategories from "./pages/ManageProductCategories";
+import UserManagement from "./pages/UserManagement";
+import DetailsInformationUser from "./pages/DetailsInformation";
+import RequireAuth from "./hooks/RequireAuth";
+import PersistLogin from "./context/PersistLogin";
 import RankList from './pages/Rank';
-
+const ROLES = {
+  Admin: "Admin",
+};
 function App() {
-  // Assume isLoggedIn is a state variable that determines if the user is logged in
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogout = () => {
-    // Perform any additional logout logic (e.g., clearing user data, redirecting, etc.)
-    setIsLoggedIn(false);
-  };
-
   return (
-    <Router>
-      {/* Conditional rendering based on login status */}
-      {isLoggedIn ? (
-        <div className='dashboard-container'>
-          <SideBar menu={sidebar_menu} onLogout={handleLogout} />
-
-          <div className='dashboard-body'>
-            <Routes>
-              <Route exact path="/radiusConfigs" element={<RadiusConfigs />} />
-              <Route exact path="/notificationPreference" element={<NotificationPreference />} />
-              <Route exact path="/pointsConfigs" element={<PointsConfigs />} />
-              <Route exact path="/manageProductCategories" element={<ManageProductCategories />} />
-              <Route exact path="/userManagement" element={<UserManagement />} />
-              <Route exact path="/detailsInfoUser" element={<DetailsInformationUser />} />
-              <Route exact path="/rank" element={<RankList />} />
-            </Routes>
-          </div>
-        </div>
-      ) : (
-        // Render LoginPage if not logged in
-        <LoginPage onLogin={() => setIsLoggedIn(true)} />
-      )}
-    </Router>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="login" element={<LoginPage />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedRoles={ROLES.Admin} />}>
+            <Route path="/" element={<RadiusConfigs />} />
+            <Route
+              path="/notificationPreference"
+              element={<NotificationPreference />}
+            />
+            <Route path="/pointsConfigs" element={<PointsConfigs />} />
+            <Route
+              path="/manageProductCategories"
+              element={<ManageProductCategories />}
+            />
+            <Route path="/userManagement" element={<UserManagement />} />
+            <Route exact path="/rank" element={<RankList />} />
+            <Route
+              path="/detailsInfoUser"
+              element={<DetailsInformationUser />}
+            />
+          </Route>
+        </Route>
+      </Route>
+    </Routes>
   );
 }
 

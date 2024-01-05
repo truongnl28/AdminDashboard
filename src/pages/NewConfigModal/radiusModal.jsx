@@ -3,14 +3,14 @@ import "./configModal.css";
 
 function RadiusModal({ onClose, onSave }) {
   // State variables for managing form inputs and error handling
-  const [config, setConfig] = useState("");
-  const [isDefault, setIsDefault] = useState(true);
+  const [radius, setRadius] = useState("");
+  // const [isDefault, setIsDefault] = useState(true);
   const [configError, setConfigError] = useState("");
 
   // Function to handle saving the radius configuration and closing the modal
   const handleSave = () => {
     // Validate input field for radius configuration
-    if (config.trim() === "") {
+    if (radius.trim() === "") {
       setConfigError("Không được để trống!");
       return;
     }
@@ -19,7 +19,7 @@ function RadiusModal({ onClose, onSave }) {
     setConfigError("");
 
     // Call onSave with radius details and close the modal
-    onSave({ config, isDefault });
+    onSave({ radius });
     onClose();
   };
 
@@ -34,9 +34,9 @@ function RadiusModal({ onClose, onSave }) {
         <input
           type="text"
           id="config"
-          value={config}
+          value={radius}
           onChange={(e) => {
-            setConfig(e.target.value);
+            setRadius(e.target.value);
             setConfigError("");
           }}
         />
@@ -47,7 +47,7 @@ function RadiusModal({ onClose, onSave }) {
         )}
 
         {/* Dropdown for selecting default status */}
-        <label htmlFor="isDefault">Mặc định:</label>
+        {/* <label htmlFor="isDefault">Mặc định:</label>
         <select
           id="isDefault"
           value={isDefault.toString()}
@@ -55,7 +55,7 @@ function RadiusModal({ onClose, onSave }) {
         >
           <option value="true">Có</option>
           <option value="false">Không</option>
-        </select>
+        </select> */}
 
         {/* Buttons for closing or saving the modal */}
         <div className="buttons-container">

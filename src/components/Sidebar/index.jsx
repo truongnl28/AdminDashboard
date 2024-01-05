@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import SideBarItem from "./sidebar-item";
 
@@ -8,7 +8,7 @@ import LogoutIcon from "../../assets/icons/logout.svg";
 
 function SideBar({ menu, onLogout }) {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const [active, setActive] = useState(1);
 
   useEffect(() => {
@@ -39,7 +39,10 @@ function SideBar({ menu, onLogout }) {
             ))}
           </div>
 
-          <div className="sidebar-footer" onClick={onLogout}>
+          <div className="sidebar-footer" onClick={()=>{
+            navigate('/login');
+            onLogout();
+          }}>
             <span className="sidebar-item-label">Đăng xuất</span>
             <img
               src={LogoutIcon}

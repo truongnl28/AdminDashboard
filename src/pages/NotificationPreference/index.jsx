@@ -1,29 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import NotificationModal from "../NewConfigModal/notificationModal";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFrequency, getFrequency, postFrequency, updateFrequency } from "../../actions/configs";
 
 function NotificationList() {
+  const dispatch = useDispatch();
+  const listAllFrequency = useSelector(
+    (state) => state.listFrequencyReducer.listFrequency
+  );
   // State for managing notification configuration data
-  const [data, setData] = useState([
-    {
-      id: 1,
-      config: "Config 1",
-      isDefault: true,
-      isEditing: false,
-    },
-    {
-      id: 2,
-      config: "Config 2",
-      isDefault: false,
-      isEditing: false,
-    },
-    // Add more rows as needed
-  ]);
+  const [data, setData] = useState([]);
+  const [numberUpdate, setNumberUpdate] = useState(-1);
+  const [numberFrequency, setNumberFrequency] = useState(0);
 
+  useEffect(() => {
+    dispatch(getFrequency());
+  }, [dispatch]);
+  useEffect(() => {
+    if (listAllFrequency) {
+      setData(listAllFrequency);
+    }
+  }, [listAllFrequency]);
   // State for managing modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -34,54 +36,67 @@ function NotificationList() {
   const rowsPerPage = 6;
 
   // Handle edit mode for a notification configuration
-  const handleEdit = (id) => {
-    setData((prevData) =>
-      prevData.map((row) => (row.id === id ? { ...row, isEditing: true } : row))
-    );
+  const handleEdit = (index) => {
+    if (numberUpdate === index) {
+      setNumberUpdate(-1);
+    } else {
+      setNumberUpdate(index);
+      dispatch(getFrequency());
+    }
   };
 
   // Handle saving changes for a notification configuration
-  const handleSave = (id) => {
+  const handleSave = (id, index) => {
     // Get the edited notification configuration
-    const editedConfig = data.find((row) => row.id === id);
+    const editedFrequency = data.find((row) => row.id === id);
 
     // Check if the notification configuration is empty
-    if (editedConfig.config.trim() === "") {
+    if (editedFrequency.frequency === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
     }
 
     // Check for duplicate notification configuration
-    if (isDuplicateConfig(editedConfig.config, id)) {
+    if (isDuplicateFrequency(editedFrequency.frequency, id)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     }
 
     // Update data to exit editing mode
-    setData((prevData) =>
-      prevData.map((row) =>
-        row.id === id ? { ...row, isEditing: false } : row
-      )
-    );
+    if (numberUpdate === index) {
+      setNumberUpdate(-1);
+      if (numberFrequency && data.some((item) => item.frequency !== numberFrequency)) {
+        const NewData = numberFrequency;
+        // console.log("first", NewData);
+        dispatch(updateFrequency(NewData, id));
+      }
+    } else {
+      setNumberUpdate(index);
+    }
   };
 
   // Handle input change for a notification configuration
   const handleInputChange = (id, e) => {
+    if (!/^\d+$/.test(e.target.value) || parseFloat(e.target.value) <= 0) {
+      alert("Không hợp lệ, vui lòng nhập lại.");
+      return;
+    }
+    setNumberFrequency(e.target.value)
     setData((prevData) =>
       prevData.map((row) =>
-        row.id === id ? { ...row, config: e.target.value } : row
+        row.id === id ? { ...row, frequency: e.target.value } : row
       )
     );
   };
 
   // Handle change in the default filter for a notification configuration
-  const handleFilterChange = (id, filter) => {
-    setData((prevData) =>
-      prevData.map((row) =>
-        row.id === id ? { ...row, isDefault: filter === "true" } : row
-      )
-    );
-  };
+  // const handleFilterChange = (id, filter) => {
+  //   setData((prevData) =>
+  //     prevData.map((row) =>
+  //       row.id === id ? { ...row, isDefault: filter === "true" } : row
+  //     )
+  //   );
+  // };
 
   // Handle deletion of a notification configuration
   const handleDelete = (id) => {
@@ -91,6 +106,7 @@ function NotificationList() {
     if (isConfirmed) {
       // Remove the notification configuration from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
+      dispatch(deleteFrequency(id))
     }
   };
 
@@ -105,37 +121,31 @@ function NotificationList() {
   };
 
   // Handle saving changes for a new notification configuration from the modal
-  const handleSaveModal = (newConfig) => {
-    const { config } = newConfig;
+  const handleSaveModal = (newFrequency) => {
+    const { frequency } = newFrequency;
 
     // Check if the new notification configuration is empty
-    if (config.trim() === "") {
+    if (frequency.trim() === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
     }
 
     // Check for duplicate notification configuration in the new notification
-    if (isDuplicateConfig(config, 0)) {
+    if (isDuplicateFrequency(frequency, 0)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
+    }else{
+      dispatch(postFrequency(frequency))
     }
 
-    // Add the new notification configuration to the data
-    setData((prevData) => [
-      ...prevData,
-      {
-        id: prevData.length + 1,
-        ...newConfig,
-        isEditing: false,
-      },
-    ]);
+    
   };
 
   // Check if a notification configuration is a duplicate
-  const isDuplicateConfig = (config, id) => {
+  const isDuplicateFrequency = (frequency, id) => {
     return data.some(
       (row) =>
-        row.config.toLowerCase() === config.toLowerCase() && row.id !== id
+        row.frequency.toString() === frequency && row.id !== id
     );
   };
 
@@ -171,31 +181,36 @@ function NotificationList() {
             <thead>
               <tr>
                 <th>Cấu hình tần suất thông báo</th>
-                <th>Mặc định</th>
+                <th>Tần suất</th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
             </thead>
             <tbody>
               {/* Map and render each notification configuration row */}
-              {sliceData(data, currentPage, rowsPerPage).map((row) => (
+              {sliceData(data, currentPage, rowsPerPage).map((row,index) => (
                 <tr key={row.id}>
                   {/* Render input field for editing or display the notification configuration */}
                   <td>
                     <span>
-                      {row.isEditing ? (
-                        <input
-                          type="text"
-                          value={row.config}
-                          onChange={(e) => handleInputChange(row.id, e)}
-                        />
-                      ) : (
-                        row.config
-                      )}
+                        {row.id}
                     </span>
                   </td>
                   {/* Render dropdown for default filter or display default value */}
                   <td>
+                  <span>
+                      {numberUpdate === index ? (
+                        <input
+                          type="text"
+                          value={row.frequency}
+                          onChange={(e) => handleInputChange(row.id, e)}
+                        />
+                      ) : (
+                        row.frequency
+                      )}
+                    </span>
+                  </td>
+                  {/* <td>
                     <span>
                       {row.isEditing ? (
                         <div className="filter-dropdown">
@@ -215,21 +230,21 @@ function NotificationList() {
                         "Không"
                       )}
                     </span>
-                  </td>
+                  </td> */}
                   {/* Render save or edit icon based on edit mode */}
                   <td>
                     <span>
-                      {row.isEditing ? (
+                      {numberUpdate === index ? (
                         <img
                           src={SaveIcon}
                           alt=""
-                          onClick={() => handleSave(row.id)}
+                          onClick={() => handleSave(row.id,index)}
                         />
                       ) : (
                         <img
                           src={PencilIcon}
                           alt=""
-                          onClick={() => handleEdit(row.id)}
+                          onClick={() => handleEdit(index)}
                         />
                       )}
                     </span>

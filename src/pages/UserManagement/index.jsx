@@ -1,73 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import PencilIcon from "../../assets/icons/pencil.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getShowMember } from "../../actions/member";
 
 function UserList() {
   // Use the navigate function from react-router-dom for navigation
   const navigate = useNavigate();
-
-  // State for managing user data
-  const [data, setData] = useState([
-    {
-      id: 1,
-      avatar: "https://reqres.in/img/faces/1-image.jpg",
-      username: "John Doe",
-      email: "john.doe@example.com",
-      phone: "123-456-7890",
-      status: "Active",
-    },
-    {
-      id: 2,
-      avatar: "https://reqres.in/img/faces/7-image.jpg",
-      username: "Michael Lawson",
-      email: "michael.lawson@example.com",
-      phone: "012-345-6789",
-      status: "Offline",
-    },
-    {
-      id: 3,
-      avatar: "https://reqres.in/img/faces/8-image.jpg",
-      username: "Lindsay Ferguson",
-      email: "lindsay.ferguson@example.com",
-      phone: "456-321-8709",
-      status: "Active",
-    },
-    {
-      id: 4,
-      avatar: "https://reqres.in/img/faces/10-image.jpg",
-      username: "Byron Fields",
-      email: "byron.fields@example.com",
-      phone: "615-087-9234",
-      status: "Offline",
-    },
-    {
-      id: 5,
-      avatar: "https://reqres.in/img/faces/2-image.jpg",
-      username: "George Edwards",
-      email: "george.edwards@example.com",
-      phone: "675-124-3908",
-      status: "Active",
-    },
-    {
-      id: 6,
-      avatar: "https://reqres.in/img/faces/3-image.jpg",
-      username: "George Fields",
-      email: "george.edwards@example.com",
-      phone: "675-124-3908",
-      status: "Active",
-    },
-    {
-      id: 7,
-      avatar: "https://reqres.in/img/faces/5-image.jpg",
-      username: "Edwards Fields",
-      email: "george.edwards@example.com",
-      phone: "675-124-3908",
-      status: "Offline",
-    },
-    // Add more user objects as needed
-  ]);
+  const dispatch = useDispatch();
+  const listAllMember = useSelector((state) => state.listMemberReducer.listMember);
+  const [data, setData] = useState([]);
+  console.log(listAllMember)
+  useEffect(()=>{
+    dispatch(getShowMember())
+  },[dispatch]);
+  useEffect(()=>{
+    if(listAllMember){
+      setData(listAllMember)
+    }
+  },[listAllMember])
+  
 
   // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
@@ -76,11 +30,11 @@ function UserList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Number of rows to display per page
-  const rowsPerPage = 6;
+  const rowsPerPage = 8;
 
   // Filter users based on the search query
-  const filteredUsers = data.filter((user) =>
-    user.username.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredUsers = data?.filter((user) =>
+    user?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
 
   // Get the paginated data for the current page
@@ -132,8 +86,8 @@ function UserList() {
                 <th>Ảnh đại diện</th>
                 <th>Tên người dùng</th>
                 <th>Email</th>
-                <th>Số điện thoại</th>
-                <th>Trạng thái</th>
+                <th style={{"textAlign":"center"}}>Số điện thoại</th>
+                <th style={{"textAlign":"center"}}>Trạng thái</th>
                 <th>Chi tiết</th>
               </tr>
             </thead>
@@ -145,7 +99,7 @@ function UserList() {
                     <span>
                       {/* Display user avatar */}
                       <img
-                        src={user.avatar}
+                        src={user.image??'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU'}
                         className="content-avatar"
                         alt=""
                       />
@@ -153,16 +107,16 @@ function UserList() {
                   </td>
                   {/* Display user information */}
                   <td>
-                    <span>{user.username}</span>
+                    <span>{user.name}</span>
                   </td>
                   <td>
                     <span>{user.email}</span>
                   </td>
-                  <td>
-                    <span>{user.phone}</span>
+                  <td style={{"textAlign":"center"}}>
+                    <span>{user.phoneNumber??"N/A"}</span>
                   </td>
-                  <td>
-                    <span>{user.status}</span>
+                  <td style={{"textAlign":"center"}}>
+                    <span>{user.isDeleted===true?"Offline":"Active"}</span>
                   </td>
                   {/* Display the edit icon for navigating to user details */}
                   <td>

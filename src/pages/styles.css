@@ -224,16 +224,3 @@ span img {
     border-color: #FFFFFF;
     text-transform: uppercase;
 }
-
-.imageRank img {
-    max-width: 50px;
-    height: auto;
-    width: 50%;
-    display: block;
-    margin: 0;
-    transition: transform 0.2s ease-in-out;
-}
-
-.imageRank img:hover {
-    transform: scale(1.9);
-}

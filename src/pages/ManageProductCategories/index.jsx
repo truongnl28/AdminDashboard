@@ -1,40 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import ManageProductModal from "../NewConfigModal/manageProductModal";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCategory, getCategory, postCategory, updateCategory } from "../../actions/category";
 
 function ManageProductList() {
   // State for managing product data
-  const [data, setData] = useState([
-    {
-      id: 1,
-      categoryName: "Category 1",
-      xPoints: "10",
-      yPoints: "20",
-      isDefault: true,
-      isEditing: false,
-    },
-    {
-      id: 2,
-      categoryName: "Category 2",
-      xPoints: "50",
-      yPoints: "30",
-      isDefault: false,
-      isEditing: false,
-    },
-    {
-      id: 3,
-      categoryName: "Category 3",
-      xPoints: "10",
-      yPoints: "10",
-      isDefault: true,
-      isEditing: false,
-    },
-    // Add more rows as needed
-  ]);
+  const dispatch = useDispatch();
+  const listAllCategory = useSelector(
+    (state) => state.listCategoryReducer.listCategory
+  );
+  const [data, setData] = useState([]);
+  const [updateName, setUpdateName] = useState("");
+  const [updatePointY, setPointY] = useState(0);
+  const [numberUpdate, setNumberUpdate] = useState(-1);
+  useEffect(() => {
+    dispatch(getCategory());
+  }, [dispatch]);
+  useEffect(() => {
+    if (listAllCategory) {
+      setData(listAllCategory);
+    }
+  }, [listAllCategory]);
 
   // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,7 +41,7 @@ function ManageProductList() {
 
   // Filter products based on the search query
   const filteredData = data.filter((row) =>
-    row.categoryName.toLowerCase().includes(searchQuery.toLowerCase())
+    row.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Get paginated data and page range based on search results
@@ -63,21 +54,23 @@ function ManageProductList() {
   };
 
   // Handle edit mode for a product
-  const handleEdit = (id) => {
-    setData((prevData) =>
-      prevData.map((row) => (row.id === id ? { ...row, isEditing: true } : row))
-    );
+  const handleEdit = (index) => {
+    if (numberUpdate === index) {
+      setNumberUpdate(-1);
+    } else {
+      setNumberUpdate(index);
+      dispatch(getCategory());
+    }
   };
 
   // Handle saving changes for a product
-  const handleSave = (id) => {
+  const handleSave = (id, index) => {
     // Check if data is invalid (missing values)
     const isDataInvalid = data.some(
       (row) =>
         row.id === id &&
-        (row.categoryName.trim() === "" ||
-          row.xPoints.trim() === "" ||
-          row.yPoints.trim() === "")
+        (row.name.trim() === "" ||
+          row.pointY.toString().trim() === "")
     );
 
     if (isDataInvalid) {
@@ -86,29 +79,44 @@ function ManageProductList() {
     }
 
     // Check for duplicate category name
-    if (isDuplicateName(data.find((row) => row.id === id).categoryName, id)) {
+    if (isDuplicateName(data.find((row) => row.id === id).name, id)) {
       alert("Tên danh mục sản phẩm đã tồn tại. Vui lòng chọn tên khác.");
       return;
     }
 
     // Update data to exit editing mode
-    setData((prevData) =>
-      prevData.map((row) =>
-        row.id === id ? { ...row, isEditing: false } : row
-      )
-    );
+    if (numberUpdate === index) {
+      setNumberUpdate(-1);
+      if (updateName && updatePointY) {
+        const NewData = {
+          name: updateName,
+          y_Point: updatePointY,
+        };
+        // console.log("first", NewData);
+        dispatch(updateCategory(NewData,id));
+      }
+    } else {
+      setNumberUpdate(index);
+    }
   };
 
   // Handle input change for a product field
   const handleInputChange = (id, field, value) => {
-    // Validate numeric fields (xPoints, yPoints)
-    if (field === "xPoints" || field === "yPoints") {
+    // Validate numeric fields (pointX, pointY)
+    if (field === "pointY") {
       if (isNaN(value) || value.includes(".") || parseFloat(value) <= 0) {
         alert("Giá trị không hợp lệ. Vui lòng nhập lại");
         return;
       }
     }
+    const matchingRow = data.find((row) => row.id === id);
 
+    // Use the initial values from the matching row or provide default values if not found
+    const initialName = matchingRow ? matchingRow.name : "Default Name";
+    const initialYPoint = matchingRow ? matchingRow.pointY : 0;
+
+    setUpdateName(field === "name" ? value : initialName);
+    setPointY(field === "pointY" ? value : initialYPoint);
     // Update data with the new value
     setData((prevData) =>
       prevData.map((row) => (row.id === id ? { ...row, [field]: value } : row))
@@ -116,13 +124,13 @@ function ManageProductList() {
   };
 
   // Handle change in the default filter for a product
-  const handleFilterChange = (id, filter) => {
-    setData((prevData) =>
-      prevData.map((row) =>
-        row.id === id ? { ...row, isDefault: filter === "true" } : row
-      )
-    );
-  };
+  // const handleFilterChange = (id, filter) => {
+  //   setData((prevData) =>
+  //     prevData.map((row) =>
+  //       row.id === id ? { ...row, isDefault: filter === "true" } : row
+  //     )
+  //   );
+  // };
 
   // Handle deletion of a product
   const handleDelete = (id) => {
@@ -131,6 +139,8 @@ function ManageProductList() {
     if (isConfirmed) {
       // Remove the product from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
+      dispatch(deleteCategory(id))
+
     }
   };
 
@@ -146,13 +156,9 @@ function ManageProductList() {
 
   // Validate data for a new product
   const validateData = (newConfig) => {
-    const { xPoints, yPoints } = newConfig;
+    const { y_Point } = newConfig;
 
-    if (isNaN(xPoints) || xPoints.includes(".") || parseFloat(xPoints) <= 0) {
-      return "Điểm X không hợp lệ. Vui lòng nhập số dương và không có dấu thập phân.";
-    }
-
-    if (isNaN(yPoints) || yPoints.includes(".") || parseFloat(yPoints) <= 0) {
+    if (isNaN(y_Point) || y_Point.includes(".") || parseFloat(y_Point) <= 0) {
       return "Điểm Y không hợp lệ. Vui lòng nhập số dương và không có dấu thập phân.";
     }
 
@@ -161,19 +167,16 @@ function ManageProductList() {
 
   // Handle saving changes for a new product from the modal
   const handleSaveModal = (newConfig) => {
-    const { categoryName, xPoints, yPoints } = newConfig;
+    const { name, pointY } = newConfig;
+    
 
     // Check for missing values in the new product
-    if (
-      categoryName.trim() === "" ||
-      xPoints.trim() === "" ||
-      yPoints.trim() === ""
-    ) {
+    if (name?.trim() === "" || pointY?.trim() === "") {
       alert("Vui lòng điền đầy đủ thông tin trước khi lưu.");
       return;
     }
 
-    // Validate numeric fields (xPoints, yPoints)
+    // Validate numeric fields (pointX, pointY)
     const validationError = validateData(newConfig);
 
     if (validationError) {
@@ -182,27 +185,18 @@ function ManageProductList() {
     }
 
     // Check for duplicate category name in the new product
-    if (isDuplicateName(categoryName, 0)) {
+    if (isDuplicateName(name, 0)) {
       alert("Tên danh mục sản phẩm đã tồn tại. Vui lòng chọn tên khác.");
       return;
+    }else{
+      dispatch(postCategory(newConfig))
     }
-
-    // Add the new product to the data
-    setData((prevData) => [
-      ...prevData,
-      {
-        id: prevData.length + 1,
-        ...newConfig,
-        isEditing: false,
-      },
-    ]);
   };
 
   // Check if a category name is a duplicate
   const isDuplicateName = (name, id) => {
     return data.some(
-      (row) =>
-        row.categoryName.toLowerCase() === name.toLowerCase() && row.id !== id
+      (row) => row.name.toLowerCase() === name.toLowerCase() && row.id !== id
     );
   };
 
@@ -258,59 +252,45 @@ function ManageProductList() {
             </thead>
             <tbody>
               {/* Map through paginated data to display product rows */}
-              {paginatedData.map((row) => (
+              {paginatedData.map((row, index) => (
                 <tr key={row.id}>
                   {/* Render category name field */}
                   <td>
                     <span>
-                      {row.isEditing ? (
+                      {numberUpdate === index ? (
                         <input
                           type="text"
-                          value={row.categoryName}
+                          value={row.name}
                           onChange={(e) =>
-                            handleInputChange(
-                              row.id,
-                              "categoryName",
-                              e.target.value
-                            )
+                            handleInputChange(row.id, "name", e.target.value)
                           }
                         />
                       ) : (
-                        row.categoryName
+                        row.name
                       )}
                     </span>
                   </td>
 
-                  {/* Render xPoints field */}
+                  {/* Render pointX field */}
                   <td>
                     <span>
-                      {row.isEditing ? (
-                        <input
-                          type="text"
-                          value={row.xPoints}
-                          onChange={(e) =>
-                            handleInputChange(row.id, "xPoints", e.target.value)
-                          }
-                        />
-                      ) : (
-                        row.xPoints
-                      )}
+                        {row.pointX}
                     </span>
                   </td>
 
-                  {/* Render yPoints field */}
+                  {/* Render pointY field */}
                   <td>
                     <span>
-                      {row.isEditing ? (
+                      {numberUpdate === index ? (
                         <input
                           type="text"
-                          value={row.yPoints}
+                          value={row.pointY}
                           onChange={(e) =>
-                            handleInputChange(row.id, "yPoints", e.target.value)
+                            handleInputChange(row.id, "pointY", e.target.value)
                           }
                         />
                       ) : (
-                        row.yPoints
+                        row.pointY
                       )}
                     </span>
                   </td>
@@ -318,7 +298,7 @@ function ManageProductList() {
                   {/* Render isDefault field */}
                   <td>
                     <span>
-                      {row.isEditing ? (
+                      {/* {numberUpdate[index]===true ? (
                         <div className="filter-dropdown">
                           <select
                             value={row.isDefault.toString()}
@@ -332,26 +312,26 @@ function ManageProductList() {
                         </div>
                       ) : row.isDefault ? (
                         "Có"
-                      ) : (
-                        "Không"
-                      )}
+                      ) : ( */}
+                      Không
+                      {/* )} */}
                     </span>
                   </td>
 
                   {/* Render edit or save icon based on edit mode */}
                   <td>
                     <span>
-                      {row.isEditing ? (
+                      {numberUpdate === index ? (
                         <img
                           src={SaveIcon}
                           alt=""
-                          onClick={() => handleSave(row.id)}
+                          onClick={() => handleSave(row.id, index)}
                         />
                       ) : (
                         <img
                           src={PencilIcon}
                           alt=""
-                          onClick={() => handleEdit(row.id)}
+                          onClick={() => handleEdit(index)}
                         />
                       )}
                     </span>
