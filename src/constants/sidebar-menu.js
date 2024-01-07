@@ -4,6 +4,8 @@ import LocationIcon from "../assets/icons/location.svg";
 import PointsIcon from "../assets/icons/points.svg";
 import NotificationIcon from "../assets/icons/notification.svg";
 import BadgeIcon from '../assets/icons/badge.svg';
+import TransactionIcon from '../assets/icons/transaction.svg';
+
 const sidebar_menu = [
   {
     id: 1,
@@ -39,8 +41,14 @@ const sidebar_menu = [
     id: 6,
     icon: BadgeIcon,
     path: '/rank',
-    title: 'Cấp bậc',
-},
+    title: 'Quản lí huy hiệu',
+  },
+  {
+    id: 7,
+    icon: TransactionIcon,
+    path: '/transactionListItem',
+    title: 'Quản lí ',
+  },
 ];
 
 export default sidebar_menu;

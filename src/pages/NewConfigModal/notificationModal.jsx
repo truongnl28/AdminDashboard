@@ -17,7 +17,7 @@ function NotificationModal({ onClose, onSave }) {
 
     // Clear validation error
     setConfigError("");
-    
+
     // Call onSave with notification details and close the modal
     onSave({ frequency });
     onClose();

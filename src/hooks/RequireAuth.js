@@ -6,7 +6,7 @@ const RequireAuth = ({ allowedRoles }) => {
   const storedAuth = localStorage.getItem("auth");
   const initialAuth = storedAuth ? JSON.parse(storedAuth) : {};
   const location = useLocation();
-  const onLogout =()=>{
+  const onLogout = () => {
     localStorage.removeItem('auth');
   }
   return initialAuth?.roles === allowedRoles ? (

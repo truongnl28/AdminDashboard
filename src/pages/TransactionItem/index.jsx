@@ -3,26 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import PencilIcon from "../../assets/icons/pencil.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { getShowMember } from "../../actions/member";
 
-function UserList() {
-  // Use the navigate function from react-router-dom for navigation
+function TransactionList() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const listAllMember = useSelector(
-    (state) => state.listMemberReducer.listMember
-  );
   const [data, setData] = useState([]);
-  console.log(listAllMember);
-  useEffect(() => {
-    dispatch(getShowMember());
-  }, [dispatch]);
-  useEffect(() => {
-    if (listAllMember) {
-      setData(listAllMember);
-    }
-  }, [listAllMember]);
 
   // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,18 +44,16 @@ function UserList() {
     navigate("/detailsInfoUser", { state: { user } });
   };
 
-  // Render the component
   return (
     <div className="content">
       <div className="content-container">
         <div className="content-header">
-          <h2>Danh sách người dùng</h2>
+          <h2>Danh sách lí do hủy</h2>
 
-          {/* Search input for filtering users */}
           <div className="content-search">
             <input
               type="text"
-              placeholder="Tìm kiếm người dùng"
+              placeholder="Tìm kiếm món đồ"
               className="content-input"
               onChange={handleSearch}
               value={searchQuery}
@@ -79,17 +61,14 @@ function UserList() {
           </div>
         </div>
 
-        {/* Render user data table if there are users */}
-        {filteredUsers.length > 0 ? (
+        {data.length > 0 ? (
           <table>
             <thead>
               <tr>
-                <th>Ảnh đại diện</th>
-                <th>Tên người dùng</th>
-                <th>Email</th>
-                <th style={{ textAlign: "center" }}>Số điện thoại</th>
-                <th style={{ textAlign: "center" }}>Trạng thái</th>
-                <th>Chi tiết</th>
+                <th>Email người hủy</th>
+                <th>Món đồ</th>
+                <th>Lí do</th>
+                <th>Chi tiết người dùng</th>
               </tr>
             </thead>
             <tbody>
@@ -97,34 +76,17 @@ function UserList() {
               {paginatedData.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    <span>
-                      {/* Display user avatar */}
-                      <img
-                        src={
-                          user.image ??
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU"
-                        }
-                        className="content-avatar"
-                        alt=""
-                      />
-                    </span>
+                    <span></span>
                   </td>
-                  {/* Display user information */}
+
                   <td>
-                    <span>{user.name}</span>
+                    <span></span>
                   </td>
+
                   <td>
-                    <span>{user.email}</span>
+                    <span></span>
                   </td>
-                  <td style={{ textAlign: "center" }}>
-                    <span>{user.phoneNumber ?? "N/A"}</span>
-                  </td>
-                  <td style={{ textAlign: "center" }}>
-                    <span>
-                      {user.isDeleted === true ? "Offline" : "Active"}
-                    </span>
-                  </td>
-                  {/* Display the edit icon for navigating to user details */}
+
                   <td>
                     <span>
                       <img
@@ -139,11 +101,9 @@ function UserList() {
             </tbody>
           </table>
         ) : (
-          // Display a message when there is no user data
-          <div className="empty-table">Không có dữ liệu</div>
+          <div className="empty-table">Không có dữ liệu!</div>
         )}
 
-        {/* Render pagination buttons if there are users */}
         <div className="content-footer">
           {filteredUsers.length > 0
             ? pageRange.map((page) => (
@@ -164,4 +124,4 @@ function UserList() {
   );
 }
 
-export default UserList;
+export default TransactionList;

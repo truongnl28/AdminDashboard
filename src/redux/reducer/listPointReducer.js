@@ -22,7 +22,7 @@ const listPointReducer = (
         case showPoint.LIST_POINT_FAIL:
             return {
                 ...state,
-                showError:payload.error
+                showError: payload.error
             }
         default:
             return state;

@@ -43,7 +43,7 @@ function ManageProductModal({ onClose, onSave }) {
     });
 
     // Call onSave with product details and close the modal
-    onSave({name:categoryName,y_Point: yPoints });
+    onSave({ name: categoryName, y_Point: yPoints });
     onClose();
   };
 

@@ -9,14 +9,14 @@ export class Private {
     console.log("first", data);
     const axiosPrivate = userAxiosPrivate();
     const formData = new FormData();
-      formData.append("rankName", data.rankName);
-      formData.append("point", data.point);
-      formData.append("imageUrl", data.imageURL, data.imageURL.name);
-      return await axiosPrivate.post(`/Rank`, formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
+    formData.append("rankName", data.rankName);
+    formData.append("point", data.point);
+    formData.append("imageUrl", data.imageURL, data.imageURL.name);
+    return await axiosPrivate.post(`/Rank`, formData, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+    });
   };
   updateRank = async (data, rankId) => {
     const formData = new FormData();

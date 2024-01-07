@@ -177,8 +177,8 @@ span img {
 }
 
 .content-avatar {
-    width: 4em;
-    height: 4em;
+    width: 2.5em;
+    height: 2.5em;
     border-radius: 50%;
     overflow: hidden;
 }
@@ -223,4 +223,11 @@ span img {
     font-weight: 800;
     border-color: #FFFFFF;
     text-transform: uppercase;
+}
+
+.imageRank img {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    overflow: hidden;
 }

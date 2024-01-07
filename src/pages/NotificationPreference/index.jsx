@@ -6,7 +6,12 @@ import PencilIcon from "../../assets/icons/pencil.svg";
 import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteFrequency, getFrequency, postFrequency, updateFrequency } from "../../actions/configs";
+import {
+  deleteFrequency,
+  getFrequency,
+  postFrequency,
+  updateFrequency,
+} from "../../actions/configs";
 
 function NotificationList() {
   const dispatch = useDispatch();
@@ -33,7 +38,7 @@ function NotificationList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Number of rows to display per page
-  const rowsPerPage = 6;
+  const rowsPerPage = 8;
 
   // Handle edit mode for a notification configuration
   const handleEdit = (index) => {
@@ -65,7 +70,10 @@ function NotificationList() {
     // Update data to exit editing mode
     if (numberUpdate === index) {
       setNumberUpdate(-1);
-      if (numberFrequency && data.some((item) => item.frequency !== numberFrequency)) {
+      if (
+        numberFrequency &&
+        data.some((item) => item.frequency !== numberFrequency)
+      ) {
         const NewData = numberFrequency;
         // console.log("first", NewData);
         dispatch(updateFrequency(NewData, id));
@@ -81,7 +89,7 @@ function NotificationList() {
       alert("Không hợp lệ, vui lòng nhập lại.");
       return;
     }
-    setNumberFrequency(e.target.value)
+    setNumberFrequency(e.target.value);
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, frequency: e.target.value } : row
@@ -106,7 +114,7 @@ function NotificationList() {
     if (isConfirmed) {
       // Remove the notification configuration from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
-      dispatch(deleteFrequency(id))
+      dispatch(deleteFrequency(id));
     }
   };
 
@@ -134,18 +142,15 @@ function NotificationList() {
     if (isDuplicateFrequency(frequency, 0)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
-    }else{
-      dispatch(postFrequency(frequency))
+    } else {
+      dispatch(postFrequency(frequency));
     }
-
-    
   };
 
   // Check if a notification configuration is a duplicate
   const isDuplicateFrequency = (frequency, id) => {
     return data.some(
-      (row) =>
-        row.frequency.toString() === frequency && row.id !== id
+      (row) => row.frequency.toString() === frequency && row.id !== id
     );
   };
 
@@ -180,25 +185,23 @@ function NotificationList() {
           <table>
             <thead>
               <tr>
-                <th>Cấu hình tần suất thông báo</th>
-                <th>Tần suất</th>
+                <th>ID</th>
+                <th>Tần suất thông báo</th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
             </thead>
             <tbody>
               {/* Map and render each notification configuration row */}
-              {sliceData(data, currentPage, rowsPerPage).map((row,index) => (
+              {sliceData(data, currentPage, rowsPerPage).map((row, index) => (
                 <tr key={row.id}>
                   {/* Render input field for editing or display the notification configuration */}
                   <td>
-                    <span>
-                        {row.id}
-                    </span>
+                    <span>{row.id}</span>
                   </td>
                   {/* Render dropdown for default filter or display default value */}
                   <td>
-                  <span>
+                    <span>
                       {numberUpdate === index ? (
                         <input
                           type="text"
@@ -238,7 +241,7 @@ function NotificationList() {
                         <img
                           src={SaveIcon}
                           alt=""
-                          onClick={() => handleSave(row.id,index)}
+                          onClick={() => handleSave(row.id, index)}
                         />
                       ) : (
                         <img

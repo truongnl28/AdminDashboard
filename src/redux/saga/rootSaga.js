@@ -14,5 +14,5 @@ export function* rootSaga() {
     frequencySaga.lookupFrequency(),
     pointSaga.lookupPoint(),
     rankSaga.lookupRank(),
-]);
+  ]);
 }

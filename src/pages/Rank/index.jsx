@@ -18,7 +18,7 @@ function RankList() {
   const [numberRank, setNumberRank] = useState(0);
   const [images, setImages] = useState(null);
   const inputRef = useRef();
-  console.log(nameRank,numberRank,images)
+  console.log(nameRank, numberRank, images);
   useEffect(() => {
     dispatch(getRank());
   }, [dispatch]);
@@ -40,7 +40,7 @@ function RankList() {
   };
 
   const handleSaveModal = (newRank) => {
-    const { rankName,image, point } = newRank;
+    const { rankName, image, point } = newRank;
     if (rankName.trim() === "" || point.trim() === "") {
       alert("Vui lòng nhập dữ liệu.");
       return;
@@ -60,13 +60,13 @@ function RankList() {
     if (isDuplicateRank(rankName, 0)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
-    }else{
-      const newData={
-        rankName:rankName,
-        point:point,
-        imageURL:image,
+    } else {
+      const newData = {
+        rankName: rankName,
+        point: point,
+        imageURL: image,
       };
-      dispatch(postRank(newData))
+      dispatch(postRank(newData));
     }
   };
 
@@ -79,11 +79,7 @@ function RankList() {
 
   const handleInputChange = (id, field, value) => {
     if (field === "point") {
-      if (
-        isNaN(value) ||
-        value.includes(".") ||
-        parseFloat(value) <= 0
-      ) {
+      if (isNaN(value) || value.includes(".") || parseFloat(value) <= 0) {
         alert("Giá trị không hợp lệ. Vui lòng nhập lại");
         return;
       }
@@ -93,8 +89,8 @@ function RankList() {
     const initialPoint = matchingRow ? matchingRow.point : 0;
     setNameRank(field === "rankName" ? value : initialName);
     setNumberRank(field === "point" ? value : initialPoint);
-      setData((prevData) =>
-      prevData.map((row) => (row.id === id ? { ...row, [field]: value} : row))
+    setData((prevData) =>
+      prevData.map((row) => (row.id === id ? { ...row, [field]: value } : row))
     );
   };
   const handleAvatar = (event) => {
@@ -122,14 +118,14 @@ function RankList() {
   //   );
   // };
 
-  const handleEdit = (id,index) => {
+  const handleEdit = (id, index) => {
     if (numberUpdate === index) {
       setNumberUpdate(-1);
     } else {
       setNumberUpdate(index);
       dispatch(getRank());
-      setNameRank(data.find((row) => row.id === id).rankName)
-      setNumberRank(data.find((row) => row.id === id).point)
+      setNameRank(data.find((row) => row.id === id).rankName);
+      setNumberRank(data.find((row) => row.id === id).point);
     }
   };
 
@@ -137,8 +133,7 @@ function RankList() {
     const isDataInvalid = data.some(
       (row) =>
         row.id === id &&
-        (row.rankName.trim() === "" || 
-        row.point.toString().trim() === "")
+        (row.rankName.trim() === "" || row.point.toString().trim() === "")
     );
     if (isDataInvalid) {
       alert("Vui lòng nhập dữ liệu.");
@@ -152,14 +147,14 @@ function RankList() {
 
     if (numberUpdate === index) {
       setNumberUpdate(-1);
-      if (nameRank && numberRank ) {
-          const NewData = {
-            rankName: nameRank,
-            point: numberRank,
-            image: images,
-          };
-          console.log(NewData)
-          dispatch(updateRank(NewData, id));
+      if (nameRank && numberRank) {
+        const NewData = {
+          rankName: nameRank,
+          point: numberRank,
+          image: images,
+        };
+        console.log(NewData);
+        dispatch(updateRank(NewData, id));
       }
     } else {
       setNumberUpdate(index);
@@ -183,7 +178,7 @@ function RankList() {
     <div className="content">
       <div className="content-container">
         <div className="content-header">
-          <h2>Cấp bậc</h2>
+          <h2>Danh sách huy hiệu</h2>
           <div className="content-create-btn">
             <button onClick={handleCreate}>Tạo mới</button>
           </div>
@@ -197,8 +192,8 @@ function RankList() {
           <table>
             <thead>
               <tr>
-                <th>Hình ảnh</th>
-                <th>Tên cấp bậc</th>
+                <th>Huy hiệu</th>
+                <th>Tên huy hiệu</th>
                 <th>Điểm</th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
@@ -222,12 +217,10 @@ function RankList() {
                           <input
                             type="file"
                             accept="image/*"
-                            onChange={(e) =>
-                              handleAvatar(e)
-                            }
+                            onChange={(e) => handleAvatar(e)}
                             id="fileInput"
                             style={{
-                              display:"none",
+                              display: "none",
                             }}
                             ref={inputRef}
                           />
@@ -245,7 +238,11 @@ function RankList() {
                           type="text"
                           value={row.rankName}
                           onChange={(e) =>
-                            handleInputChange(row.id, "rankName", e.target.value)
+                            handleInputChange(
+                              row.id,
+                              "rankName",
+                              e.target.value
+                            )
                           }
                         />
                       ) : (
@@ -282,7 +279,7 @@ function RankList() {
                         <img
                           src={PencilIcon}
                           alt=""
-                          onClick={() => handleEdit(row.id,index)}
+                          onClick={() => handleEdit(row.id, index)}
                         />
                       )}
                     </span>

@@ -35,7 +35,7 @@ function RankModal({ onClose, onSave }) {
     setImageError("");
 
     // Call onSave with rank details and close the modal
-    onSave({ rankName, imageUrl,image, point});
+    onSave({ rankName, imageUrl, image, point });
     onClose();
   };
 
@@ -47,7 +47,7 @@ function RankModal({ onClose, onSave }) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageURL(reader.result);
-        setImage(file)
+        setImage(file);
       };
       reader.readAsDataURL(file);
     }
@@ -92,9 +92,15 @@ function RankModal({ onClose, onSave }) {
           id="score"
           value={point}
           onChange={(e) => {
-            if (isNaN(e.target.value) || e.target.value.includes(".") || parseFloat(e.target.value) <= 0) {
-              return setScoreError("Vui lòng nhập số dương và không có dấu thập phân.");
-            }else{
+            if (
+              isNaN(e.target.value) ||
+              e.target.value.includes(".") ||
+              parseFloat(e.target.value) <= 0
+            ) {
+              return setScoreError(
+                "Vui lòng nhập số dương và không có dấu thập phân."
+              );
+            } else {
               setScore(e.target.value);
               setScoreError("");
             }

@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import {showPoint } from "../../../constants/apiConstants";
+import { showPoint } from "../../../constants/apiConstants";
 
 import { pointService } from "../../../services/pointService";
 import { getPoint, getPointFailed, getPointSuccess } from "../../../actions/configs";
@@ -19,9 +19,9 @@ function* getListPoint() {
 
 function* putPoint(payload) {
   try {
-    const response = yield call(pointService.updatePoint,payload.data);
+    const response = yield call(pointService.updatePoint, payload.data);
     const { status } = response;
-    if ( status === 200) {
+    if (status === 200) {
       yield put(getPoint());
     }
   } catch (error) {

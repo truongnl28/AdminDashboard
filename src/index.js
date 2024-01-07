@@ -11,13 +11,13 @@ import NavigateSetter from './context/NavigateSetter.js';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-      <BrowserRouter>
-        <NavigateSetter />
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </BrowserRouter>
-      {/* <ToastContainer /> */}
+    <BrowserRouter>
+      <NavigateSetter />
+      <Routes>
+        <Route path="/*" element={<App />} />
+      </Routes>
+    </BrowserRouter>
+    {/* <ToastContainer /> */}
   </Provider>
 );
 

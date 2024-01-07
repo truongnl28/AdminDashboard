@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import moment from 'moment';
+import moment from "moment";
 import "./detailsPage.css";
 import BackIcon from "../../assets/icons/left-arrow.svg";
 
@@ -44,7 +44,14 @@ function DetailsInformationUser() {
         {/* Body containing user's profile image and information */}
         <div className="profile-body">
           <div className="profile-image">
-            <img src={user.image??'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU'} className="profile-avatar" alt="" />
+            <img
+              src={
+                user.image ??
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU"
+              }
+              className="profile-avatar"
+              alt=""
+            />
           </div>
 
           {/* Information section with labels and read-only input fields */}
@@ -59,23 +66,39 @@ function DetailsInformationUser() {
             </div>
             <div className="">
               <label htmlFor="phone">Số điện thoại</label>
-              <input type="text" value={user.phoneNumber??'N/A'} readOnly />
+              <input type="text" value={user.phoneNumber ?? "N/A"} readOnly />
             </div>
             <div className="">
               <label htmlFor="phoneVerify">Số điện thoại đã xác nhận</label>
-              <input type="text" value={user.phoneNumberConfirmed===true && user.phoneNumber?user.phoneNumber:'N/A'} readOnly />
+              <input
+                type="text"
+                value={
+                  user.phoneNumberConfirmed === true && user.phoneNumber
+                    ? user.phoneNumber
+                    : "N/A"
+                }
+                readOnly
+              />
             </div>
             <div className="">
               <label htmlFor="dateCreateAccount">Ngày tạo tài khoản</label>
-              <input type="text" value={moment(user.createAt).format('DD/MM/YYYY')} readOnly />
+              <input
+                type="text"
+                value={moment(user.createAt).format("DD/MM/YYYY")}
+                readOnly
+              />
             </div>
             <div className="">
               <label htmlFor="status">Trạng thái</label>
-              <input type="text" value={user.isDeleted===true?"Offline":"Active"} readOnly />
+              <input
+                type="text"
+                value={user.isDeleted === true ? "Offline" : "Active"}
+                readOnly
+              />
             </div>
             <div className="">
               <label htmlFor="points">Điểm của người dùng</label>
-              <input type="text" value={user.point?.points??0} readOnly />
+              <input type="text" value={user.point?.points ?? 0} readOnly />
             </div>
           </div>
         </div>

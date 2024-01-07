@@ -10,9 +10,7 @@ import { getPoint, updatePoint } from "../../actions/configs";
 
 function PointsList() {
   const dispatch = useDispatch();
-  const listAllPoint= useSelector(
-    (state) => state.listPointReducer.listPoint
-  );
+  const listAllPoint = useSelector((state) => state.listPointReducer.listPoint);
   // State for managing point configuration data
   const [data, setData] = useState([]);
   const [numberUpdate, setNumberUpdate] = useState(-1);
@@ -33,7 +31,7 @@ function PointsList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Number of rows to display per page
-  const rowsPerPage = 6;
+  const rowsPerPage = 8;
 
   // Handle edit mode for a point configuration
   const handleEdit = (index) => {
@@ -45,7 +43,7 @@ function PointsList() {
   };
 
   // Handle saving changes for a point configuration
-  const handleSave = (id,index) => {
+  const handleSave = (id, index) => {
     // Get the edited point configuration
     const editedPoint = data.find((row) => row.id === id);
 
@@ -64,9 +62,9 @@ function PointsList() {
     // Update data to exit editing mode
     if (numberUpdate === index) {
       setNumberUpdate(-1);
-      console.log(numberPoint)
-      if (numberPoint && data.some((item)=>item.id !== numberPoint)) {
-        const NewData = numberPoint
+      console.log(numberPoint);
+      if (numberPoint && data.some((item) => item.id !== numberPoint)) {
+        const NewData = numberPoint;
         dispatch(updatePoint(NewData));
       }
     } else {
@@ -83,7 +81,7 @@ function PointsList() {
       return;
     }
     // Update data with the new point configuration
-    setNumberPoint(inputValue)
+    setNumberPoint(inputValue);
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, points: inputValue } : row
@@ -150,10 +148,7 @@ function PointsList() {
 
   // Check if a point configuration is a duplicate
   const isDuplicatePoint = (point, id) => {
-    return data.some(
-      (row) =>
-        row.points.toString() === point && row.id !== id
-    );
+    return data.some((row) => row.points.toString() === point && row.id !== id);
   };
 
   // Handle change in the current page for pagination
@@ -184,7 +179,7 @@ function PointsList() {
           <table>
             <thead>
               <tr>
-                <th>id</th>
+                <th>ID</th>
                 <th>Điểm mặc định</th>
                 <th>Chỉnh sửa</th>
                 {/* <th>Xóa</th> */}
@@ -192,16 +187,14 @@ function PointsList() {
             </thead>
             <tbody>
               {/* Map and render each point configuration row */}
-              {sliceData(data, currentPage, rowsPerPage).map((row,index) => (
+              {sliceData(data, currentPage, rowsPerPage).map((row, index) => (
                 <tr key={row.id}>
                   {/* Render input field for editing or display the point configuration */}
                   <td>
-                    <span>
-                        {row.id}
-                    </span>
+                    <span>{row.id}</span>
                   </td>
                   <td>
-                  <span>
+                    <span>
                       {numberUpdate === index ? (
                         <input
                           type="text"
@@ -242,7 +235,7 @@ function PointsList() {
                         <img
                           src={SaveIcon}
                           alt=""
-                          onClick={() => handleSave(row.id,index)}
+                          onClick={() => handleSave(row.id, index)}
                         />
                       ) : (
                         <img

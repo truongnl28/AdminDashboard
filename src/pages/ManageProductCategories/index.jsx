@@ -6,7 +6,12 @@ import PencilIcon from "../../assets/icons/pencil.svg";
 import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCategory, getCategory, postCategory, updateCategory } from "../../actions/category";
+import {
+  deleteCategory,
+  getCategory,
+  postCategory,
+  updateCategory,
+} from "../../actions/category";
 
 function ManageProductList() {
   // State for managing product data
@@ -37,7 +42,7 @@ function ManageProductList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Number of rows to display per page
-  const rowsPerPage = 6;
+  const rowsPerPage = 8;
 
   // Filter products based on the search query
   const filteredData = data.filter((row) =>
@@ -69,8 +74,7 @@ function ManageProductList() {
     const isDataInvalid = data.some(
       (row) =>
         row.id === id &&
-        (row.name.trim() === "" ||
-          row.pointY.toString().trim() === "")
+        (row.name.trim() === "" || row.pointY.toString().trim() === "")
     );
 
     if (isDataInvalid) {
@@ -93,7 +97,7 @@ function ManageProductList() {
           y_Point: updatePointY,
         };
         // console.log("first", NewData);
-        dispatch(updateCategory(NewData,id));
+        dispatch(updateCategory(NewData, id));
       }
     } else {
       setNumberUpdate(index);
@@ -139,8 +143,7 @@ function ManageProductList() {
     if (isConfirmed) {
       // Remove the product from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
-      dispatch(deleteCategory(id))
-
+      dispatch(deleteCategory(id));
     }
   };
 
@@ -168,7 +171,6 @@ function ManageProductList() {
   // Handle saving changes for a new product from the modal
   const handleSaveModal = (newConfig) => {
     const { name, pointY } = newConfig;
-    
 
     // Check for missing values in the new product
     if (name?.trim() === "" || pointY?.trim() === "") {
@@ -188,8 +190,8 @@ function ManageProductList() {
     if (isDuplicateName(name, 0)) {
       alert("Tên danh mục sản phẩm đã tồn tại. Vui lòng chọn tên khác.");
       return;
-    }else{
-      dispatch(postCategory(newConfig))
+    } else {
+      dispatch(postCategory(newConfig));
     }
   };
 
@@ -273,9 +275,7 @@ function ManageProductList() {
 
                   {/* Render pointX field */}
                   <td>
-                    <span>
-                        {row.pointX}
-                    </span>
+                    <span>{row.pointX}</span>
                   </td>
 
                   {/* Render pointY field */}

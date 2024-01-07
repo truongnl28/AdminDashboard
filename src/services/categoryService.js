@@ -7,11 +7,11 @@ export class Private {
   };
   createCategory = async (data) => {
     const axiosPrivate = userAxiosPrivate();
-    return await axiosPrivate.post(`/Category/Post-Category`,data);
+    return await axiosPrivate.post(`/Category/Post-Category`, data);
   };
   updateCategory = async (data, categoryId) => {
     const axiosPrivate = userAxiosPrivate();
-    return await axiosPrivate.put(`/Category/Update-Category?id=${categoryId}`,data);
+    return await axiosPrivate.put(`/Category/Update-Category?id=${categoryId}`, data);
   };
   deleteCategory = async (categoryId) => {
     const axiosPrivate = userAxiosPrivate();

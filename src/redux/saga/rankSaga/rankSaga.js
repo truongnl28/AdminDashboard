@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import {showRank } from "../../../constants/apiConstants";
+import { showRank } from "../../../constants/apiConstants";
 
 import { rankService } from "../../../services/rankService";
 import { getRank, getRankFailed, getRankSuccess } from "../../../actions/rank";
@@ -19,7 +19,7 @@ function* getListRank() {
 
 function* putRank(payload) {
   try {
-    const response = yield call(rankService.updateRank,payload.data,payload.rankId);
+    const response = yield call(rankService.updateRank, payload.data, payload.rankId);
     const { status } = response;
     if (status === 200) {
       yield put(getRank());
@@ -31,7 +31,7 @@ function* putRank(payload) {
 }
 function* deleteRank(payload) {
   try {
-    const response = yield call(rankService.deleteRank,payload.rankId);
+    const response = yield call(rankService.deleteRank, payload.rankId);
     const { status } = response;
     if (status === 200) {
       yield put(getRank());
@@ -43,8 +43,8 @@ function* deleteRank(payload) {
 }
 function* createRank(payload) {
   try {
-    const response = yield call(rankService.createRank,payload.data);
-    const {status} = response;
+    const response = yield call(rankService.createRank, payload.data);
+    const { status } = response;
     if (status === 200) {
       yield put(getRank());
     }

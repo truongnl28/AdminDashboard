@@ -39,10 +39,13 @@ function SideBar({ menu, onLogout }) {
             ))}
           </div>
 
-          <div className="sidebar-footer" onClick={()=>{
-            navigate('/login');
-            onLogout();
-          }}>
+          <div
+            className="sidebar-footer"
+            onClick={() => {
+              navigate("/login");
+              onLogout();
+            }}
+          >
             <span className="sidebar-item-label">Đăng xuất</span>
             <img
               src={LogoutIcon}

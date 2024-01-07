@@ -7,11 +7,11 @@ export const getRadius = () => {
 };
 
 export const postRadius = (data) => {
-    return {
-      type: showRadius.CREATE_RADIUS,
-      data,
-    };
+  return {
+    type: showRadius.CREATE_RADIUS,
+    data,
   };
+};
 
 export const updateRadius = (data, radiusId) => {
   return {
@@ -22,11 +22,11 @@ export const updateRadius = (data, radiusId) => {
 };
 
 export const deleteRadius = (radiusId) => {
-    return {
-      type: showRadius.DELETE_RADIUS,
-      radiusId,
-    };
+  return {
+    type: showRadius.DELETE_RADIUS,
+    radiusId,
   };
+};
 
 export const getRadiusSuccess = (data) => {
   return {
@@ -54,11 +54,11 @@ export const getFrequency = () => {
 };
 
 export const postFrequency = (data) => {
-    return {
-      type: showFrequency.CREATE_FREQUENCY,
-      data,
-    };
+  return {
+    type: showFrequency.CREATE_FREQUENCY,
+    data,
   };
+};
 
 export const updateFrequency = (data, frequencyId) => {
   return {
@@ -69,11 +69,11 @@ export const updateFrequency = (data, frequencyId) => {
 };
 
 export const deleteFrequency = (frequencyId) => {
-    return {
-      type: showFrequency.DELETE_FREQUENCY,
-      frequencyId,
-    };
+  return {
+    type: showFrequency.DELETE_FREQUENCY,
+    frequencyId,
   };
+};
 
 export const getFrequencySuccess = (data) => {
   return {

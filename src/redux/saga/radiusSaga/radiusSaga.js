@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import {showRadius } from "../../../constants/apiConstants";
+import { showRadius } from "../../../constants/apiConstants";
 
 import { radiusService } from "../../../services/radiusService";
 import { getRadius, getRadiusFailed, getRadiusSuccess } from "../../../actions/configs";
@@ -19,7 +19,7 @@ function* getListRadius() {
 
 function* putRadius(payload) {
   try {
-    const response = yield call(radiusService.updateRadius,payload.data,payload.radiusId);
+    const response = yield call(radiusService.updateRadius, payload.data, payload.radiusId);
     const { status, data } = response;
     if (data && status === 200) {
       yield put(getRadius());
@@ -31,7 +31,7 @@ function* putRadius(payload) {
 }
 function* deleteRadius(payload) {
   try {
-    const response = yield call(radiusService.deleteRadius,payload.radiusId);
+    const response = yield call(radiusService.deleteRadius, payload.radiusId);
     const { status, data } = response;
     if (data && status === 200) {
       yield put(getRadius());
@@ -43,8 +43,8 @@ function* deleteRadius(payload) {
 }
 function* createRadius(payload) {
   try {
-    const response = yield call(radiusService.createRadius,payload.data);
-    const { status} = response;
+    const response = yield call(radiusService.createRadius, payload.data);
+    const { status } = response;
     console.log(response)
     if (status === 201) {
       yield put(getRadius());

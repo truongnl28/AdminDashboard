@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import {showFrequency } from "../../../constants/apiConstants";
+import { showFrequency } from "../../../constants/apiConstants";
 
 import { frequencyService } from "../../../services/frequencyService";
 import { getFrequency, getFrequencyFailed, getFrequencySuccess } from "../../../actions/configs";
@@ -19,7 +19,7 @@ function* getListFrequency() {
 
 function* putFrequency(payload) {
   try {
-    const response = yield call(frequencyService.updateFrequency,payload.data,payload.frequencyId);
+    const response = yield call(frequencyService.updateFrequency, payload.data, payload.frequencyId);
     const { status, data } = response;
     if (data && status === 200) {
       yield put(getFrequency());
@@ -31,7 +31,7 @@ function* putFrequency(payload) {
 }
 function* deleteFrequency(payload) {
   try {
-    const response = yield call(frequencyService.deleteFrequency,payload.frequencyId);
+    const response = yield call(frequencyService.deleteFrequency, payload.frequencyId);
     const { status, data } = response;
     if (data && status === 200) {
       yield put(getFrequency());
@@ -43,8 +43,8 @@ function* deleteFrequency(payload) {
 }
 function* createFrequency(payload) {
   try {
-    const response = yield call(frequencyService.createFrequency,payload.data);
-    const { status} = response;
+    const response = yield call(frequencyService.createFrequency, payload.data);
+    const { status } = response;
     console.log(response)
     if (status === 201) {
       yield put(getFrequency());

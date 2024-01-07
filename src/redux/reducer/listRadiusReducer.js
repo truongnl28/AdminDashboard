@@ -22,7 +22,7 @@ const listRadiusReducer = (
         case showRadius.LIST_RADIUS_FAIL:
             return {
                 ...state,
-                showError:payload.error
+                showError: payload.error
             }
         default:
             return state;

@@ -16,8 +16,8 @@ const PersistLogin = () => {
       try {
         await refresh();
       } catch (error) {
-        if(error){
-          navigate('/login');
+        if (error) {
+          navigate("/login");
         }
       } finally {
         setIsLoading(false);

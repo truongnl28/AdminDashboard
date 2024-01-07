@@ -22,7 +22,7 @@ const listMemberReducer = (
         case showMember.LIST_MEMBER_FAIL:
             return {
                 ...state,
-                showError:payload.error
+                showError: payload.error
             }
         default:
             return state;

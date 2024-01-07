@@ -11,6 +11,7 @@ import DetailsInformationUser from "./pages/DetailsInformation";
 import RequireAuth from "./hooks/RequireAuth";
 import PersistLogin from "./context/PersistLogin";
 import RankList from './pages/Rank';
+import TransactionList from './pages/TransactionItem';
 const ROLES = {
   Admin: "Admin",
 };
@@ -33,6 +34,7 @@ function App() {
             />
             <Route path="/userManagement" element={<UserManagement />} />
             <Route exact path="/rank" element={<RankList />} />
+            <Route exact path="/transactionListItem" element={<TransactionList />} />
             <Route
               path="/detailsInfoUser"
               element={<DetailsInformationUser />}

@@ -22,7 +22,7 @@ const listFrequencyReducer = (
         case showFrequency.LIST_FREQUENCY_FAIL:
             return {
                 ...state,
-                showError:payload.error
+                showError: payload.error
             }
         default:
             return state;

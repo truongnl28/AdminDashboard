@@ -19,7 +19,7 @@ function* getListCategory() {
 
 function* putCategory(payload) {
   try {
-    const response = yield call(categoryService.updateCategory,payload.data,payload.categoryId);
+    const response = yield call(categoryService.updateCategory, payload.data, payload.categoryId);
     const { status, data } = response;
     if (data && status === 200) {
       yield put(getCategory());
@@ -31,7 +31,7 @@ function* putCategory(payload) {
 }
 function* deleteCategory(payload) {
   try {
-    const response = yield call(categoryService.deleteCategory,payload.categoryId);
+    const response = yield call(categoryService.deleteCategory, payload.categoryId);
     const { status, data } = response;
     if (data && status === 200) {
       yield put(getCategory());
@@ -43,7 +43,7 @@ function* deleteCategory(payload) {
 }
 function* createCategory(payload) {
   try {
-    const response = yield call(categoryService.createCategory,payload.data);
+    const response = yield call(categoryService.createCategory, payload.data);
     const { status, data } = response;
     if (data && status === 200) {
       yield put(getCategory());

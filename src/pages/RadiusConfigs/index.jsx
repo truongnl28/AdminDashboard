@@ -6,7 +6,12 @@ import PencilIcon from "../../assets/icons/pencil.svg";
 import SaveIcon from "../../assets/icons/save.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteRadius, getRadius, postRadius, updateRadius } from "../../actions/configs";
+import {
+  deleteRadius,
+  getRadius,
+  postRadius,
+  updateRadius,
+} from "../../actions/configs";
 
 function RadiusList() {
   const dispatch = useDispatch();
@@ -32,7 +37,7 @@ function RadiusList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Number of rows to display per page
-  const rowsPerPage = 6;
+  const rowsPerPage = 8;
 
   // Handle edit mode for a radius
   const handleEdit = (index) => {
@@ -45,7 +50,7 @@ function RadiusList() {
   };
 
   // Handle saving changes for a radius
-  const handleSave = (id,index) => {
+  const handleSave = (id, index) => {
     // Get the edited radius iduration
     const editedRadius = data.find((row) => row.id === id);
 
@@ -56,7 +61,7 @@ function RadiusList() {
     }
 
     // Check for duplicate radius
-    if (isDuplicateRadius(editedRadius.radius,id)) {
+    if (isDuplicateRadius(editedRadius.radius, id)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     }
@@ -64,10 +69,10 @@ function RadiusList() {
     // Update data to exit editing mode
     if (numberUpdate === index) {
       setNumberUpdate(-1);
-      if (numberRadius && data.some((item)=>item.radius !== numberRadius)) {
-        const NewData = numberRadius
+      if (numberRadius && data.some((item) => item.radius !== numberRadius)) {
+        const NewData = numberRadius;
         // console.log("first", NewData);
-        dispatch(updateRadius(NewData,id));
+        dispatch(updateRadius(NewData, id));
       }
     } else {
       setNumberUpdate(index);
@@ -80,7 +85,7 @@ function RadiusList() {
       alert("Không hợp lệ, vui lòng nhập lại.");
       return;
     }
-    setNumberRadius(e.target.value)
+    setNumberRadius(e.target.value);
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, radius: e.target.value } : row
@@ -105,7 +110,7 @@ function RadiusList() {
     if (isConfirmed) {
       // Remove the radius from the data
       setData((prevData) => prevData.filter((row) => row.id !== id));
-      dispatch(deleteRadius(id))
+      dispatch(deleteRadius(id));
     }
   };
 
@@ -130,21 +135,18 @@ function RadiusList() {
     }
 
     // Check for duplicate radius iduration in the new radius
-    if (isDuplicateRadius(radius,0)) {
+    if (isDuplicateRadius(radius, 0)) {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
-    }else{
-      dispatch(postRadius(radius))
+    } else {
+      dispatch(postRadius(radius));
     }
-
-    
   };
 
   // Check if a radius iduration is a duplicate
-  const isDuplicateRadius = (radius,id) => {
+  const isDuplicateRadius = (radius, id) => {
     return data.some(
-      (row) =>
-        row.radius.toString() === radius && row.id !== id
+      (row) => row.radius.toString() === radius && row.id !== id
     );
   };
 
@@ -176,26 +178,24 @@ function RadiusList() {
           <table>
             <thead>
               <tr>
-                <th>Cấu hình khoảng cách</th>
-                <th>Bán kính</th>
+                <th>ID</th>
+                <th>Bán kính khoảng cách</th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
             </thead>
             <tbody>
               {/* Map through paginated data to display radius rows */}
-              {sliceData(data, currentPage, rowsPerPage).map((row,index) => (
+              {sliceData(data, currentPage, rowsPerPage).map((row, index) => (
                 <tr key={row.id}>
                   {/* Render radius iduration field */}
                   <td>
-                    <span>
-                        {row.id}
-                    </span>
+                    <span>{row.id}</span>
                   </td>
 
                   {/* Render isDefault field */}
                   <td>
-                  <span>
+                    <span>
                       {numberUpdate === index ? (
                         <input
                           type="text"
@@ -215,7 +215,7 @@ function RadiusList() {
                         <img
                           src={SaveIcon}
                           alt=""
-                          onClick={() => handleSave(row.id,index)}
+                          onClick={() => handleSave(row.id, index)}
                         />
                       ) : (
                         <img

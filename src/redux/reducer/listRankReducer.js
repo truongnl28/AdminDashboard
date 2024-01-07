@@ -22,7 +22,7 @@ const listRankReducer = (
         case showRank.LIST_RANK_FAIL:
             return {
                 ...state,
-                showError:payload.error
+                showError: payload.error
             }
         default:
             return state;

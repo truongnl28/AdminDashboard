@@ -7,11 +7,11 @@ export const getCategory = () => {
 };
 
 export const postCategory = (data) => {
-    return {
-      type: showCategory.CREATE_CATEGORY,
-      data,
-    };
+  return {
+    type: showCategory.CREATE_CATEGORY,
+    data,
   };
+};
 
 export const updateCategory = (data, categoryId) => {
   return {
@@ -22,11 +22,11 @@ export const updateCategory = (data, categoryId) => {
 };
 
 export const deleteCategory = (categoryId) => {
-    return {
-      type: showCategory.DELETE_CATEGORY,
-      categoryId,
-    };
+  return {
+    type: showCategory.DELETE_CATEGORY,
+    categoryId,
   };
+};
 
 export const getCategorySuccess = (data) => {
   return {
