@@ -48,7 +48,7 @@ function TransactionList() {
     <div className="content">
       <div className="content-container">
         <div className="content-header">
-          <h2>Danh sách lí do hủy</h2>
+          <h2>Danh sách lý do hủy</h2>
 
           <div className="content-search">
             <input
@@ -67,7 +67,7 @@ function TransactionList() {
               <tr>
                 <th>Email người hủy</th>
                 <th>Món đồ</th>
-                <th>Lí do</th>
+                <th>Lý do</th>
                 <th>Chi tiết người dùng</th>
               </tr>
             </thead>

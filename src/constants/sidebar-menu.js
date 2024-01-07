@@ -29,7 +29,7 @@ const sidebar_menu = [
     id: 4,
     icon: ShippingIcon,
     path: "/manageProductCategories",
-    title: "Quản lí danh mục sản phẩm",
+    title: "Quản lý danh mục sản phẩm",
   },
   {
     id: 5,
@@ -41,13 +41,13 @@ const sidebar_menu = [
     id: 6,
     icon: BadgeIcon,
     path: '/rank',
-    title: 'Quản lí huy hiệu',
+    title: 'Quản lý huy hiệu',
   },
   {
     id: 7,
     icon: TransactionIcon,
     path: '/transactionListItem',
-    title: 'Quản lí ',
+    title: 'Danh sách lý do hủy',
   },
 ];
 
