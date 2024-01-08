@@ -116,12 +116,12 @@ function UserList() {
                   </td>
                   <td style={{ textAlign: "center" }}>
                     <span>
-                      {user.isDeleted === true ? "No active" : "Active"}
+                      {user.isDeleted === true ? "Not active" : "Active"}
                     </span>
                   </td>
                   {/* Display the edit icon for navigating to user details */}
                   <td>
-                    <Link to={`/${user.id}`}>
+                    <Link to={`/user:${user.id}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>
                   </td>

@@ -96,7 +96,7 @@ function TransactionList() {
                   </td>
 
                   <td>
-                    <Link to={`/${user.id}`}>
+                    <Link to={`/transaction:${user?.item?.giver?.id}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>
                   </td>

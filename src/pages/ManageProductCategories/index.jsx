@@ -247,7 +247,6 @@ function ManageProductList() {
                 <th>Tên danh mục sản phẩm</th>
                 <th>Điểm X</th>
                 <th>Điểm Y</th>
-                <th>Mặc định</th>
                 <th>Thao tác</th>
                 <th>Xóa</th>
               </tr>
@@ -292,29 +291,6 @@ function ManageProductList() {
                       ) : (
                         row.pointY
                       )}
-                    </span>
-                  </td>
-
-                  {/* Render isDefault field */}
-                  <td>
-                    <span>
-                      {/* {numberUpdate[index]===true ? (
-                        <div className="filter-dropdown">
-                          <select
-                            value={row.isDefault.toString()}
-                            onChange={(e) =>
-                              handleFilterChange(row.id, e.target.value)
-                            }
-                          >
-                            <option value="true">Có</option>
-                            <option value="false">Không</option>
-                          </select>
-                        </div>
-                      ) : row.isDefault ? (
-                        "Có"
-                      ) : ( */}
-                      Không
-                      {/* )} */}
                     </span>
                   </td>
 

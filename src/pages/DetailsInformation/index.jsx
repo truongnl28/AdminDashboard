@@ -11,24 +11,28 @@ function DetailsInformationUser() {
   const detailMember = useSelector(
     (state) => state.detailMemberReducer.detailMember
   );
+
   // Access location and navigate from React Router
   const [user, setUser] = useState(undefined);
   const { userId } = useParams();
+  const userIdChange = userId.split(":");
   const navigate = useNavigate();
   useEffect(() => {
-    if (userId) {
-      dispatch(getDetailMember(userId));
-    }
+    dispatch(getDetailMember(userId.split(":")[1]));
   }, [dispatch, userId]);
   useEffect(() => {
-    if (userId === detailMember?.id) {
+    if (userIdChange[1] === detailMember?.id) {
       setUser(detailMember);
     }
-  }, [detailMember, userId]);
+  }, [detailMember, userIdChange]);
 
   // Navigate back to the user management page
   const handleExit = () => {
-    navigate("/userManagement");
+    if (userIdChange[0] === "user") {
+      navigate("/userManagement");
+    } else {
+      navigate("/transactionListItem");
+    }
   };
 
   // Handle the logic for deleting the user account (to be implemented)
