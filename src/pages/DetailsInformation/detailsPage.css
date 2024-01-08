@@ -143,3 +143,23 @@ h2 {
     border: 1px solid #f44336;
     background-color: #F0F2F5;
 }
+
+.restore-btn {
+    padding: 0.8em;
+    padding-left: 2em;
+    padding-right: 2em;
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    border: 1px solid #36f45f;
+    background-color: #36f45f;
+}
+
+.restore-btn:hover {
+    color: #36f45f;
+    border: 1px solid #36f45f;
+    background-color: #F0F2F5;
+}

@@ -147,9 +147,9 @@ function PointsList() {
   // };
 
   // Check if a point configuration is a duplicate
-  const isDuplicatePoint = (point, id) => {
-    return data.some((row) => row.points.toString() === point && row.id !== id);
-  };
+  // const isDuplicatePoint = (point, id) => {
+  //   return data.some((row) => row.points.toString() === point && row.id !== id);
+  // };
 
   // Handle change in the current page for pagination
   const handlePageChange = (page) => {

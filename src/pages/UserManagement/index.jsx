@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import PencilIcon from "../../assets/icons/pencil.svg";
@@ -8,7 +8,7 @@ import { getShowMember } from "../../actions/member";
 
 function UserList() {
   // Use the navigate function from react-router-dom for navigation
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const listAllMember = useSelector(
     (state) => state.listMemberReducer.listMember
@@ -53,11 +53,6 @@ function UserList() {
   // Handle page change in pagination
   const handleChangePage = (page) => {
     setCurrentPage(page);
-  };
-
-  // Handle user details navigation
-  const handleChange = (user) => {
-    navigate("/detailsInfoUser", { state: { user } });
   };
 
   // Render the component
@@ -121,18 +116,14 @@ function UserList() {
                   </td>
                   <td style={{ textAlign: "center" }}>
                     <span>
-                      {user.isDeleted === true ? "Offline" : "Active"}
+                      {user.isDeleted === true ? "No active" : "Active"}
                     </span>
                   </td>
                   {/* Display the edit icon for navigating to user details */}
                   <td>
-                    <span>
-                      <img
-                        src={PencilIcon}
-                        alt=""
-                        onClick={() => handleChange(user)}
-                      />
-                    </span>
+                    <Link to={`/${user.id}`}>
+                      <img src={PencilIcon} alt="" />
+                    </Link>
                   </td>
                 </tr>
               ))}

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import PencilIcon from "../../assets/icons/pencil.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getTransaction } from "../../actions/transaction";
 
 function TransactionList() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const listAllTransaction = useSelector(
+    (state) => state.listTransactionReducer.listTransaction
+  );
   const [data, setData] = useState([]);
-
   // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -16,10 +20,17 @@ function TransactionList() {
 
   // Number of rows to display per page
   const rowsPerPage = 8;
-
+  useEffect(() => {
+    dispatch(getTransaction());
+  }, [dispatch]);
+  useEffect(() => {
+    if (listAllTransaction) {
+      setData(listAllTransaction);
+    }
+  }, [listAllTransaction]);
   // Filter users based on the search query
   const filteredUsers = data?.filter((user) =>
-    user?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
+    user?.item?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
 
   // Get the paginated data for the current page
@@ -40,9 +51,6 @@ function TransactionList() {
   };
 
   // Handle user details navigation
-  const handleChange = (user) => {
-    navigate("/detailsInfoUser", { state: { user } });
-  };
 
   return (
     <div className="content">
@@ -61,7 +69,7 @@ function TransactionList() {
           </div>
         </div>
 
-        {data.length > 0 ? (
+        {filteredUsers.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -76,25 +84,21 @@ function TransactionList() {
               {paginatedData.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    <span></span>
+                    <span>{user.item?.giver?.email}</span>
                   </td>
 
                   <td>
-                    <span></span>
+                    <span>{user.item.name}</span>
                   </td>
 
                   <td>
-                    <span></span>
+                    <span>{user.reasonDescription}</span>
                   </td>
 
                   <td>
-                    <span>
-                      <img
-                        src={PencilIcon}
-                        alt=""
-                        onClick={() => handleChange(user)}
-                      />
-                    </span>
+                    <Link to={`/${user.id}`}>
+                      <img src={PencilIcon} alt="" />
+                    </Link>
                   </td>
                 </tr>
               ))}

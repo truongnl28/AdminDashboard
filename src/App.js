@@ -36,7 +36,7 @@ function App() {
             <Route exact path="/rank" element={<RankList />} />
             <Route exact path="/transactionListItem" element={<TransactionList />} />
             <Route
-              path="/detailsInfoUser"
+              path="/:userId"
               element={<DetailsInformationUser />}
             />
           </Route>

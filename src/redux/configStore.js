@@ -8,6 +8,8 @@ import listRadiusReducer from './reducer/listRadiusReducer';
 import listFrequencyReducer from './reducer/listFrequencyReducer';
 import listPointReducer from './reducer/listPointReducer';
 import listRankReducer from './reducer/listRankReducer';
+import listTransactionReducer from './reducer/listTransactionReducer';
+import detailMemberReducer from './reducer/detailMemberReducer';
 const middleSaga = createMiddleWareSaga();
 const allReducer = combineReducers({
   listMemberReducer,
@@ -16,6 +18,8 @@ const allReducer = combineReducers({
   listFrequencyReducer,
   listPointReducer,
   listRankReducer,
+  listTransactionReducer,
+  detailMemberReducer,
 });
 
 const store = configureStore({

@@ -1,20 +1,30 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import "./detailsPage.css";
 import BackIcon from "../../assets/icons/left-arrow.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteMember, getDetailMember } from "../../actions/member";
 
 function DetailsInformationUser() {
+  const dispatch = useDispatch();
+  const detailMember = useSelector(
+    (state) => state.detailMemberReducer.detailMember
+  );
   // Access location and navigate from React Router
-  const location = useLocation();
-  const { user } = location.state || {};
+  const [user, setUser] = useState(undefined);
+  const { userId } = useParams();
   const navigate = useNavigate();
-
-  // Redirect to the user management page if user data is not available
-  if (!user) {
-    navigate("/userManagement");
-    return null;
-  }
+  useEffect(() => {
+    if (userId) {
+      dispatch(getDetailMember(userId));
+    }
+  }, [dispatch, userId]);
+  useEffect(() => {
+    if (userId === detailMember?.id) {
+      setUser(detailMember);
+    }
+  }, [detailMember, userId]);
 
   // Navigate back to the user management page
   const handleExit = () => {
@@ -22,8 +32,21 @@ function DetailsInformationUser() {
   };
 
   // Handle the logic for deleting the user account (to be implemented)
-  const handleDelete = () => {
-    // Implement the logic for deleting the user account
+  const handleDelete = (id) => {
+    // Confirm deletion with the user
+    const isConfirmed = window.confirm(
+      `Bạn có chắc muốn ${
+        user?.isDeleted === true ? "khôi phục" : "xóa"
+      } không?`
+    );
+
+    if (isConfirmed) {
+      const data = {
+        isDelete: user?.isDeleted === true ? false : true,
+        userId: id,
+      };
+      dispatch(deleteMember(data));
+    }
   };
 
   // Render the detailed user information
@@ -46,7 +69,7 @@ function DetailsInformationUser() {
           <div className="profile-image">
             <img
               src={
-                user.image ??
+                user?.image ??
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU"
               }
               className="profile-avatar"
@@ -58,23 +81,31 @@ function DetailsInformationUser() {
           <div className="profile-info">
             <div className="">
               <label htmlFor="username">Tên người dùng</label>
-              <input type="text" value={user.name} readOnly />
+              <input
+                type="text"
+                value={user?.name ?? "Không có tên"}
+                readOnly
+              />
             </div>
             <div className="">
               <label htmlFor="email">Email</label>
-              <input type="text" value={user.email} readOnly />
+              <input
+                type="text"
+                value={user?.email ?? "Không có email"}
+                readOnly
+              />
             </div>
             <div className="">
               <label htmlFor="phone">Số điện thoại</label>
-              <input type="text" value={user.phoneNumber ?? "N/A"} readOnly />
+              <input type="text" value={user?.phoneNumber ?? "N/A"} readOnly />
             </div>
             <div className="">
               <label htmlFor="phoneVerify">Số điện thoại đã xác nhận</label>
               <input
                 type="text"
                 value={
-                  user.phoneNumberConfirmed === true && user.phoneNumber
-                    ? user.phoneNumber
+                  user?.phoneNumberConfirmed === true && user?.phoneNumber
+                    ? user?.phoneNumber
                     : "N/A"
                 }
                 readOnly
@@ -84,7 +115,7 @@ function DetailsInformationUser() {
               <label htmlFor="dateCreateAccount">Ngày tạo tài khoản</label>
               <input
                 type="text"
-                value={moment(user.createAt).format("DD/MM/YYYY")}
+                value={moment(user?.createAt).format("DD/MM/YYYY")}
                 readOnly
               />
             </div>
@@ -92,21 +123,28 @@ function DetailsInformationUser() {
               <label htmlFor="status">Trạng thái</label>
               <input
                 type="text"
-                value={user.isDeleted === true ? "Offline" : "Active"}
+                value={user?.isDeleted === true ? "Not active" : "Active"}
                 readOnly
               />
             </div>
             <div className="">
               <label htmlFor="points">Điểm của người dùng</label>
-              <input type="text" value={user.point?.points ?? 0} readOnly />
+              <input type="text" value={user?.point?.points ?? 0} readOnly />
             </div>
           </div>
         </div>
 
         {/* Button for deleting the user account */}
         <div className="btn">
-          <button className="delete-btn" type="delete" onClick={handleDelete}>
-            Xóa tài khoản người dùng
+          <button
+            className={`${
+              user?.isDeleted === true ? "restore-btn" : "delete-btn"
+            }`}
+            onClick={() => handleDelete(user?.id)}
+          >
+            {user?.isDeleted === true
+              ? "Khôi phục tài khoản người dùng"
+              : "Xóa tài khoản người dùng"}
           </button>
         </div>
       </div>

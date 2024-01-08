@@ -1,7 +1,14 @@
 export const showMember = {
   LIST_MEMBER: "list_member",
+  DELETE_MEMBER: "delete_member",
   LIST_MEMBER_SUCCESS: "list_member_success",
   LIST_MEMBER_FAIL: "list_member_fail",
+};
+
+export const detailMember = {
+  DETAIL_MEMBER: "detail_member",
+  DETAIL_MEMBER_SUCCESS: "detail_member_success",
+  DETAIL_MEMBER_FAIL: "detail_member_fail",
 };
 
 export const showCategory = {
@@ -47,4 +54,10 @@ export const showRank = {
   DELETE_RANK: "delete_rank",
   LIST_RANK_SUCCESS: "list_rank_success",
   LIST_RANK_FAIL: "list_rank_fail",
+};
+
+export const showTransaction = {
+  LIST_TRANSACTION: "list_transaction",
+  LIST_TRANSACTION_SUCCESS: "list_transaction_success",
+  LIST_TRANSACTION_FAIL: "list_transaction_fail",
 };
