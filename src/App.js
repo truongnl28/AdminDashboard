@@ -12,6 +12,13 @@ import RequireAuth from "./hooks/RequireAuth";
 import PersistLogin from "./context/PersistLogin";
 import RankList from './pages/Rank';
 import TransactionList from './pages/TransactionItem';
+import ItemsList from "./pages/ListOfItems";
+import ReviewList from "./pages/ReviewList";
+import DetailProduct from "./pages/DetailProduct";
+import DetailedInformationReceived from "./pages/DetailedInformationReceived";
+import PointExchange from "./pages/PointExchangeOrder";
+import DetailPointExchange from "./pages/DetailPointExchange";
+
 const ROLES = {
   Admin: "Admin",
 };
@@ -35,6 +42,12 @@ function App() {
             <Route path="/userManagement" element={<UserManagement />} />
             <Route exact path="/rank" element={<RankList />} />
             <Route exact path="/transactionListItem" element={<TransactionList />} />
+            <Route exact path="/listOfItems" element={<ItemsList />} />
+            <Route exact path="/reviewList" element={<ReviewList />} />
+            <Route exact path="/detailOfProduct" element={<DetailProduct />} />
+            <Route exact path="/detailedInformationReceived" element={<DetailedInformationReceived />} />
+            <Route exact path="/pointExchange" element={<PointExchange />} />
+            <Route exact path="/detailPointExchange" element={<DetailPointExchange />} />
             <Route
               path="/:userId"
               element={<DetailsInformationUser />}

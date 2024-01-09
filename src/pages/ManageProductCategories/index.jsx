@@ -247,7 +247,7 @@ function ManageProductList() {
                 <th>Tên danh mục sản phẩm</th>
                 <th>Điểm X</th>
                 <th>Điểm Y</th>
-                <th>Thao tác</th>
+                <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
             </thead>

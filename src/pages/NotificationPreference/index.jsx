@@ -186,7 +186,7 @@ function NotificationList() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Tần suất thông báo</th>
+                <th>Tần suất thông báo (tiếng)</th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>

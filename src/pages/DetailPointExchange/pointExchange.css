@@ -1,0 +1,84 @@
+.detailPoint {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.detailPoint-container {
+    margin: 1em;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow: auto;
+    /* flex: 1; */
+}
+
+.detailPoint-header {
+    display: flex;
+    align-items: center;
+}
+
+.back-btn {
+    width: 30px;
+    height: 35px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+h2 {
+    margin: 0;
+    font-size: xx-large;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.detailPoint-row {
+    display: flex;
+    gap: 25px;
+}
+
+.detailPoint-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.detailPoint-image {
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.detailPoint-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.refundPoints {
+    padding: 0.8em;
+    padding-left: 2em;
+    padding-right: 2em;
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    border: 1px solid #f44336;
+    background-color: #f44336;
+}
+
+.refundPoints:hover {
+    color: #f44336;
+    border: 1px solid #f44336;
+    background-color: #F0F2F5;
+}

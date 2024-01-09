@@ -49,6 +49,18 @@ const sidebar_menu = [
     path: '/transactionListItem',
     title: 'Danh sách lý do hủy',
   },
+  {
+    id: 8,
+    icon: TransactionIcon,
+    path: '/listOfItems',
+    title: 'Danh sách món đồ',
+  },
+  {
+    id: 9,
+    icon: TransactionIcon,
+    path: '/pointExchange',
+    title: 'Lệnh trao đổi điểm',
+  },
 ];
 
 export default sidebar_menu;

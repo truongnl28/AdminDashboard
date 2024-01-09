@@ -135,6 +135,10 @@ function DetailsInformationUser() {
               <label htmlFor="points">Điểm của người dùng</label>
               <input type="text" value={user?.point?.points ?? 0} readOnly />
             </div>
+            <div className="">
+              <label htmlFor="">Danh sách đánh giá</label>
+              <button>Chi tiết</button>
+            </div>
           </div>
         </div>
 

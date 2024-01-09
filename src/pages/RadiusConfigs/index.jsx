@@ -179,7 +179,7 @@ function RadiusList() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Bán kính khoảng cách</th>
+                <th>Bán kính khoảng cách (km)</th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
