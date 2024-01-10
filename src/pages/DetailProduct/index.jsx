@@ -7,51 +7,51 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteMember, getDetailMember } from "../../actions/member";
 
 function DetailProduct() {
-//   const dispatch = useDispatch();
-//   const detailMember = useSelector(
-//     (state) => state.detailMemberReducer.detailMember
-//   );
+  //   const dispatch = useDispatch();
+  //   const detailMember = useSelector(
+  //     (state) => state.detailMemberReducer.detailMember
+  //   );
 
-//   // Access location and navigate from React Router
-//   const [user, setUser] = useState(undefined);
-//   const { userId } = useParams();
-//   const userIdChange = userId.split(":");
-//   const navigate = useNavigate();
-//   useEffect(() => {
-//     dispatch(getDetailMember(userId.split(":")[1]));
-//   }, [dispatch, userId]);
-//   useEffect(() => {
-//     if (userIdChange[1] === detailMember?.id) {
-//       setUser(detailMember);
-//     }
-//   }, [detailMember, userIdChange]);
+  //   // Access location and navigate from React Router
+  //   const [user, setUser] = useState(undefined);
+  //   const { userId } = useParams();
+  //   const userIdChange = userId.split(":");
+  //   const navigate = useNavigate();
+  //   useEffect(() => {
+  //     dispatch(getDetailMember(userId.split(":")[1]));
+  //   }, [dispatch, userId]);
+  //   useEffect(() => {
+  //     if (userIdChange[1] === detailMember?.id) {
+  //       setUser(detailMember);
+  //     }
+  //   }, [detailMember, userIdChange]);
 
-//   // Navigate back to the user management page
-//   const handleExit = () => {
-//     if (userIdChange[0] === "user") {
-//       navigate("/userManagement");
-//     } else {
-//       navigate("/transactionListItem");
-//     }
-//   };
+  //   // Navigate back to the user management page
+  //   const handleExit = () => {
+  //     if (userIdChange[0] === "user") {
+  //       navigate("/userManagement");
+  //     } else {
+  //       navigate("/transactionListItem");
+  //     }
+  //   };
 
-//   // Handle the logic for deleting the user account (to be implemented)
-//   const handleDelete = (id) => {
-//     // Confirm deletion with the user
-//     const isConfirmed = window.confirm(
-//       `Bạn có chắc muốn ${
-//         user?.isDeleted === true ? "khôi phục" : "xóa"
-//       } không?`
-//     );
+  //   // Handle the logic for deleting the user account (to be implemented)
+  //   const handleDelete = (id) => {
+  //     // Confirm deletion with the user
+  //     const isConfirmed = window.confirm(
+  //       `Bạn có chắc muốn ${
+  //         user?.isDeleted === true ? "khôi phục" : "xóa"
+  //       } không?`
+  //     );
 
-//     if (isConfirmed) {
-//       const data = {
-//         isDelete: user?.isDeleted === true ? false : true,
-//         userId: id,
-//       };
-//       dispatch(deleteMember(data));
-//     }
-//   };
+  //     if (isConfirmed) {
+  //       const data = {
+  //         isDelete: user?.isDeleted === true ? false : true,
+  //         userId: id,
+  //       };
+  //       dispatch(deleteMember(data));
+  //     }
+  //   };
 
   // Render the detailed user information
   return (
@@ -163,14 +163,12 @@ function DetailProduct() {
               <label htmlFor="">Địa chỉ</label>
               {/* <input type="text" value={user?.point?.points ?? 0} readOnly /> */}
             </div>
-            <div className="">
+            <div className="button-container">
               <label htmlFor="">Danh sách người đăng ký nhận</label>
-              <button>Chi tiết</button>
+              <button className="profile-btn-details">Chi tiết</button>
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   );

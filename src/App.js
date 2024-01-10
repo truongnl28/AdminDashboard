@@ -42,12 +42,16 @@ function App() {
             <Route path="/userManagement" element={<UserManagement />} />
             <Route exact path="/rank" element={<RankList />} />
             <Route exact path="/transactionListItem" element={<TransactionList />} />
+
             <Route exact path="/listOfItems" element={<ItemsList />} />
-            <Route exact path="/reviewList" element={<ReviewList />} />
             <Route exact path="/detailOfProduct" element={<DetailProduct />} />
             <Route exact path="/detailedInformationReceived" element={<DetailedInformationReceived />} />
+
             <Route exact path="/pointExchange" element={<PointExchange />} />
             <Route exact path="/detailPointExchange" element={<DetailPointExchange />} />
+
+            <Route exact path="/reviewList" element={<ReviewList />} />
+
             <Route
               path="/:userId"
               element={<DetailsInformationUser />}

@@ -163,3 +163,28 @@ h2 {
     border: 1px solid #36f45f;
     background-color: #F0F2F5;
 }
+
+.button-container {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-btn-details {
+    margin-left: 20px;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    color: #FFFFFF;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    border: 1px solid #015C92;
+    background-color: #015C92;
+}
+
+.profile-btn-details:hover {
+    color: #015C92;
+    border: 1px solid #015C92;
+    background-color: #F0F2F5;
+}

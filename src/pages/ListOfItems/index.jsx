@@ -72,7 +72,7 @@ function ItemsList() {
         <div className="content-header">
           <h2>Danh sách món đồ</h2>
 
-          <div className="">
+          <div className="filter-dropdown">
             <select>
               <option value="">Đang đợi</option>
               <option value="">Đã xác nhận</option>
