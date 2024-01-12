@@ -14,6 +14,7 @@ function DetailsInformationUser() {
 
   // Access location and navigate from React Router
   const [user, setUser] = useState(undefined);
+  console.log(user)
   const { userId } = useParams();
   const userIdChange = userId.split(":");
   const navigate = useNavigate();
@@ -30,10 +31,15 @@ function DetailsInformationUser() {
   const handleExit = () => {
     if (userIdChange[0] === "user") {
       navigate("/userManagement");
-    } else {
+    } else if(userIdChange[0] ==="transaction") {
       navigate("/transactionListItem");
+    }else if(userIdChange[0]==="item"){
+      navigate(`/detailedInformationReceived/${userIdChange[2]}`)
     }
   };
+  const handleReview = (item)=>{
+    navigate(`/reviewList/${item.id}`,{ state: { item,userId } })
+  }
 
   // Handle the logic for deleting the user account (to be implemented)
   const handleDelete = (id) => {
@@ -100,6 +106,10 @@ function DetailsInformationUser() {
               />
             </div>
             <div className="">
+              <label htmlFor="phone">Địa chỉ</label>
+              <input type="text" value={user?.location?.address ?? "N/A"} readOnly />
+            </div>
+            <div className="">
               <label htmlFor="phone">Số điện thoại</label>
               <input type="text" value={user?.phoneNumber ?? "N/A"} readOnly />
             </div>
@@ -108,9 +118,8 @@ function DetailsInformationUser() {
               <input
                 type="text"
                 value={
-                  user?.phoneNumberConfirmed === true && user?.phoneNumber
-                    ? user?.phoneNumber
-                    : "N/A"
+                  user?.phoneNumberConfirmed === true ? "Đã xác nhận"
+                    : "Chưa xác nhận"
                 }
                 readOnly
               />
@@ -137,7 +146,7 @@ function DetailsInformationUser() {
             </div>
             <div className="button-container">
               <label htmlFor="">Danh sách đánh giá</label>
-              <button className="profile-btn-details">Chi tiết</button>
+              <button className="profile-btn-details" onClick={()=>handleReview(user)}>Chi tiết</button>
             </div>
           </div>
         </div>

@@ -7,11 +7,15 @@ export class Private {
   };
   createRadius = async (data) => {
     const axiosPrivate = userAxiosPrivate();
-    return await axiosPrivate.post(`/RadiusConfigs?radius=${data}`,);
+    return await axiosPrivate.post(`/RadiusConfigs?radius=${data.radius}&isDefault=${data.isDefault}`);
   };
   updateRadius = async (data, radiusId) => {
     const axiosPrivate = userAxiosPrivate();
-    return await axiosPrivate.put(`/RadiusConfigs/update-radius?id=${radiusId}&radius=${data}`);
+    if(data?.isDefault){
+      return await axiosPrivate.put(`/RadiusConfigs/update-radius?id=${radiusId}&radius=${data.radius}&isDefault=${data.isDefault}`);
+    }else{
+      return await axiosPrivate.put(`/RadiusConfigs/update-radius?id=${radiusId}&radius=${data.radius}`);
+    }
   };
   deleteRadius = async (radiusId) => {
     const axiosPrivate = userAxiosPrivate();

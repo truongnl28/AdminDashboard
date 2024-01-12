@@ -4,25 +4,25 @@ import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { getShowMember } from "../../actions/member";
+import { getTransactionPoint } from "../../actions/transaction";
 
 function PointExchange() {
   // Use the navigate function from react-router-dom for navigation
   // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const listAllMember = useSelector(
-    (state) => state.listMemberReducer.listMember
+  const listAllTransactionPoint = useSelector(
+    (state) => state.listTransactionPointReducer.listTransactionPoint
   );
   const [data, setData] = useState([]);
-  console.log(listAllMember);
+  console.log(listAllTransactionPoint);
   useEffect(() => {
-    dispatch(getShowMember());
+    dispatch(getTransactionPoint());
   }, [dispatch]);
   useEffect(() => {
-    if (listAllMember) {
-      setData(listAllMember);
+    if (listAllTransactionPoint) {
+      setData(listAllTransactionPoint);
     }
-  }, [listAllMember]);
+  }, [listAllTransactionPoint]);
 
   // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,7 +35,7 @@ function PointExchange() {
 
   // Filter users based on the search query
   const filteredUsers = data?.filter((user) =>
-    user?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
+    user?.item?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
 
   // Get the paginated data for the current page
@@ -93,37 +93,38 @@ function PointExchange() {
               {paginatedData.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    <span>
+                    <span style={{ display: "flex", justifyItems: "center" }}>
                       {/* Display user avatar */}
                       <img
                         src={
-                          user.image ??
+                          user?.item?.images[0]?.imageUrl ??
                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU"
                         }
                         className="content-avatar"
                         alt=""
                       />
+                      <p style={{ marginLeft: "10px" }}>{user?.item?.name}</p>
                     </span>
                   </td>
                   {/* Display user information */}
                   <td>
-                    <span></span>
+                    <span>{user?.item?.category?.name}</span>
                   </td>
                   <td>
-                    <span></span>
+                    <span>{user?.points}</span>
                   </td>
                   <td>
-                    <span></span>
+                    <span>{user?.type === "GIVE" ? "Đưa cho" : "Nhận"}</span>
                   </td>
                   <td>
-                    <span></span>
+                    <span>{user?.item?.giver?.name}</span>
                   </td>
                   <td>
-                    <span></span>
+                    <span>{user?.item?.receiver?.name}</span>
                   </td>
                   {/* Display the edit icon for navigating to user details */}
                   <td>
-                    <Link to={`/user:${user.id}`}>
+                    <Link to={`/detailPointExchange/${user.id}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>
                   </td>

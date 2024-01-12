@@ -9,7 +9,12 @@ import listFrequencyReducer from './reducer/listFrequencyReducer';
 import listPointReducer from './reducer/listPointReducer';
 import listRankReducer from './reducer/listRankReducer';
 import listTransactionReducer from './reducer/listTransactionReducer';
+import listTransactionPointReducer from './reducer/listTransactionPointReducer';
+import listItemReducer from './reducer/listItemReducer';
+import listItemRegisterReducer from './reducer/listItemRegisterReducer';
 import detailMemberReducer from './reducer/detailMemberReducer';
+import detailItemReducer from './reducer/detailItemReducer';
+import detailTransactionPointReducer from './reducer/detailTransactionPointReducer';
 const middleSaga = createMiddleWareSaga();
 const allReducer = combineReducers({
   listMemberReducer,
@@ -19,7 +24,12 @@ const allReducer = combineReducers({
   listPointReducer,
   listRankReducer,
   listTransactionReducer,
+  listTransactionPointReducer,
+  listItemReducer,
+  listItemRegisterReducer,
   detailMemberReducer,
+  detailItemReducer,
+  detailTransactionPointReducer,
 });
 
 const store = configureStore({

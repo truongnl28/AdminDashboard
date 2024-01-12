@@ -6,6 +6,7 @@ import * as frequencySaga from "./frequencySaga/frequencySaga";
 import * as pointSaga from "./pointSaga/pointSaga";
 import * as rankSaga from "./rankSaga/rankSaga";
 import * as transactionSaga from "./transactionSaga/transactionSaga";
+import * as itemSaga from "./itemSaga/itemSaga";
 
 export function* rootSaga() {
   yield all([
@@ -16,5 +17,6 @@ export function* rootSaga() {
     pointSaga.lookupPoint(),
     rankSaga.lookupRank(),
     transactionSaga.lookupTransaction(),
+    itemSaga.lookupItem(),
   ]);
 }

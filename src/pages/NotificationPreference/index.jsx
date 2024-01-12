@@ -22,7 +22,7 @@ function NotificationList() {
   const [data, setData] = useState([]);
   const [numberUpdate, setNumberUpdate] = useState(-1);
   const [numberFrequency, setNumberFrequency] = useState(0);
-
+  const [isDefault, setIsDefault] = useState(undefined);
   useEffect(() => {
     dispatch(getFrequency());
   }, [dispatch]);
@@ -69,15 +69,15 @@ function NotificationList() {
 
     // Update data to exit editing mode
     if (numberUpdate === index) {
-      setNumberUpdate(-1);
-      if (
-        numberFrequency &&
-        data.some((item) => item.frequency !== numberFrequency)
-      ) {
-        const NewData = numberFrequency;
-        // console.log("first", NewData);
+      if (numberFrequency ){
+        const NewData = {
+          frequency: numberFrequency,
+          isDefault:isDefault,
+        };
+        console.log("first", NewData);
         dispatch(updateFrequency(NewData, id));
       }
+      setNumberUpdate(-1);
     } else {
       setNumberUpdate(index);
     }
@@ -98,13 +98,16 @@ function NotificationList() {
   };
 
   // Handle change in the default filter for a notification configuration
-  // const handleFilterChange = (id, filter) => {
-  //   setData((prevData) =>
-  //     prevData.map((row) =>
-  //       row.id === id ? { ...row, isDefault: filter === "true" } : row
-  //     )
-  //   );
-  // };
+  const handleFilterChange = (id, filter) => {
+    const matchingRow = data.find((row) => row.id === id);
+    const initialIsDefault = matchingRow ? matchingRow.isDefault : undefined;
+    setIsDefault(filter?filter:initialIsDefault);
+    setData((prevData) =>
+      prevData.map((row) =>
+        row.id === id ? { ...row, isDefault: filter === "true" } : row
+      )
+    );
+  };
 
   // Handle deletion of a notification configuration
   const handleDelete = (id) => {
@@ -143,7 +146,7 @@ function NotificationList() {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     } else {
-      dispatch(postFrequency(frequency));
+      dispatch(postFrequency(newFrequency));
     }
   };
 
@@ -187,6 +190,7 @@ function NotificationList() {
               <tr>
                 <th>ID</th>
                 <th>Tần suất thông báo (tiếng)</th>
+                <th>Mặc định</th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
@@ -213,9 +217,9 @@ function NotificationList() {
                       )}
                     </span>
                   </td>
-                  {/* <td>
+                  <td>
                     <span>
-                      {row.isEditing ? (
+                      {numberUpdate === index ? (
                         <div className="filter-dropdown">
                           <select
                             value={row.isDefault.toString()}
@@ -233,7 +237,7 @@ function NotificationList() {
                         "Không"
                       )}
                     </span>
-                  </td> */}
+                  </td>
                   {/* Render save or edit icon based on edit mode */}
                   <td>
                     <span>

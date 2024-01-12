@@ -22,6 +22,8 @@ function RadiusList() {
   const [data, setData] = useState([]);
   const [numberUpdate, setNumberUpdate] = useState(-1);
   const [numberRadius, setNumberRadius] = useState(0);
+  const [isDefault, setIsDefault] = useState(undefined);
+  console.log(isDefault)
   useEffect(() => {
     dispatch(getRadius());
   }, [dispatch]);
@@ -69,8 +71,11 @@ function RadiusList() {
     // Update data to exit editing mode
     if (numberUpdate === index) {
       setNumberUpdate(-1);
-      if (numberRadius && data.some((item) => item.radius !== numberRadius)) {
-        const NewData = numberRadius;
+      if (numberRadius) {
+        const NewData ={
+          radius:numberRadius,
+          isDefault:isDefault,
+        } ;
         // console.log("first", NewData);
         dispatch(updateRadius(NewData, id));
       }
@@ -94,13 +99,16 @@ function RadiusList() {
   };
 
   // Handle change in the default filter for a radius
-  // const handleFilterChange = (id, filter) => {
-  //   setData((prevData) =>
-  //     prevData.map((row) =>
-  //       row.id === id ? { ...row, isDefault: filter === "true" } : row
-  //     )
-  //   );
-  // };
+  const handleFilterChange = (id, filter) => {
+    const matchingRow = data.find((row) => row.id === id);
+    const initialIsDefault = matchingRow ? matchingRow.isDefault : undefined;
+    setIsDefault(filter?filter:initialIsDefault);
+    setData((prevData) =>
+      prevData.map((row) =>
+        row.id === id ? { ...row, isDefault: filter === "true" } : row
+      )
+    );
+  };
 
   // Handle deletion of a radius
   const handleDelete = (id) => {
@@ -139,7 +147,7 @@ function RadiusList() {
       alert("Dữ liệu đã tồn tại. Vui lòng chọn dữ liệu khác.");
       return;
     } else {
-      dispatch(postRadius(radius));
+      dispatch(postRadius(newRadius));
     }
   };
 
@@ -180,6 +188,7 @@ function RadiusList() {
               <tr>
                 <th>ID</th>
                 <th>Bán kính khoảng cách (km)</th>
+                <th>Mặc định</th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
@@ -192,7 +201,6 @@ function RadiusList() {
                   <td>
                     <span>{row.id}</span>
                   </td>
-
                   {/* Render isDefault field */}
                   <td>
                     <span>
@@ -204,6 +212,27 @@ function RadiusList() {
                         />
                       ) : (
                         row.radius
+                      )}
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      {numberUpdate === index ? (
+                        <div className="filter-dropdown">
+                          <select
+                            value={row.isDefault.toString()}
+                            onChange={(e) =>
+                              handleFilterChange(row.id, e.target.value)
+                            }
+                          >
+                            <option value="true">Có</option>
+                            <option value="false">Không</option>
+                          </select>
+                        </div>
+                      ) : row.isDefault ? (
+                        "Có"
+                      ) : (
+                        "Không"
                       )}
                     </span>
                   </td>

@@ -11,6 +11,18 @@ export const detailMember = {
   DETAIL_MEMBER_FAIL: "detail_member_fail",
 };
 
+export const detailItem = {
+  DETAIL_ITEM: "detail_item",
+  DETAIL_ITEM_SUCCESS: "detail_item_success",
+  DETAIL_ITEM_FAIL: "detail_item_fail",
+};
+
+export const detailTransactionPoint = {
+  DETAIL_POINT: "detail_point",
+  DETAIL_POINT_SUCCESS: "detail_point_success",
+  DETAIL_POINT_FAIL: "detail_point_fail",
+};
+
 export const showCategory = {
   LIST_CATEGORY: "list_category",
   CREATE_CATEGORY: "create_category",
@@ -56,8 +68,27 @@ export const showRank = {
   LIST_RANK_FAIL: "list_rank_fail",
 };
 
+export const showItem = {
+  LIST_ITEM: "list_item",
+  DELETE_ITEM: "delete_item",
+  LIST_ITEM_SUCCESS: "list_item_success",
+  LIST_ITEM_FAIL: "list_item_fail",
+};
+
+export const showItemRegister = {
+  LIST_ITEM_REGISTER: "list_item_register",
+  LIST_ITEM_REGISTER_SUCCESS: "list_item_register_success",
+  LIST_ITEM_REGISTER_FAIL: "list_item_register_fail",
+};
+
 export const showTransaction = {
   LIST_TRANSACTION: "list_transaction",
   LIST_TRANSACTION_SUCCESS: "list_transaction_success",
   LIST_TRANSACTION_FAIL: "list_transaction_fail",
+};
+
+export const showTransactionPoint = {
+  LIST_TRANSACTION_POINT: "list_transaction_point",
+  LIST_TRANSACTION_POINT_SUCCESS: "list_transaction_point_success",
+  LIST_TRANSACTION_POINT_FAIL: "list_transaction_point_fail",
 };

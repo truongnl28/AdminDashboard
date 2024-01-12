@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import BackIcon from "../../assets/icons/left-arrow.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { getShowMember } from "../../actions/member";
+import { getItemRegister } from "../../actions/item";
 
 function DetailedInformationReceived() {
   // Use the navigate function from react-router-dom for navigation
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {itemId} = useParams();
+  console.log(itemId)
   const listAllMember = useSelector(
-    (state) => state.listMemberReducer.listMember
+    (state) => state.listItemRegisterReducer.listItemRegister
   );
   const [data, setData] = useState([]);
   console.log(listAllMember);
   useEffect(() => {
-    dispatch(getShowMember());
-  }, [dispatch]);
+    dispatch(getItemRegister(itemId));
+  }, [dispatch, itemId]);
   useEffect(() => {
     if (listAllMember) {
       setData(listAllMember);
@@ -56,7 +58,9 @@ function DetailedInformationReceived() {
     setCurrentPage(page);
   };
 
-  const handleExit = () => {};
+  const handleExit = () => {
+    navigate(`/detailOfProduct/${itemId}`)
+  };
 
   // Render the component
   return (
@@ -130,7 +134,7 @@ function DetailedInformationReceived() {
                   </td>
                   {/* Display the edit icon for navigating to user details */}
                   <td>
-                    <Link to={`/user:${user.id}`}>
+                    <Link to={`/item:${user.id}:${itemId}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>
                   </td>

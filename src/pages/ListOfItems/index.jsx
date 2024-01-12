@@ -5,29 +5,32 @@ import "../styles.css";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import TrashIcon from "../../assets/icons/trash.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { getShowMember } from "../../actions/member";
-
+import { deleteItem, getItem } from "../../actions/item";
+export const styleStatus = {
+  PENDING: "Đang đợi",
+  APPROVED: "Đã xác nhận",
+  COMPLETED: "Hoàn thành",
+  CANCELLED: "Đã hủy",
+};
 function ItemsList() {
   // Use the navigate function from react-router-dom for navigation
   // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const listAllMember = useSelector(
-    (state) => state.listMemberReducer.listMember
-  );
+  const listAllItem = useSelector((state) => state.listItemReducer.listItem);
   const [data, setData] = useState([]);
-  console.log(listAllMember);
+  console.log(listAllItem);
   useEffect(() => {
-    dispatch(getShowMember());
+    dispatch(getItem());
   }, [dispatch]);
   useEffect(() => {
-    if (listAllMember) {
-      setData(listAllMember);
+    if (listAllItem) {
+      setData(listAllItem);
     }
-  }, [listAllMember]);
+  }, [listAllItem]);
 
   // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [selectedStatus, setSelectedStatus] = useState("");
   // State for managing current page in pagination
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -35,8 +38,10 @@ function ItemsList() {
   const rowsPerPage = 8;
 
   // Filter users based on the search query
-  const filteredUsers = data?.filter((user) =>
-    user?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
+  const filteredUsers = data?.filter(
+    (user) =>
+      user?.name?.toLowerCase().includes(searchQuery?.toLowerCase()) &&
+      (selectedStatus ? user?.status === selectedStatus : true)
   );
 
   // Get the paginated data for the current page
@@ -60,7 +65,7 @@ function ItemsList() {
     const isConfirmed = window.confirm("Bạn có chắc muốn xóa không?");
 
     if (isConfirmed) {
-    //   dispatch(deleteRank(id));
+        dispatch(deleteItem(id));
       setData((prevData) => prevData.filter((row) => row.id !== id));
     }
   };
@@ -73,11 +78,16 @@ function ItemsList() {
           <h2>Danh sách món đồ</h2>
 
           <div className="filter-dropdown">
-            <select>
-              <option value="">Đang đợi</option>
-              <option value="">Đã xác nhận</option>
-              <option value="">Hoàn thành</option>
-              <option value="">Đã hủy</option>
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+            >
+              <option value="">Tất cả</option>
+              {Object.keys(styleStatus).map((status) => (
+                <option key={status} value={status}>
+                  {styleStatus[status]}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -85,7 +95,7 @@ function ItemsList() {
           <div className="content-search">
             <input
               type="text"
-              placeholder="Tìm kiếm người dùng"
+              placeholder="Tìm kiếm món đồ"
               className="content-input"
               onChange={handleSearch}
               value={searchQuery}
@@ -110,22 +120,29 @@ function ItemsList() {
               {paginatedData.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    <span></span>
+                    <img
+                      src={
+                        user?.images[0]?.imageUrl ??
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU"
+                      }
+                      className="content-avatar"
+                      alt=""
+                    />
                   </td>
                   <td>
-                    <span></span>
+                    <span>{user?.name}</span>
                   </td>
                   <td>
-                    <span></span>
+                    <span>{user?.category?.name}</span>
                   </td>
                   <td>
-                    <span></span>
+                    <span>{user?.point}</span>
                   </td>
                   <td>
-                    <span></span>
+                    <span>{styleStatus[user?.status]}</span>
                   </td>
                   <td>
-                    <Link to={`/user:${user.id}`}>
+                    <Link to={`/detailOfProduct/${user.id}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>
                   </td>
@@ -134,7 +151,7 @@ function ItemsList() {
                       <img
                         src={TrashIcon}
                         alt=""
-                        // onClick={() => handleDelete(row.id)}
+                        onClick={() => handleDelete(user.id)}
                       />
                     </span>
                   </td>

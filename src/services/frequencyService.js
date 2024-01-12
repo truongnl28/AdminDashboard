@@ -7,11 +7,15 @@ export class Private {
   };
   createFrequency = async (data) => {
     const axiosPrivate = userAxiosPrivate();
-    return await axiosPrivate.post(`/FrequencyConfigs?frequency=${data}`,);
+    return await axiosPrivate.post(`/FrequencyConfigs?frequency=${data.frequency}&isDefault=${data.isDefault}`,);
   };
   updateFrequency = async (data, frequencyId) => {
     const axiosPrivate = userAxiosPrivate();
-    return await axiosPrivate.put(`/FrequencyConfigs/update-frequency?id=${frequencyId}&frequency=${data}`);
+    if(data?.isDefault){
+      return await axiosPrivate.put(`/FrequencyConfigs/update-frequency?id=${frequencyId}&frequency=${data.frequency}&isDefault=${data?.isDefault}`);
+    }else{
+      return await axiosPrivate.put(`/FrequencyConfigs/update-frequency?id=${frequencyId}&frequency=${data.frequency}`);
+    }
   };
   deleteFrequency = async (frequencyId) => {
     const axiosPrivate = userAxiosPrivate();

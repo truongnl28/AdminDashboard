@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 import "../styles.css";
 import BackIcon from "../../assets/icons/left-arrow.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { getShowMember } from "../../actions/member";
 
 function ReviewList() {
   // Use the navigate function from react-router-dom for navigation
   // const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const listAllMember = useSelector(
-    (state) => state.listMemberReducer.listMember
-  );
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { item,userId } = state;
+  const userIdChange = userId.split(":");
+  console.log(userId)
   const [data, setData] = useState([]);
-  console.log(listAllMember);
+  console.log(item?.feedbacksGiver);
   useEffect(() => {
-    dispatch(getShowMember());
-  }, [dispatch]);
-  useEffect(() => {
-    if (listAllMember) {
-      setData(listAllMember);
+    if (item) {
+      setData(item?.feedbacksGiver);
     }
-  }, [listAllMember]);
+  }, [item]);
 
   // State for managing search query
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,7 +31,7 @@ function ReviewList() {
 
   // Filter users based on the search query
   const filteredUsers = data?.filter((user) =>
-    user?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
+    user?.receiver?.name?.toLowerCase().includes(searchQuery?.toLowerCase())
   );
 
   // Get the paginated data for the current page
@@ -55,7 +51,9 @@ function ReviewList() {
     setCurrentPage(page);
   };
 
-  const handleExit = () => {};
+  const handleExit = () => {
+    return  navigate(`/${userId}`);
+  };
 
   // Render the component
   return (
@@ -66,7 +64,7 @@ function ReviewList() {
             src={BackIcon}
             className="back-btn"
             alt=""
-            onClick={handleExit}
+            onClick={()=>handleExit()}
           />
           <h2>Danh sách đánh giá</h2>
 
@@ -90,7 +88,7 @@ function ReviewList() {
                 <th>Ảnh đại diện người đánh giá</th>
                 <th>Tên người đánh giá</th>
                 <th>Lời đánh giá</th>
-                <th>Sao đánh giá</th>
+                <th style={{textAlign: 'center'}}>Sao đánh giá</th>
               </tr>
             </thead>
             <tbody>
@@ -102,7 +100,7 @@ function ReviewList() {
                       {/* Display user avatar */}
                       <img
                         src={
-                          user.image ??
+                          user?.receiver?.image ??
                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU"
                         }
                         className="content-avatar"
@@ -112,13 +110,13 @@ function ReviewList() {
                   </td>
                   {/* Display user information */}
                   <td>
-                    <span>{user.name}</span>
+                    <span>{user?.receiver?.name}</span>
                   </td>
                   <td>
-                    <span>{user.email}</span>
+                    <span>{user?.content}</span>
                   </td>
-                  <td>
-                    <span>{user.email}</span>
+                  <td style={{textAlign: 'center'}}>
+                    <span>{user?.rating}</span>
                   </td>
                 </tr>
               ))}
