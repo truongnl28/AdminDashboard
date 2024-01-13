@@ -65,7 +65,7 @@ function ItemsList() {
     const isConfirmed = window.confirm("Bạn có chắc muốn xóa không?");
 
     if (isConfirmed) {
-        dispatch(deleteItem(id));
+      dispatch(deleteItem(id));
       setData((prevData) => prevData.filter((row) => row.id !== id));
     }
   };
@@ -139,7 +139,23 @@ function ItemsList() {
                     <span>{user?.point}</span>
                   </td>
                   <td>
-                    <span>{styleStatus[user?.status]}</span>
+                    <span
+                      style={{
+                        color: `${
+                          user?.status === "PENDING"
+                            ? "#3498db"
+                            : user?.status === "APPROVED"
+                            ? "#2ecc71"
+                            : user?.status === "COMPLETED"
+                            ? "#f39c12"
+                            : user?.status === "CANCELLED"
+                            ? "#e74c3c"
+                            : "black"
+                        }`,
+                      }}
+                    >
+                      {styleStatus[user?.status]}
+                    </span>
                   </td>
                   <td>
                     <Link to={`/detailOfProduct/${user.id}`}>

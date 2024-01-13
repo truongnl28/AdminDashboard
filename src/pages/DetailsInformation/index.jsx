@@ -46,7 +46,7 @@ function DetailsInformationUser() {
     // Confirm deletion with the user
     const isConfirmed = window.confirm(
       `Bạn có chắc muốn ${
-        user?.isDeleted === true ? "khôi phục" : "xóa"
+        user?.isDeleted === true ? "khôi phục" : "khóa"
       } không?`
     );
 
@@ -135,6 +135,7 @@ function DetailsInformationUser() {
             <div className="">
               <label htmlFor="status">Trạng thái</label>
               <input
+                style={{color:`${user?.isDeleted === true ?"red":"green"}`}}
                 type="text"
                 value={user?.isDeleted === true ? "Not active" : "Active"}
                 readOnly
@@ -161,7 +162,7 @@ function DetailsInformationUser() {
           >
             {user?.isDeleted === true
               ? "Khôi phục tài khoản người dùng"
-              : "Xóa tài khoản người dùng"}
+              : "Khóa tài khoản người dùng"}
           </button>
         </div>
       </div>

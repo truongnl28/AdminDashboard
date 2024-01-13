@@ -114,8 +114,10 @@ function UserList() {
                   <td style={{ textAlign: "center" }}>
                     <span>{user.phoneNumber ?? "N/A"}</span>
                   </td>
-                  <td style={{ textAlign: "center" }}>
-                    <span>
+                  <td style={{ textAlign: "center",color:`${user?.isDeleted === true ?"red":"green"}` }}>
+                    <span 
+                    style={{color:`${user?.isDeleted === true ?"red":"green"}` }}
+                    >
                       {user.isDeleted === true ? "Not active" : "Active"}
                     </span>
                   </td>

@@ -82,7 +82,8 @@ function DetailPointExchange() {
                 <label htmlFor="">Số điểm thay đổi</label>
                 <input
                   type="text"
-                  value={item?.changePointMemberGiver ?? 0}
+                  style={{color:`${item?.changePointMemberGiver<0?"black":"green"}`}}
+                  value={`+${item?.changePointMemberGiver ?? 0}`}
                   readOnly
                 />
               </div>

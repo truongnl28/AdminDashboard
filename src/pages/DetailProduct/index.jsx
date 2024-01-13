@@ -110,6 +110,7 @@ function DetailProduct() {
             <div className="">
               <label htmlFor="status">Trạng thái của chủ sở hữu</label>
               <input
+                style={{color:`${user?.giver?.isDeleted === true ?"red":"blue"}`}}
                 type="text"
                 value={user?.giver?.isDeleted === true ? "Not active" : "Active"}
                 readOnly

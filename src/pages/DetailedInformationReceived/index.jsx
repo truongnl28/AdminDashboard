@@ -128,7 +128,9 @@ function DetailedInformationReceived() {
                     <span>{user.phoneNumber ?? "N/A"}</span>
                   </td>
                   <td style={{ textAlign: "center" }}>
-                    <span>
+                    <span
+                    style={{color:`${user?.isDeleted === true ?"red":"blue"}` }}
+                    >
                       {user.isDeleted === true ? "Not active" : "Active"}
                     </span>
                   </td>
