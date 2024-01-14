@@ -3,6 +3,7 @@ import { showRank } from "../../../constants/apiConstants";
 
 import { rankService } from "../../../services/rankService";
 import { getRank, getRankFailed, getRankSuccess } from "../../../actions/rank";
+import { showSuccessAlert } from "../../../constants/chooseToastify";
 
 function* getListRank() {
   try {
@@ -23,6 +24,8 @@ function* putRank(payload) {
     const { status } = response;
     if (status === 200) {
       yield put(getRank());
+      showSuccessAlert('Cập nhật thành công')
+
     }
   } catch (error) {
     const msg = error.message;
@@ -35,6 +38,8 @@ function* deleteRank(payload) {
     const { status } = response;
     if (status === 200) {
       yield put(getRank());
+      showSuccessAlert('Xóa thành công')
+
     }
   } catch (error) {
     const msg = error.message;
@@ -47,6 +52,8 @@ function* createRank(payload) {
     const { status } = response;
     if (status === 200) {
       yield put(getRank());
+      showSuccessAlert('Tạo mới thành công')
+
     }
   } catch (error) {
     const msg = error.message;

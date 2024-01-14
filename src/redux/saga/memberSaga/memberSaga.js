@@ -8,6 +8,7 @@ import {
   getShowMemberFailed,
   getShowMemberSuccess,
 } from "../../../actions/member";
+import { showSuccessAlert } from "../../../constants/chooseToastify";
 
 function* getMember() {
   try {
@@ -28,6 +29,7 @@ function* deleteMember(payload) {
     const { status } = response;
     if (status === 200) {
       yield put(getDetailMember(payload.data.userId));
+      showSuccessAlert('Xóa thành công')
     }
   } catch (error) {
     const msg = error.message;

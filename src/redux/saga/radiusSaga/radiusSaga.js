@@ -3,6 +3,7 @@ import { showRadius } from "../../../constants/apiConstants";
 
 import { radiusService } from "../../../services/radiusService";
 import { getRadius, getRadiusFailed, getRadiusSuccess } from "../../../actions/configs";
+import { showSuccessAlert } from "../../../constants/chooseToastify";
 
 function* getListRadius() {
   try {
@@ -20,9 +21,11 @@ function* getListRadius() {
 function* putRadius(payload) {
   try {
     const response = yield call(radiusService.updateRadius, payload.data, payload.radiusId);
-    const { status, data } = response;
-    if (data && status === 200) {
+    const { status } = response;
+    if ( status === 200) {
       yield put(getRadius());
+      showSuccessAlert('Cập nhật thành công')
+
     }
   } catch (error) {
     const msg = error.message;
@@ -32,9 +35,11 @@ function* putRadius(payload) {
 function* deleteRadius(payload) {
   try {
     const response = yield call(radiusService.deleteRadius, payload.radiusId);
-    const { status, data } = response;
-    if (data && status === 200) {
+    const { status } = response;
+    if ( status === 200) {
       yield put(getRadius());
+      showSuccessAlert('Xóa thành công')
+
     }
   } catch (error) {
     const msg = error.message;
@@ -48,6 +53,8 @@ function* createRadius(payload) {
     console.log(response)
     if (status === 201) {
       yield put(getRadius());
+      showSuccessAlert('Tạo mới thành công')
+
     }
   } catch (error) {
     const msg = error.message;

@@ -3,6 +3,7 @@ import { showPoint } from "../../../constants/apiConstants";
 
 import { pointService } from "../../../services/pointService";
 import { getPoint, getPointFailed, getPointSuccess } from "../../../actions/configs";
+import { showSuccessAlert } from "../../../constants/chooseToastify";
 
 function* getListPoint() {
   try {
@@ -23,6 +24,7 @@ function* putPoint(payload) {
     const { status } = response;
     if (status === 200) {
       yield put(getPoint());
+      showSuccessAlert('Cập nhật thành công')
     }
   } catch (error) {
     const msg = error.message;

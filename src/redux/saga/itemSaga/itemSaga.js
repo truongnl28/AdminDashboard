@@ -3,6 +3,7 @@ import { detailItem, showItem, showItemRegister } from "../../../constants/apiCo
 
 import { itemService } from "../../../services/itemService";
 import { getDetailItemFailed, getDetailItemSuccess, getItem, getItemFailed, getItemRegisterFailed, getItemRegisterSuccess, getItemSuccess } from "../../../actions/item";
+import { showSuccessAlert } from "../../../constants/chooseToastify";
 
 function* getListRank() {
   try {
@@ -36,6 +37,7 @@ function* deleteRank(payload) {
     const { status } = response;
     if (status === 200) {
       yield put(getItem());
+      showSuccessAlert('Xóa thành công')
     }
   } catch (error) {
     const msg = error.message;

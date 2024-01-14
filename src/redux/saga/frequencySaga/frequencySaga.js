@@ -1,9 +1,8 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { showFrequency } from "../../../constants/apiConstants";
-
 import { frequencyService } from "../../../services/frequencyService";
 import { getFrequency, getFrequencyFailed, getFrequencySuccess } from "../../../actions/configs";
-
+import { showSuccessAlert } from "../../../constants/chooseToastify";
 function* getListFrequency() {
   try {
     const response = yield call(frequencyService.getListFrequency);
@@ -20,8 +19,9 @@ function* getListFrequency() {
 function* putFrequency(payload) {
   try {
     const response = yield call(frequencyService.updateFrequency, payload.data, payload.frequencyId);
-    const { status, data } = response;
-    if (data && status === 200) {
+    const { status } = response;
+    if (status === 200) {
+      showSuccessAlert('Cập nhật thành công');
       yield put(getFrequency());
     }
   } catch (error) {
@@ -32,9 +32,10 @@ function* putFrequency(payload) {
 function* deleteFrequency(payload) {
   try {
     const response = yield call(frequencyService.deleteFrequency, payload.frequencyId);
-    const { status, data } = response;
-    if (data && status === 200) {
+    const { status } = response;
+    if (status === 200) {
       yield put(getFrequency());
+      showSuccessAlert('Xóa thành công')
     }
   } catch (error) {
     const msg = error.message;
@@ -48,6 +49,7 @@ function* createFrequency(payload) {
     console.log(response)
     if (status === 201) {
       yield put(getFrequency());
+      showSuccessAlert('Tạo mới thành công')
     }
   } catch (error) {
     const msg = error.message;

@@ -61,15 +61,6 @@ function ItemsList() {
     setCurrentPage(page);
   };
 
-  const handleDelete = (id) => {
-    const isConfirmed = window.confirm("Bạn có chắc muốn xóa không?");
-
-    if (isConfirmed) {
-      dispatch(deleteItem(id));
-      setData((prevData) => prevData.filter((row) => row.id !== id));
-    }
-  };
-
   // Render the component
   return (
     <div className="content">
@@ -113,7 +104,6 @@ function ItemsList() {
                 <th>Điểm</th>
                 <th>Trạng thái</th>
                 <th>Chi tiết</th>
-                <th>Xóa</th>
               </tr>
             </thead>
             <tbody>
@@ -161,15 +151,6 @@ function ItemsList() {
                     <Link to={`/detailOfProduct/${user.id}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>
-                  </td>
-                  <td>
-                    <span>
-                      <img
-                        src={TrashIcon}
-                        alt=""
-                        onClick={() => handleDelete(user.id)}
-                      />
-                    </span>
                   </td>
                 </tr>
               ))}

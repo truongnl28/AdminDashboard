@@ -3,6 +3,7 @@ import { showCategory } from "../../../constants/apiConstants";
 
 import { categoryService } from "../../../services/categoryService";
 import { getCategory, getCategoryFailed, getCategorySuccess } from "../../../actions/category";
+import { showSuccessAlert } from "../../../constants/chooseToastify";
 
 function* getListCategory() {
   try {
@@ -20,9 +21,10 @@ function* getListCategory() {
 function* putCategory(payload) {
   try {
     const response = yield call(categoryService.updateCategory, payload.data, payload.categoryId);
-    const { status, data } = response;
-    if (data && status === 200) {
+    const { status } = response;
+    if (status === 200) {
       yield put(getCategory());
+      showSuccessAlert('Cập nhật thành công')
     }
   } catch (error) {
     const msg = error.message;
@@ -32,9 +34,10 @@ function* putCategory(payload) {
 function* deleteCategory(payload) {
   try {
     const response = yield call(categoryService.deleteCategory, payload.categoryId);
-    const { status, data } = response;
-    if (data && status === 200) {
+    const { status } = response;
+    if (status === 200) {
       yield put(getCategory());
+      showSuccessAlert('Xóa thành công')
     }
   } catch (error) {
     const msg = error.message;
@@ -44,9 +47,10 @@ function* deleteCategory(payload) {
 function* createCategory(payload) {
   try {
     const response = yield call(categoryService.createCategory, payload.data);
-    const { status, data } = response;
-    if (data && status === 200) {
+    const { status } = response;
+    if (status === 200) {
       yield put(getCategory());
+      showSuccessAlert('Tạo mới thành công')
     }
   } catch (error) {
     const msg = error.message;
