@@ -25,7 +25,7 @@ function PointExchange() {
   }, [listAllTransactionPoint]);
 
   // State for managing search query
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery] = useState("");
 
   // State for managing current page in pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,10 +45,10 @@ function PointExchange() {
   const pageRange = calculateRange(filteredUsers, rowsPerPage);
 
   // Handle search input change
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to the first page when searching
-  };
+  // const handleSearch = (e) => {
+  //   setSearchQuery(e.target.value);
+  //   setCurrentPage(1); // Reset to the first page when searching
+  // };
 
   // Handle page change in pagination
   const handleChangePage = (page) => {

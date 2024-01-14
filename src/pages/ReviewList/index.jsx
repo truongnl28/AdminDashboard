@@ -10,7 +10,6 @@ function ReviewList() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { item,userId } = state;
-  const userIdChange = userId.split(":");
   console.log(userId)
   const [data, setData] = useState([]);
   console.log(item?.feedbacksGiver);
@@ -21,7 +20,7 @@ function ReviewList() {
   }, [item]);
 
   // State for managing search query
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery] = useState("");
 
   // State for managing current page in pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,10 +40,10 @@ function ReviewList() {
   const pageRange = calculateRange(filteredUsers, rowsPerPage);
 
   // Handle search input change
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to the first page when searching
-  };
+  // const handleSearch = (e) => {
+  //   setSearchQuery(e.target.value);
+  //   setCurrentPage(1); // Reset to the first page when searching
+  // };
 
   // Handle page change in pagination
   const handleChangePage = (page) => {
