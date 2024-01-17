@@ -18,7 +18,8 @@ import DetailProduct from "./pages/DetailProduct";
 import DetailedInformationReceived from "./pages/DetailedInformationReceived";
 import PointExchange from "./pages/PointExchangeOrder";
 import DetailPointExchange from "./pages/DetailPointExchange";
-import EmailVerify from "./pages/VerifyEmail";
+import EmailVerifyCorrect from "./pages/VerifyEmail/emailVerifyCorrect";
+import EmailVerifyIncorrect from "./pages/VerifyEmail/emailVerifyIncorrect";
 
 const ROLES = {
   Admin: "Admin",
@@ -53,7 +54,7 @@ function App() {
 
             <Route exact path="/reviewList/:userId" element={<ReviewList />} />
 
-            <Route exact path="/verifyEmail" element={<EmailVerify />} />
+
             <Route
               path="/:userId"
               element={<DetailsInformationUser />}
@@ -61,6 +62,8 @@ function App() {
 
           </Route>
         </Route>
+        <Route exact path="/verifyEmailCorrect" element={<EmailVerifyCorrect />} />
+        <Route exact path="/verifyEmailIncorrect" element={<EmailVerifyIncorrect />} />
       </Route>
     </Routes>
   );

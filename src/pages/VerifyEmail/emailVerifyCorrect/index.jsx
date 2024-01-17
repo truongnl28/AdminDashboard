@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./verifyEmail.css";
-import TickIcon from "../../assets/images/tickIcon.png";
+import "../verifyEmail.css";
+import TickIcon from "../../../assets/images/tickIcon.png";
 
-function EmailVerify() {
+function EmailVerifyCorrect() {
   return (
     <div className="verifyEmail">
       <div className="verifyEmail-container">
         <div className="verifyEmail-image">
           <img src={TickIcon} alt="" />
         </div>
-        <div className="verifyEmail-body">
+        <div className="verifyEmailCorrect-body">
           <h2>CHÚC MỪNG</h2>
-          <p>Tài khoản của bạn đã xác thực gmail thành công</p>
+          <p>Tài khoản gmail của bạn đã xác thực thành công</p>
         </div>
       </div>
     </div>
   );
 }
 
-export default EmailVerify;
+export default EmailVerifyCorrect;

@@ -21,11 +21,12 @@
     margin-top: 20px;
 }
 
-.verifyEmail-body {
+.verifyEmailCorrect-body,
+.verifyEmailIncorrect-body {
     padding: 20px;
 }
 
-.verifyEmail-body h2 {
+.verifyEmailCorrect-body h2 {
     color: #4caf50;
     font-size: 48px;
     margin-bottom: 5px;
@@ -33,7 +34,16 @@
     justify-content: center;
 }
 
-.verifyEmail-body p {
+.verifyEmailIncorrect-body h2 {
+    color: #f44336;
+    font-size: 48px;
+    margin-bottom: 5px;
+    text-align: center;
+    justify-content: center;
+}
+
+.verifyEmailCorrect-body p,
+.verifyEmailIncorrect-body p {
     color: #555;
     font-size: 32px;
     line-height: 1.5;
