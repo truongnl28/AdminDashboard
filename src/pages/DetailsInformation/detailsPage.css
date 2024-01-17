@@ -188,3 +188,25 @@ h2 {
     border: 1px solid #015C92;
     background-color: #F0F2F5;
 }
+
+.phone,
+.status-points {
+    display: flex;
+}
+
+.phone-numbers,
+.phone-verify,
+.status,
+.points-detail {
+    flex: 1;
+}
+
+.phone-numbers,
+.status {
+    margin-right: 10px;
+}
+
+.phone-verify,
+.points-detail {
+    margin-left: 10px;
+}

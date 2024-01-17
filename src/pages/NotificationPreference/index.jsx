@@ -23,6 +23,7 @@ function NotificationList() {
   const [numberUpdate, setNumberUpdate] = useState(-1);
   const [numberFrequency, setNumberFrequency] = useState(0);
   const [isDefault, setIsDefault] = useState(undefined);
+  console.log(numberFrequency,isDefault);
   useEffect(() => {
     dispatch(getFrequency());
   }, [dispatch]);
@@ -41,12 +42,17 @@ function NotificationList() {
   const rowsPerPage = 8;
 
   // Handle edit mode for a notification configuration
-  const handleEdit = (index) => {
+  const handleEdit = (index,id) => {
     if (numberUpdate === index) {
       setNumberUpdate(-1);
     } else {
       setNumberUpdate(index);
       dispatch(getFrequency());
+      const editedFrequency = data.find((row) => row.id === id);
+      const valueDefault=editedFrequency.isDefault;
+      const takeDefault=editedFrequency.frequency;
+      setIsDefault(valueDefault);
+      setNumberFrequency(takeDefault)
     }
   };
 
@@ -54,7 +60,7 @@ function NotificationList() {
   const handleSave = (id, index) => {
     // Get the edited notification configuration
     const editedFrequency = data.find((row) => row.id === id);
-
+    console.log(editedFrequency.isDefault)
     // Check if the notification configuration is empty
     if (editedFrequency.frequency === "") {
       alert("Vui lòng nhập dữ liệu.");
@@ -69,7 +75,8 @@ function NotificationList() {
 
     // Update data to exit editing mode
     if (numberUpdate === index) {
-      if (numberFrequency ){
+      if (listAllFrequency?.find((row) => row?.id === id)?.frequency !== numberFrequency ||
+      listAllFrequency?.find((row) => row?.id === id)?.isDefault !== isDefault){
         const NewData = {
           frequency: numberFrequency,
           isDefault:isDefault,
@@ -251,7 +258,7 @@ function NotificationList() {
                         <img
                           src={PencilIcon}
                           alt=""
-                          onClick={() => handleEdit(index)}
+                          onClick={() => handleEdit(index,row.id)}
                         />
                       )}
                     </span>

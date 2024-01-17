@@ -100,7 +100,7 @@ function PointExchange() {
                           user?.item?.images[0]?.imageUrl ??
                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&usqp=CAU"
                         }
-                        className="content-avatar"
+                        className="image-item"
                         alt=""
                       />
                       <p style={{ marginLeft: "10px" }}>{user?.item?.name}</p>

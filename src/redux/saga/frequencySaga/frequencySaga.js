@@ -2,7 +2,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import { showFrequency } from "../../../constants/apiConstants";
 import { frequencyService } from "../../../services/frequencyService";
 import { getFrequency, getFrequencyFailed, getFrequencySuccess } from "../../../actions/configs";
-import { showSuccessAlert } from "../../../constants/chooseToastify";
+import { showSuccessAlert, showWarningAlert } from "../../../constants/chooseToastify";
 function* getListFrequency() {
   try {
     const response = yield call(frequencyService.getListFrequency);
@@ -52,7 +52,8 @@ function* createFrequency(payload) {
       showSuccessAlert('Tạo mới thành công')
     }
   } catch (error) {
-    const msg = error.message;
+    const msg = error.response.data.message;
+    showWarningAlert(`${msg}`)
     yield put(getFrequencyFailed(msg));
   }
 }

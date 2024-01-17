@@ -13,7 +13,7 @@ function DetailPointExchange() {
     (state) => state.detailTransactionPointReducer.detailPoint
   );
   const [item, setItem] = useState(undefined);
-  console.log(item)
+  console.log(item);
   useEffect(() => {
     dispatch(getTransactionPointDetail(id));
   }, [dispatch, id]);
@@ -36,31 +36,26 @@ function DetailPointExchange() {
             alt=""
             onClick={handleExit}
           />
-          <h2>Chi tiết trao đổi điểm</h2>
+          <h2>Chi tiết điểm trao đổi</h2>
         </div>
         <div className="detailPoint-body">
+          <div className="detailPoint-image">
+            <img
+              src={item?.images ? item?.images[0]?.imageUrl : ""}
+              className="detailPoint-avatar"
+              alt=""
+            />
+          </div>
           <div className="detailPoint-row">
             {/* Column 1 */}
             <div className="detailPoint-column">
-              <div className="detailPoint-image">
-                <img
-                  src={item?.images ?item?.images[0]?.imageUrl
-                    :""}
-                  className="detailPoint-avatar"
-                  alt=""
-                />
-              </div>
               <div className="">
                 <label htmlFor="">Tên món đồ</label>
                 <input type="text" value={item?.itemName ?? 0} readOnly />
               </div>
               <div className="">
                 <label htmlFor="">Danh mục</label>
-                <input
-                  type="text"
-                  value={item?.categoryName ?? 0}
-                  readOnly
-                />
+                <input type="text" value={item?.categoryName ?? 0} readOnly />
               </div>
               <div className="">
                 <label htmlFor="">Điểm của món đồ</label>
@@ -82,14 +77,22 @@ function DetailPointExchange() {
                 <label htmlFor="">Số điểm thay đổi</label>
                 <input
                   type="text"
-                  style={{color:`${item?.changePointMemberGiver<0?"black":"green"}`}}
+                  style={{
+                    color: `${
+                      item?.changePointMemberGiver < 0 ? "black" : "green"
+                    }`,
+                  }}
                   value={`+${item?.changePointMemberGiver ?? 0}`}
                   readOnly
                 />
               </div>
               <div className="">
                 <label htmlFor="">Số điểm còn lại</label>
-                <input type="text" value={item?.oldPointMemberGiver ?? 0} readOnly />
+                <input
+                  type="text"
+                  value={item?.oldPointMemberGiver ?? 0}
+                  readOnly
+                />
               </div>
             </div>
 
@@ -105,11 +108,24 @@ function DetailPointExchange() {
               </div>
               <div className="">
                 <label htmlFor="">Số điểm thay đổi</label>
-                <input type="text" style={{color:`${item?.changePointMemberReceiver>0?"black":"red"}`}} value={item?.changePointMemberReceiver ?? 0} readOnly />
+                <input
+                  type="text"
+                  style={{
+                    color: `${
+                      item?.changePointMemberReceiver > 0 ? "black" : "red"
+                    }`,
+                  }}
+                  value={item?.changePointMemberReceiver ?? 0}
+                  readOnly
+                />
               </div>
               <div className="">
                 <label htmlFor="">Số điểm còn lại</label>
-                <input type="text" value={item?.oldPointMemberReceiver?? 0} readOnly />
+                <input
+                  type="text"
+                  value={item?.oldPointMemberReceiver ?? 0}
+                  readOnly
+                />
               </div>
             </div>
           </div>

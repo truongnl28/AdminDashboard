@@ -3,7 +3,7 @@ import { showRadius } from "../../../constants/apiConstants";
 
 import { radiusService } from "../../../services/radiusService";
 import { getRadius, getRadiusFailed, getRadiusSuccess } from "../../../actions/configs";
-import { showSuccessAlert } from "../../../constants/chooseToastify";
+import { showSuccessAlert, showWarningAlert } from "../../../constants/chooseToastify";
 
 function* getListRadius() {
   try {
@@ -22,7 +22,7 @@ function* putRadius(payload) {
   try {
     const response = yield call(radiusService.updateRadius, payload.data, payload.radiusId);
     const { status } = response;
-    if ( status === 200) {
+    if (status === 200) {
       yield put(getRadius());
       showSuccessAlert('Cập nhật thành công')
 
@@ -36,7 +36,7 @@ function* deleteRadius(payload) {
   try {
     const response = yield call(radiusService.deleteRadius, payload.radiusId);
     const { status } = response;
-    if ( status === 200) {
+    if (status === 200) {
       yield put(getRadius());
       showSuccessAlert('Xóa thành công')
 
@@ -57,7 +57,8 @@ function* createRadius(payload) {
 
     }
   } catch (error) {
-    const msg = error.message;
+    const msg = error.response.data.message;
+    showWarningAlert(`${msg}`)
     yield put(getRadiusFailed(msg));
   }
 }

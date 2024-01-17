@@ -14,7 +14,7 @@ function DetailsInformationUser() {
 
   // Access location and navigate from React Router
   const [user, setUser] = useState(undefined);
-  console.log(user)
+  console.log(user);
   const { userId } = useParams();
   const userIdChange = userId.split(":");
   const navigate = useNavigate();
@@ -31,15 +31,15 @@ function DetailsInformationUser() {
   const handleExit = () => {
     if (userIdChange[0] === "user") {
       navigate("/userManagement");
-    } else if(userIdChange[0] ==="transaction") {
+    } else if (userIdChange[0] === "transaction") {
       navigate("/transactionListItem");
-    }else if(userIdChange[0]==="item"){
-      navigate(`/detailedInformationReceived/${userIdChange[2]}`)
+    } else if (userIdChange[0] === "item") {
+      navigate(`/detailedInformationReceived/${userIdChange[2]}`);
     }
   };
-  const handleReview = (item)=>{
-    navigate(`/reviewList/${item.id}`,{ state: { item,userId } })
-  }
+  const handleReview = (item) => {
+    navigate(`/reviewList/${item.id}`, { state: { item, userId } });
+  };
 
   // Handle the logic for deleting the user account (to be implemented)
   const handleDelete = (id) => {
@@ -107,22 +107,33 @@ function DetailsInformationUser() {
             </div>
             <div className="">
               <label htmlFor="phone">Địa chỉ</label>
-              <input type="text" value={user?.location?.address ?? "N/A"} readOnly />
-            </div>
-            <div className="">
-              <label htmlFor="phone">Số điện thoại</label>
-              <input type="text" value={user?.phoneNumber ?? "N/A"} readOnly />
-            </div>
-            <div className="">
-              <label htmlFor="phoneVerify">Số điện thoại đã xác nhận</label>
               <input
                 type="text"
-                value={
-                  user?.phoneNumberConfirmed === true ? "Đã xác nhận"
-                    : "Chưa xác nhận"
-                }
+                value={user?.location?.address ?? "N/A"}
                 readOnly
               />
+            </div>
+            <div className="phone">
+              <div className="phone-numbers">
+                <label htmlFor="phone">Số điện thoại</label>
+                <input
+                  type="text"
+                  value={user?.phoneNumber ?? "N/A"}
+                  readOnly
+                />
+              </div>
+              <div className="phone-verify">
+                <label htmlFor="phoneVerify">Số điện thoại đã xác nhận</label>
+                <input
+                  type="text"
+                  value={
+                    user?.phoneNumberConfirmed === true
+                      ? "Đã xác nhận"
+                      : "Chưa xác nhận"
+                  }
+                  readOnly
+                />
+              </div>
             </div>
             <div className="">
               <label htmlFor="dateCreateAccount">Ngày tạo tài khoản</label>
@@ -132,22 +143,31 @@ function DetailsInformationUser() {
                 readOnly
               />
             </div>
-            <div className="">
-              <label htmlFor="status">Trạng thái</label>
-              <input
-                style={{color:`${user?.isDeleted === true ?"red":"green"}`}}
-                type="text"
-                value={user?.isDeleted === true ? "Not active" : "Active"}
-                readOnly
-              />
-            </div>
-            <div className="">
-              <label htmlFor="points">Điểm của người dùng</label>
-              <input type="text" value={user?.point?.points ?? 0} readOnly />
+            <div className="status-points">
+              <div className="status">
+                <label htmlFor="status">Trạng thái</label>
+                <input
+                  style={{
+                    color: `${user?.isDeleted === true ? "red" : "green"}`,
+                  }}
+                  type="text"
+                  value={user?.isDeleted === true ? "Not active" : "Active"}
+                  readOnly
+                />
+              </div>
+              <div className="points-detail">
+                <label htmlFor="points">Điểm của người dùng</label>
+                <input type="text" value={user?.point?.points ?? 0} readOnly />
+              </div>
             </div>
             <div className="button-container">
               <label htmlFor="">Danh sách đánh giá</label>
-              <button className="profile-btn-details" onClick={()=>handleReview(user)}>Chi tiết</button>
+              <button
+                className="profile-btn-details"
+                onClick={() => handleReview(user)}
+              >
+                Chi tiết
+              </button>
             </div>
           </div>
         </div>

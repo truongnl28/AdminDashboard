@@ -23,7 +23,7 @@ function RadiusList() {
   const [numberUpdate, setNumberUpdate] = useState(-1);
   const [numberRadius, setNumberRadius] = useState(0);
   const [isDefault, setIsDefault] = useState(undefined);
-  console.log(isDefault)
+  console.log(isDefault, numberRadius);
   useEffect(() => {
     dispatch(getRadius());
   }, [dispatch]);
@@ -42,12 +42,17 @@ function RadiusList() {
   const rowsPerPage = 8;
 
   // Handle edit mode for a radius
-  const handleEdit = (index) => {
+  const handleEdit = (index, id) => {
     if (numberUpdate === index) {
       setNumberUpdate(-1);
     } else {
       setNumberUpdate(index);
       dispatch(getRadius());
+      const editedRadius = data.find((row) => row.id === id);
+      const valueDefault = editedRadius.isDefault;
+      const takeDefault = editedRadius.radius;
+      setIsDefault(valueDefault);
+      setNumberRadius(takeDefault);
     }
   };
 
@@ -71,11 +76,14 @@ function RadiusList() {
     // Update data to exit editing mode
     if (numberUpdate === index) {
       setNumberUpdate(-1);
-      if (numberRadius) {
-        const NewData ={
-          radius:numberRadius,
-          isDefault:isDefault,
-        } ;
+      if (
+        listAllRadius?.find((row) => row?.id === id)?.radius !== numberRadius ||
+        listAllRadius?.find((row) => row?.id === id)?.isDefault !== isDefault
+      ) {
+        const NewData = {
+          radius: numberRadius,
+          isDefault: isDefault,
+        };
         // console.log("first", NewData);
         dispatch(updateRadius(NewData, id));
       }
@@ -102,7 +110,7 @@ function RadiusList() {
   const handleFilterChange = (id, filter) => {
     const matchingRow = data.find((row) => row.id === id);
     const initialIsDefault = matchingRow ? matchingRow.isDefault : undefined;
-    setIsDefault(filter?filter:initialIsDefault);
+    setIsDefault(filter ? filter : initialIsDefault);
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, isDefault: filter === "true" } : row
@@ -250,7 +258,7 @@ function RadiusList() {
                         <img
                           src={PencilIcon}
                           alt=""
-                          onClick={() => handleEdit(index)}
+                          onClick={() => handleEdit(index, row.id)}
                         />
                       )}
                     </span>
