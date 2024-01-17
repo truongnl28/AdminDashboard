@@ -45,17 +45,12 @@ function App() {
             <Route path="/userManagement" element={<UserManagement />} />
             <Route exact path="/rank" element={<RankList />} />
             <Route exact path="/transactionListItem" element={<TransactionList />} />
-
             <Route exact path="/listOfItems" element={<ItemsList />} />
             <Route exact path="/detailOfProduct/:itemId" element={<DetailProduct />} />
             <Route exact path="/detailedInformationReceived/:itemId" element={<DetailedInformationReceived />} />
-
             <Route exact path="/pointExchange" element={<PointExchange />} />
             <Route exact path="/detailPointExchange/:id" element={<DetailPointExchange />} />
-
             <Route exact path="/reviewList/:userId" element={<ReviewList />} />
-
-
             <Route
               path="/:userId"
               element={<DetailsInformationUser />}
@@ -63,6 +58,7 @@ function App() {
 
           </Route>
         </Route>
+
         <Route exact path="/verifyEmailCorrect" element={<EmailVerifyCorrect />} />
         <Route exact path="/verifyEmail/:exceptId" element={<EmailVerify />} />
         <Route exact path="/verifyEmailIncorrect" element={<EmailVerifyIncorrect />} />
