@@ -103,7 +103,7 @@ function ItemsList() {
                 <th>Danh mục</th>
                 <th>Điểm</th>
                 <th>Trạng thái</th>
-                <th>Chi tiết</th>
+                <th style={{ textAlign: "center" }}>Chi tiết</th>
               </tr>
             </thead>
             <tbody>
@@ -147,7 +147,7 @@ function ItemsList() {
                       {styleStatus[user?.status]}
                     </span>
                   </td>
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     <Link to={`/detailOfProduct/${user.id}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>

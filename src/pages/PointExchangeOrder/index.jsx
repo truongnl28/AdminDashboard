@@ -60,7 +60,7 @@ function PointExchange() {
     <div className="content">
       <div className="content-container">
         <div className="content-header">
-          <h2>Danh sách lệnh trao đổi điểm</h2>
+          <h2>Danh sách trao đổi</h2>
 
           {/* Search input for filtering users */}
           {/* <div className="content-search">
@@ -79,13 +79,13 @@ function PointExchange() {
           <table>
             <thead>
               <tr>
+                <th>Ảnh</th>
                 <th>Tên món đồ</th>
                 <th>Danh mục</th>
-                <th>Điểm</th>
-                <th>Trạng thái vật phẩm</th>
+                <th style={{ textAlign: "center" }}>Điểm</th>
                 <th>Người cho</th>
                 <th>Người nhận</th>
-                <th>Chi tiết</th>
+                <th style={{ textAlign: "center" }}>Chi tiết</th>
               </tr>
             </thead>
             <tbody>
@@ -93,7 +93,7 @@ function PointExchange() {
               {paginatedData.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    <span style={{ display: "flex", justifyItems: "center" }}>
+                    <span style={{ justifyItems: "center" }}>
                       {/* Display user avatar */}
                       <img
                         src={
@@ -103,18 +103,16 @@ function PointExchange() {
                         className="image-item"
                         alt=""
                       />
-                      <p style={{ marginLeft: "10px" }}>{user?.item?.name}</p>
                     </span>
                   </td>
-                  {/* Display user information */}
+                  <td>
+                    <span>{user?.item?.name}</span>
+                  </td>
                   <td>
                     <span>{user?.item?.category?.name}</span>
                   </td>
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     <span>{user?.points}</span>
-                  </td>
-                  <td>
-                    <span>{user?.type === "GIVE" ? "Đưa cho" : "Nhận"}</span>
                   </td>
                   <td>
                     <span>{user?.item?.giver?.name}</span>
@@ -123,7 +121,7 @@ function PointExchange() {
                     <span>{user?.item?.receiver?.name}</span>
                   </td>
                   {/* Display the edit icon for navigating to user details */}
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     <Link to={`/detailPointExchange/${user.id}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>

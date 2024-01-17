@@ -59,7 +59,7 @@ const sidebar_menu = [
     id: 9,
     icon: TransactionIcon,
     path: '/pointExchange',
-    title: 'Lệnh trao đổi điểm',
+    title: 'Danh sách trao đổi',
   },
 ];
 

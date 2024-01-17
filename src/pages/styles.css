@@ -152,8 +152,7 @@ td span {
     font-weight: 700;
 }
 
-td input[type="text"],
-td .filter-dropdown select {
+td input[type="text"] {
     width: 100%;
     box-sizing: border-box;
     padding: 8px;
@@ -252,12 +251,7 @@ a img {
     display: inline-flex;
     align-items: center;
     position: relative;
-    background-color: transparent;
     border-radius: 0.375rem;
-}
-
-.filter-dropdown select:focus {
-    outline: #2D83B5 auto 1px;
 }
 
 .image-item {

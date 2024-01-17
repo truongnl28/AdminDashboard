@@ -195,8 +195,8 @@ function RankList() {
                 <th>Huy hiệu</th>
                 <th>Tên huy hiệu</th>
                 <th>Điểm</th>
-                <th>Chỉnh sửa</th>
-                <th>Xóa</th>
+                <th style={{ textAlign: "center" }}>Chỉnh sửa</th>
+                <th style={{ textAlign: "center" }}>Xóa</th>
               </tr>
             </thead>
             <tbody>
@@ -267,7 +267,7 @@ function RankList() {
                     </span>
                   </td>
 
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     <span>
                       {numberUpdate === index ? (
                         <img
@@ -285,7 +285,7 @@ function RankList() {
                     </span>
                   </td>
 
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     <span>
                       <img
                         src={TrashIcon}

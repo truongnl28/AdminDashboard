@@ -56,7 +56,7 @@ function App() {
               path="/:userId"
               element={<DetailsInformationUser />}
             />
-            
+
           </Route>
         </Route>
       </Route>

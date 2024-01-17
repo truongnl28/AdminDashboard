@@ -76,7 +76,7 @@ function TransactionList() {
                 <th>Email người hủy</th>
                 <th>Món đồ</th>
                 <th>Lý do</th>
-                <th>Chi tiết người dùng</th>
+                <th style={{ textAlign: "center" }}>Chi tiết người dùng</th>
               </tr>
             </thead>
             <tbody>
@@ -95,7 +95,7 @@ function TransactionList() {
                     <span>{user.reasonDescription}</span>
                   </td>
 
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     <Link to={`/transaction:${user?.item?.giver?.id}`}>
                       <img src={PencilIcon} alt="" />
                     </Link>

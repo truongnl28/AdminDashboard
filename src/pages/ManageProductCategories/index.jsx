@@ -247,8 +247,8 @@ function ManageProductList() {
                 <th>Tên danh mục sản phẩm</th>
                 <th>Điểm X</th>
                 <th>Điểm Y</th>
-                <th>Chỉnh sửa</th>
-                <th>Xóa</th>
+                <th style={{ textAlign: "center" }}>Chỉnh sửa</th>
+                <th style={{ textAlign: "center" }}>Xóa</th>
               </tr>
             </thead>
             <tbody>
@@ -295,7 +295,7 @@ function ManageProductList() {
                   </td>
 
                   {/* Render edit or save icon based on edit mode */}
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     <span>
                       {numberUpdate === index ? (
                         <img
@@ -314,7 +314,7 @@ function ManageProductList() {
                   </td>
 
                   {/* Render delete icon */}
-                  <td>
+                  <td style={{ textAlign: "center" }}>
                     <span>
                       <img
                         src={TrashIcon}
