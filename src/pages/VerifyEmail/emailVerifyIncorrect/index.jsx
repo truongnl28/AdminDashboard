@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import "../verifyEmail.css";
 import TickIcon from "../../../assets/images/incorrectIcon.png";
 

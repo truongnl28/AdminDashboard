@@ -20,6 +20,7 @@ import PointExchange from "./pages/PointExchangeOrder";
 import DetailPointExchange from "./pages/DetailPointExchange";
 import EmailVerifyCorrect from "./pages/VerifyEmail/emailVerifyCorrect";
 import EmailVerifyIncorrect from "./pages/VerifyEmail/emailVerifyIncorrect";
+import EmailVerify from "./pages/VerifyEmail";
 
 const ROLES = {
   Admin: "Admin",
@@ -63,6 +64,7 @@ function App() {
           </Route>
         </Route>
         <Route exact path="/verifyEmailCorrect" element={<EmailVerifyCorrect />} />
+        <Route exact path="/verifyEmail/:exceptId" element={<EmailVerify />} />
         <Route exact path="/verifyEmailIncorrect" element={<EmailVerifyIncorrect />} />
       </Route>
     </Routes>
