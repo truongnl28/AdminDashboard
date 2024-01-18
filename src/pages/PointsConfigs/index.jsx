@@ -179,7 +179,6 @@ function PointsList() {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Điểm mặc định</th>
                 <th>Chỉnh sửa</th>
                 {/* <th>Xóa</th> */}
@@ -189,10 +188,6 @@ function PointsList() {
               {/* Map and render each point configuration row */}
               {sliceData(data, currentPage, rowsPerPage).map((row, index) => (
                 <tr key={row.id}>
-                  {/* Render input field for editing or display the point configuration */}
-                  <td>
-                    <span>{row.id}</span>
-                  </td>
                   <td>
                     <span>
                       {numberUpdate === index ? (
@@ -206,29 +201,6 @@ function PointsList() {
                       )}
                     </span>
                   </td>
-                  {/* Render dropdown for default filter or display default value */}
-                  {/* <td>
-                    <span>
-                      {row.isEditing ? (
-                        <div className="filter-dropdown">
-                          <select
-                            value={row.isDefault.toString()}
-                            onChange={(e) =>
-                              handleFilterChange(row.id, e.target.value)
-                            }
-                          >
-                            <option value="true">Có</option>
-                            <option value="false">Không</option>
-                          </select>
-                        </div>
-                      ) : row.isDefault ? (
-                        "Có"
-                      ) : (
-                        "Không"
-                      )}
-                    </span>
-                  </td> */}
-                  {/* Render save or edit icon based on edit mode */}
                   <td>
                     <span>
                       {numberUpdate === index ? (
@@ -246,16 +218,6 @@ function PointsList() {
                       )}
                     </span>
                   </td>
-                  {/* Render delete icon for deleting a point configuration */}
-                  {/* <td>
-                    <span>
-                      <img
-                        src={TrashIcon}
-                        alt=""
-                        onClick={() => handleDelete(row.id)}
-                      />
-                    </span>
-                  </td> */}
                 </tr>
               ))}
             </tbody>

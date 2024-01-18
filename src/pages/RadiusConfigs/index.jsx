@@ -194,7 +194,6 @@ function RadiusList() {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Bán kính khoảng cách (km)</th>
                 <th>Mặc định</th>
                 <th>Chỉnh sửa</th>
@@ -205,11 +204,6 @@ function RadiusList() {
               {/* Map through paginated data to display radius rows */}
               {sliceData(data, currentPage, rowsPerPage).map((row, index) => (
                 <tr key={row.id}>
-                  {/* Render radius iduration field */}
-                  <td>
-                    <span>{row.id}</span>
-                  </td>
-                  {/* Render isDefault field */}
                   <td>
                     <span>
                       {numberUpdate === index ? (

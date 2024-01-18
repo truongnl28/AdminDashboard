@@ -195,7 +195,6 @@ function NotificationList() {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Tần suất thông báo (tiếng)</th>
                 <th>Mặc định</th>
                 <th>Chỉnh sửa</th>
@@ -206,11 +205,6 @@ function NotificationList() {
               {/* Map and render each notification configuration row */}
               {sliceData(data, currentPage, rowsPerPage).map((row, index) => (
                 <tr key={row.id}>
-                  {/* Render input field for editing or display the notification configuration */}
-                  <td>
-                    <span>{row.id}</span>
-                  </td>
-                  {/* Render dropdown for default filter or display default value */}
                   <td>
                     <span>
                       {numberUpdate === index ? (
