@@ -268,16 +268,3 @@ a img {
     object-fit: cover;
     border-radius: 10px;
 }
-
-@media only screen and (max-width: 768px) {
-    .content-container {
-        margin: 0.5em;
-        gap: 15px;
-    }
-
-    .content-input {
-        font-size: 0.9rem;
-    }
-
-    /* Add more responsive styles as needed */
-}
