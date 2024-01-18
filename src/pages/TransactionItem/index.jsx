@@ -92,7 +92,7 @@ function TransactionList() {
                   </td>
 
                   <td>
-                    <span>{user.reasonDescription}</span>
+                    <span style={{ color: "red"}}>{user.reasonDescription}</span>
                   </td>
 
                   <td style={{ textAlign: "center" }}>
