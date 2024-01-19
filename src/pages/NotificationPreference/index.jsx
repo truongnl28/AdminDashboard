@@ -23,7 +23,7 @@ function NotificationList() {
   const [numberUpdate, setNumberUpdate] = useState(-1);
   const [numberFrequency, setNumberFrequency] = useState(0);
   const [isDefault, setIsDefault] = useState(undefined);
-  console.log(numberFrequency,isDefault);
+  console.log(numberFrequency, isDefault);
   useEffect(() => {
     dispatch(getFrequency());
   }, [dispatch]);
@@ -41,18 +41,36 @@ function NotificationList() {
   // Number of rows to display per page
   const rowsPerPage = 8;
 
+  const [sort, setSort] = useState(true);
+  const handleSort = () => {
+    // Clone the original list to avoid modifying the Redux state directly
+    const sortedList = [...listAllFrequency];
+
+    // Perform sorting based on isDefault value
+    sortedList.sort((a, b) => {
+      if (sort) {
+        setSort(!sort);
+        return a.isDefault - b.isDefault;
+      } else {
+        setSort(!sort);
+        return b.isDefault - a.isDefault;
+      }
+    });
+    setData(sortedList);
+  };
+
   // Handle edit mode for a notification configuration
-  const handleEdit = (index,id) => {
+  const handleEdit = (index, id) => {
     if (numberUpdate === index) {
       setNumberUpdate(-1);
     } else {
       setNumberUpdate(index);
       dispatch(getFrequency());
       const editedFrequency = data.find((row) => row.id === id);
-      const valueDefault=editedFrequency.isDefault;
-      const takeDefault=editedFrequency.frequency;
+      const valueDefault = editedFrequency.isDefault;
+      const takeDefault = editedFrequency.frequency;
       setIsDefault(valueDefault);
-      setNumberFrequency(takeDefault)
+      setNumberFrequency(takeDefault);
     }
   };
 
@@ -60,7 +78,7 @@ function NotificationList() {
   const handleSave = (id, index) => {
     // Get the edited notification configuration
     const editedFrequency = data.find((row) => row.id === id);
-    console.log(editedFrequency.isDefault)
+    console.log(editedFrequency.isDefault);
     // Check if the notification configuration is empty
     if (editedFrequency.frequency === "") {
       alert("Vui lòng nhập dữ liệu.");
@@ -75,11 +93,14 @@ function NotificationList() {
 
     // Update data to exit editing mode
     if (numberUpdate === index) {
-      if (listAllFrequency?.find((row) => row?.id === id)?.frequency !== numberFrequency ||
-      listAllFrequency?.find((row) => row?.id === id)?.isDefault !== isDefault){
+      if (
+        listAllFrequency?.find((row) => row?.id === id)?.frequency !==
+          numberFrequency ||
+        listAllFrequency?.find((row) => row?.id === id)?.isDefault !== isDefault
+      ) {
         const NewData = {
           frequency: numberFrequency,
-          isDefault:isDefault,
+          isDefault: isDefault,
         };
         console.log("first", NewData);
         dispatch(updateFrequency(NewData, id));
@@ -108,7 +129,7 @@ function NotificationList() {
   const handleFilterChange = (id, filter) => {
     const matchingRow = data.find((row) => row.id === id);
     const initialIsDefault = matchingRow ? matchingRow.isDefault : undefined;
-    setIsDefault(filter?filter:initialIsDefault);
+    setIsDefault(filter ? filter : initialIsDefault);
     setData((prevData) =>
       prevData.map((row) =>
         row.id === id ? { ...row, isDefault: filter === "true" } : row
@@ -196,7 +217,21 @@ function NotificationList() {
             <thead>
               <tr>
                 <th>Tần suất thông báo (tiếng)</th>
-                <th>Mặc định</th>
+                <th>
+                  <button
+                    type="button"
+                    onClick={() => handleSort()}
+                    style={{
+                      backgroundColor: "white",
+                      border: "none",
+                      fontWeight: "700",
+                      color: "#2D83B5",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Mặc định
+                  </button>
+                </th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
@@ -252,7 +287,7 @@ function NotificationList() {
                         <img
                           src={PencilIcon}
                           alt=""
-                          onClick={() => handleEdit(index,row.id)}
+                          onClick={() => handleEdit(index, row.id)}
                         />
                       )}
                     </span>

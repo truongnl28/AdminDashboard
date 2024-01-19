@@ -41,6 +41,24 @@ function RadiusList() {
   // Number of rows to display per page
   const rowsPerPage = 8;
 
+  const [sort, setSort] = useState(true);
+  const handleSort = () => {
+    // Clone the original list to avoid modifying the Redux state directly
+    const sortedList = [...listAllRadius];
+
+    // Perform sorting based on isDefault value
+    sortedList.sort((a, b) => {
+      if (sort) {
+        setSort(!sort);
+        return a.isDefault - b.isDefault;
+      } else {
+        setSort(!sort);
+        return b.isDefault - a.isDefault;
+      }
+    });
+    setData(sortedList);
+  };
+
   // Handle edit mode for a radius
   const handleEdit = (index, id) => {
     if (numberUpdate === index) {
@@ -195,7 +213,21 @@ function RadiusList() {
             <thead>
               <tr>
                 <th>Bán kính khoảng cách (km)</th>
-                <th>Mặc định</th>
+                <th>
+                  <button
+                    type="button"
+                    onClick={() => handleSort()}
+                    style={{
+                      backgroundColor: "white",
+                      border: "none",
+                      fontWeight: "700",
+                      color: "#2D83B5",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Mặc định
+                  </button>
+                </th>
                 <th>Chỉnh sửa</th>
                 <th>Xóa</th>
               </tr>
